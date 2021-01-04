@@ -11,11 +11,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-body,
-* {
-  margin: 0;
-  padding: 0;
-  background-color: $info;
-}
-</style>
+<style lang="scss"></style>

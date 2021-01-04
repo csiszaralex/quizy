@@ -1,9 +1,20 @@
-@import "variables";
-
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap');
-* {
+*,
+body {
   font-family: 'Merriweather', serif;
-
+  box-sizing: border-box;
+}
+body {
+  background-color: #f3f8fe;
+  margin: 0;
+  padding: 0;
 }
 
-@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+$enable-negative-margins: true;
+
+$primary: #afcbff;
+$seciondary: #949c9b;
+$info: #94ccd1;
+$success: #48c774;
+$warning: #f6aa50;
+$danger: #ee6055;

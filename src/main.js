@@ -1,7 +1,7 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 //-Axios
 
 //-Componensek
@@ -18,4 +18,4 @@ app.use(router);
 //-Componens use
 //app.component('base-card', BaseCard);
 
-app.mount("#app");
+app.mount('#app');
