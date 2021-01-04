@@ -29,6 +29,17 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2"
   },
+  "prettier": {
+    "tabWidth": 2,
+    "singleQuote": true,
+    "quotes": true,
+    "printWidth": 100,
+    "arrowParens": "avoid",
+    "vueIndentScriptAndStyle": false,
+    "endOfLine": "auto",
+    "semi": true,
+    "requirePragma": false
+  },
   "eslintConfig": {
     "root": true,
     "env": {
