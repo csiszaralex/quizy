@@ -2,7 +2,7 @@
   <!-- Image and text -->
   <nav class="navbar navbar-light bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <router-link to="/" class="navbar-brand" href="#">
         <img
           src="https://via.placeholder.com/30"
           alt=""
@@ -11,10 +11,15 @@
           class="d-inline-block align-top"
         />
         Quizy
-      </a>
+      </router-link>
       <div class="d-flex mr-n">
-        <button class="btn btn-info text-dark" type="submit">Regisztráció</button>
-        <button class="btn btn-success text-light" type="submit">Bejelentkezés</button>
+        <router-link to="/auth?mode=reg">
+          <button class="btn btn-info text-dark" type="submit">Regisztráció</button>
+        </router-link>
+
+        <router-link to="/auth?mode=login">
+          <button class="btn btn-success text-light" type="submit">Bejelentkezés</button>
+        </router-link>
       </div>
     </div>
   </nav>
