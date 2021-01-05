@@ -24,6 +24,7 @@
 .navbar {
   padding: 0;
   margin-right: 0;
+  overflow-x: hidden;
   .mr-n {
     .btn {
       padding: 0.5rem 1.2rem;

@@ -12,21 +12,30 @@
           :src="photo"
           alt="LandingPhoto"
           class="col-lg-6 mt-2"
-          :class="{ 'order-first': floating(orientation) }"
+          :class="{ 'order-first': floating(orientation) && jo }"
         />
       </div>
     </div>
   </li>
 </template>
 <script>
+import { ref } from 'vue';
 export default {
   props: ['cim', 'alcim', 'photo', 'orientation'],
   setup() {
+    const jo = ref(true);
+
     function floating(classes) {
       if (classes === 'right') return true;
       else return false;
     }
-    return { floating };
+    window.addEventListener('resize', change, { passive: true });
+    function change() {
+      if (window.innerWidth > 992) jo.value = true;
+      else jo.value = false;
+    }
+
+    return { floating, jo };
   }
 };
 </script>
