@@ -2,7 +2,10 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-//-Axios
+// import axios from 'axios';
+
+//? Nem jó?!
+// axios.defaults.baseURL = 'https://quizy5-default-rtdb.europe-west1.firebasedatabase.app';
 
 //-Componensek
 //. Ha ritkán van használva
