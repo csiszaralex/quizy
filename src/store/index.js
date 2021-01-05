@@ -1,8 +1,9 @@
 import { createStore } from 'vuex';
 //-Modulok
+import Auth from './modules/auth/index';
 
 export default createStore({
-  modules: {},
+  modules: { Auth },
   state() {
     return {};
   },
