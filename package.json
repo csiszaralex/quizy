@@ -2,6 +2,22 @@
   "name": "quizy",
   "version": "0.1.0",
   "private": true,
+  "description": "Egy kvíz szerkesztő oldal frontend-je",
+  "keywords": [
+    "quizy",
+    "vue"
+  ],
+  "homepage": "https://github.com/csiszaralex/quizyt#readme",
+  "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "Csiszár Alex",
+    "email": "csiszaralex@gmail.com",
+    "url": "https://github.com/csiszaralex"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/csiszaralex/quizy"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
