@@ -13,13 +13,8 @@
         Quizy
       </router-link>
       <div class="d-flex mr-n">
-        <router-link to="/auth?mode=reg">
-          <button class="btn btn-info text-dark" type="submit">Regisztráció</button>
-        </router-link>
-
-        <router-link to="/auth?mode=login">
-          <button class="btn btn-success text-light" type="submit">Bejelentkezés</button>
-        </router-link>
+        <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
+        <base-button to="/auth?mode=login" type="success">Bejelentkezés</base-button>
       </div>
     </div>
   </nav>
