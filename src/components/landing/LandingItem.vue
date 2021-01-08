@@ -34,6 +34,7 @@ export default {
       if (window.innerWidth > 992) jo.value = true;
       else jo.value = false;
     }
+    change();
 
     return { floating, jo };
   }

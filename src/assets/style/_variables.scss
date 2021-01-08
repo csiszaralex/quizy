@@ -1,0 +1,30 @@
+//*Engedély
+$enable-negative-margins: true;
+
+//*Háttér
+$bg: #f3f8fe;
+$body-bg: $bg;
+$pagination-bg: $bg;
+$card-bg: $bg;
+
+$card-border-color: $bg;
+
+//* Szöveg
+$white: #ededed;
+$black: #414141;
+$gray-900: $black;
+
+
+//*Navbár
+// $navbar-dark-color: $white;
+// $navbar-light-color: $black;
+
+//*Változók
+$light: $white;
+$dark: $black;
+$primary: #afcbff;
+$seciondary: #949c9b;
+$info: #94ccd1;
+$success: #48c774;
+$warning: #f6aa50;
+$danger: #ee6055;

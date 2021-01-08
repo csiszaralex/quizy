@@ -5,16 +5,9 @@ body {
   box-sizing: border-box;
 }
 body {
-  background-color: #f3f8fe;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
 
-$enable-negative-margins: true;
-
-$primary: #afcbff;
-$seciondary: #949c9b;
-$info: #94ccd1;
-$success: #48c774;
-$warning: #f6aa50;
-$danger: #ee6055;
+@import "variables";
