@@ -51,7 +51,7 @@ export default {
       email: 'a@s.com',
       password: 'aaaaaa'
     });
-    async function submitForm() {
+    async function submit() {
       //*Form validálás
       // this.formIsValid = true;
       // if (
@@ -67,10 +67,8 @@ export default {
 
       try {
         if (!mode.value) {
-          console.log('login');
           await store.dispatch('login', { email: login.email, pass: login.password });
         } else {
-          console.log('reg');
           await store.dispatch('signup', { email: reg.email, pass: reg.password });
         }
 
@@ -82,13 +80,6 @@ export default {
       }
 
       // this.isLoading = false;
-      console.log('state2', store);
-    }
-    //*Login
-
-    function submit() {
-      console.log('Submit');
-      submitForm();
     }
 
     return { mode, submit, reg, login };

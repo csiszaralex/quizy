@@ -29,7 +29,7 @@ const router = createRouter({
 
 router.beforeEach(function(to, from, next) {
   if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
-    next('/auth');
+    next('/');
   } else if (to.meta.requiresUnauth && store.getters.isLoggedIn) {
     next('/teacher');
   } else next();

@@ -26,12 +26,10 @@ export default {
     store.dispatch('autoLogin');
 
     const didAutoLogout = computed(() => {
-      console.log(store.getters.didAutoLogout);
       return store.getters.didAutoLogout;
     });
     watch(didAutoLogout, (curVal, oldVal) => {
-      console.log(curVal);
-      if (curVal && curVal !== oldVal) router.replace('/teachers');
+      if (curVal && curVal !== oldVal) router.replace('/');
     });
   }
 };

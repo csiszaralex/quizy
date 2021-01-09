@@ -15,12 +15,33 @@
       <div class="d-flex mr-n">
         <base-button to="/asd" type="warning">NemLétező</base-button>
         <base-button to="/teacher" type="danger">Tanár</base-button>
+      </div>
+      <div class="d-flex mr-n" v-if="isLoggedIn">
+        <base-button @click="logout" type="danger" outline>Logout</base-button>
+      </div>
+      <div class="d-flex mr-n" v-else>
         <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
         <base-button to="/auth?mode=login" type="success">Bejelentkezés</base-button>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
+  methods: {
+    async logout() {
+      this.$store.dispatch('logout');
+      this.$router.replace('/');
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped>
 .navbar {
