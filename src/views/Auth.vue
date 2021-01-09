@@ -1,89 +1,97 @@
 <template>
-  <div class="container">
-    <div class="img">
-      <!-- <img src="./pics/undraw_personalization_triu.svg" alt="Personalization" /> -->
-    </div>
-    <div class="login-container">
-      <form action="login.php" method="POST">
-        <!-- <img class="avatar" src="./pics/undraw_profile_pic_ic5t.svg" alt="Profile-picture" /> -->
-        <h1>Welcome</h1>
-        <div class="input-div one">
-          <font-awesome-icon :icon="['fas', 'user']" />
-          <!-- <div class="i">
-            <em class="fas fa-user"></em>
-          </div> -->
-          <div>
-            <h2>Username</h2>
-            <input type="text" class="input" name="user" />
-          </div>
-        </div>
-        <div class="input-div two">
-          <div class="i">
-            <em class="fas fa-lock"></em>
-          </div>
-          <div>
-            <h2>Password</h2>
-            <input type="password" class="input" name="pass" />
-          </div>
-        </div>
-        <span id="forget" data-toggle="modal" data-target="#forget_modal">Forgot password</span>
-        <input type="submit" value="Login" class="btn" />
-      </form>
-    </div>
+  <div class="reg" v-if="mode">
+    <form @submit.prevent="submit">
+      <base-input v-model="reg.fullName">Teljes név</base-input>
+      <base-input v-model="reg.userName">Felhasználó név</base-input>
+      <base-input v-model="reg.email" type="email">E-mail</base-input>
+      <base-input v-model="reg.phoneNumber" type="phone">Telefonszám</base-input>
+      <base-input v-model="reg.password" type="password">Jelszó</base-input>
+      <base-input v-model="reg.pass2" type="password">Jelszó megismétlése</base-input>
+      <!-- ÁSZF -->
+      <base-button type="info" submit>Tovább</base-button>
+      <hr />
+      <!-- Google, FB -->
+    </form>
   </div>
-  <!-- Modal -->
-  <div
-    class="modal fade"
-    id="forget_modal"
-    tabindex="-1"
-    aria-labelledby="forget_modal"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="forget_modal">Bejenetkezési adatok:</h5>
-          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="text-muted">Username: Admin</div>
-          <div class="text-muted">Password: Abc123456</div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
+  <div class="login" v-else>
+    <form @submit.prevent="submit">
+      <base-input v-model="login.email" type="email">E-mail</base-input>
+      <base-input v-model="login.password" type="password">Jelszó</base-input>
+      <base-button type="info" submit>Tovább</base-button>
+    </form>
   </div>
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { computed, reactive } from 'vue';
 
 export default {
   setup() {
+    //*Store
+    const store = useStore();
+    //* Route
     const route = useRoute();
-
-    const adat = route.query.mode;
-
-
-    const inputs = document.querySelectorAll('.input');
-
-    function focusFunc() {
-      let parent = this.parentNode.parentNode;
-      parent.classList.add('focus');
-    }
-    function blurFunc() {
-      let parent = this.parentNode.parentNode;
-      if (this.value == '') parent.classList.remove('focus');
-    }
-
-    inputs.forEach(x => {
-      x.addEventListener('focus', focusFunc);
-      x.addEventListener('blur', blurFunc);
+    const router = useRouter();
+    const mode = computed(() => {
+      return route.query.mode === 'reg';
     });
 
-    return { adat };
+    //*Reg
+    const reg = reactive({
+      fullName: '',
+      userName: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+      pass2: ''
+    });
+    const login = reactive({
+      email: 'a@s.com',
+      password: 'aaaaaa'
+    });
+    async function submitForm() {
+      //*Form validálás
+      // this.formIsValid = true;
+      // if (
+      //   this.email === '' ||
+      //   !this.email.includes('@') ||
+      //   this.pass.length < 6
+      // ) {
+      //   this.formIsValid = false;
+      //   return;
+      // }
+
+      // this.isLoading = true;
+
+      try {
+        if (!mode.value) {
+          console.log('login');
+          await store.dispatch('login', { email: login.email, pass: login.password });
+        } else {
+          console.log('reg');
+          await store.dispatch('signup', { email: reg.email, pass: reg.password });
+        }
+
+        const redirect = '/' + (route.query.redirect || 'teacher');
+        router.replace(redirect);
+      } catch (error) {
+        // this.error = error.message || 'Failed to login.try later.';
+        console.log(error.message || 'Failed to login.try later.');
+      }
+
+      // this.isLoading = false;
+      console.log('state2', store);
+    }
+    //*Login
+
+    function submit() {
+      console.log('Submit');
+      submitForm();
+    }
+
+    return { mode, submit, reg, login };
   }
 };
 </script>
