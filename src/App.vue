@@ -14,24 +14,24 @@
 import TheHeader from './components/layout/TheHeader.vue';
 import TheFooter from './components/layout/TheFooter.vue';
 
-import { computed, watch } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+// import { computed, watch } from 'vue';
+// import { useStore } from 'vuex';
+// import { useRouter } from 'vue-router';
 
 export default {
   components: { TheHeader, TheFooter },
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    store.dispatch('autoLogin');
+  // setup() {
+  //   const store = useStore();
+  //   const router = useRouter();
+  //   store.dispatch('autoLogin');
 
-    const didAutoLogout = computed(() => {
-      return store.getters.didAutoLogout;
-    });
-    watch(didAutoLogout, (curVal, oldVal) => {
-      if (curVal && curVal !== oldVal) router.replace('/');
-    });
-  }
+  //   const didAutoLogout = computed(() => {
+  //     return store.getters.didAutoLogout;
+  //   });
+  //   watch(didAutoLogout, (curVal, oldVal) => {
+  //     if (curVal && curVal !== oldVal) router.replace('/');
+  //   });
+  // }
 };
 </script>
 

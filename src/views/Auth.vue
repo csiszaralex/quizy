@@ -19,6 +19,8 @@
       <base-input v-model="login.password" type="password">Jelszó</base-input>
       <base-button type="info" submit>Tovább</base-button>
     </form>
+    <button @click="google">Google</button>
+    <button @click="fb">Facebook</button>
   </div>
 </template>
 
@@ -38,7 +40,7 @@ export default {
       return route.query.mode === 'reg';
     });
 
-    //*Reg
+    //*Auth
     const reg = reactive({
       fullName: '',
       userName: '',
@@ -69,7 +71,13 @@ export default {
         if (!mode.value) {
           await store.dispatch('login', { email: login.email, pass: login.password });
         } else {
-          await store.dispatch('signup', { email: reg.email, pass: reg.password });
+          await store.dispatch('signup', {
+            email: reg.email,
+            pass: reg.password,
+            name: reg.fullName,
+            phone: reg.phoneNumber,
+            user: reg.userName
+          });
         }
 
         const redirect = '/' + (route.query.redirect || 'teacher');
@@ -81,8 +89,14 @@ export default {
 
       // this.isLoading = false;
     }
+    function google() {
+      store.dispatch('social', { google: true });
+    }
+    function fb() {
+      store.dispatch('social', {});
+    }
 
-    return { mode, submit, reg, login };
+    return { mode, submit, reg, login, google, fb };
   }
 };
 </script>

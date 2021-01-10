@@ -12,14 +12,14 @@
         />
         Quizy
       </router-link>
+      {{ isLoggedIn }}
       <div class="d-flex mr-n">
         <base-button to="/asd" type="warning">NemLétező</base-button>
         <base-button to="/teacher" type="danger">Tanár</base-button>
       </div>
-      <div class="d-flex mr-n" v-if="isLoggedIn">
-        <base-button @click="logout" type="danger" outline>Logout</base-button>
-      </div>
+      <div class="d-flex mr-n" v-if="isLoggedIn"></div>
       <div class="d-flex mr-n" v-else>
+        <base-button @click="logout" type="danger" outline>Logout</base-button>
         <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
         <base-button to="/auth?mode=login" type="success">Bejelentkezés</base-button>
       </div>
@@ -28,11 +28,18 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useStore } from 'vuex';
 export default {
-  computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
-    }
+  setup() {
+    const store = useStore();
+
+    const isLoggedIn = ref(false);
+
+    isLoggedIn.value = store.getters.isLoggedIn;
+    console.log(store.getters.isLoggedIn);
+
+    return { isLoggedIn };
   },
   methods: {
     async logout() {

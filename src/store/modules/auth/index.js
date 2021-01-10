@@ -1,130 +1,118 @@
-import axios from 'axios';
-
-const API = 'AIzaSyAEUdR4OR7-542uQpbZBb2evEo6c1i8CnM';
-let timer;
+import firebase from 'firebase/app';
+require('firebase/auth');
 
 export default {
   state() {
     return {
-      userId: null,
-      token: null,
-      didAutoLogout: false
+      user: null
     };
   },
   getters: {
     isLoggedIn(state) {
-      return !!state.token;
+      return !!state.user;
     },
-    userId(state) {
-      return state.userId;
+    getEmail(state) {
+      return state.user?.email;
     },
-    token(state) {
-      return state.token;
-    },
-    didAutoLogout(state) {
-      return state.didAutoLogout;
+    getName(state) {
+      return state.user?.displayName;
     }
   },
   mutations: {
-    setUser(state, payload) {
-      state.token = payload.token;
-      state.userId = payload.userId;
-      state.didAutoLogout = false;
-    },
-    setAutoLogout(state) {
-      state.didAutoLogout = true;
+    changeAuth(state, payload) {
+      state.user = payload.user;
     }
   },
   actions: {
-    async login(context, payload) {
-      return context.dispatch('auth', {
-        ...payload,
-        url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + API
-      });
-    },
-    async signup(context, payload) {
-      return context.dispatch('auth', {
-        ...payload,
-        url: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API
-      });
-    },
-    async auth(context, payload) {
-      //*Login v reg?
-      // const mode = payload.mode;
-      // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + API;
-      // if (mode === 'signup') {
-      //   url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + API;
-      // }
-      const url = payload.url;
-
-      //*send to firebase
-      const { data } = await axios
-        .post(url, {
-          email: payload.email,
-          password: payload.pass,
-          returnSecureToken: true
-        })
-        .catch(() => {
-          throw new Error(data.error.message || 'Failed to authanticate.');
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace('login');
         });
-
-      //*Meddig jó a token
-      const expDate = new Date().getTime() + data.expiresIn * 1000;
-
-      //*adatok beállítása local storage-be auto loginhez
-      localStorage.setItem('token', data.idToken);
-      localStorage.setItem('userId', data.localId);
-      localStorage.setItem('tokenExp', expDate);
-
-      //*auto logout időzítő
-      timer = setTimeout(() => {
-        context.dispatch('autoLogout');
-      }, +data.expiresIn * 1000);
-
-      //*beléptetés
-      context.commit('setUser', {
-        token: data.idToken,
-        userId: data.localId
-      });
     },
-    autoLogin(context) {
-      //*adat szerzés localstorage-ből
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      const tokenExp = localStorage.getItem('tokenExp');
-
-      const expIn = +tokenExp - new Date().getTime();
-
-      if (expIn < 0) {
-        return;
-      }
-
-      timer = setTimeout(function() {
-        context.dispatch('autoLogout');
-      }, expIn);
-
-      if (token && userId) {
-        context.commit('setUser', {
-          token,
-          userId
-        });
-      }
+    login(context, payload) {
+      firebase
+        .auth() // Bejelentkezés
+        .signInWithEmailAndPassword(payload.email, payload.pass)
+        .then(
+          () => {
+            // alert("Successful login!");
+            const user = firebase.auth().currentUser;
+            if (user) {
+              if (user.emailVerified) {
+                // Átírányítás: ha megerősített akkor a demo oldalra
+                // this.$router.replace('vuexfirebasedemo');
+                console.log('Megerősítve');
+              } else {
+                // Ha nem megerősített a megerősítő e-mail újraküldés oldalára
+                // this.$router.replace('verify');
+                console.log('Megerősítés szükséges');
+              }
+            }
+          },
+          err => {
+            alert('Oops. ' + err.message);
+          }
+        );
     },
-    logout(context) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('tokenExp');
-
-      clearTimeout(timer);
-
-      context.commit('setUser', {
-        token: null,
-        userId: null
-      });
+    signup(context, payload) {
+      firebase
+        .auth() // Felhasználó létrehozása
+        .createUserWithEmailAndPassword(payload.email, payload.pass)
+        .then(
+          success => {
+            if (success.user) {
+              // Ha sikeres regisztráció, a visszaigazoló e-mail kiküldése
+              success.user.sendEmailVerification().then(
+                () => {
+                  alert('Verification e-mail sent!');
+                },
+                () => {
+                  alert('Failed to send verification e-mail!');
+                }
+              );
+            }
+            alert('Successful SignUp!');
+            // this.$router.replace('verify'); // Átirányítás a megerősítő email újraküldés oldalára
+          },
+          err => {
+            alert('Oops. ' + err.message);
+          }
+        );
     },
-    autoLogout(context) {
-      context.dispatch('logout');
-      context.commit('setAutoLogout');
+    social(context, payload) {
+      const provider = payload.google
+        ? new firebase.auth.GoogleAuthProvider()
+        : new firebase.auth.FacebookAuthProvider();
+      firebase.auth().languageCode = 'hu';
+      firebase
+        .auth() // Bejelentkezés
+        .signInWithPopup(provider)
+        .then(
+          success => {
+            // alert("Successful login!");
+            const user = success.user;
+            if (user) {
+              if (user.emailVerified) {
+                // Átírányítás: ha megerősített akkor a demo oldalra
+                // this.$router.replace('vuexfirebasedemo');
+                console.log('Jó');
+              } else {
+                // Ha nem megerősített a megerősítő e-mail újraküldés oldalára
+                // this.$router.replace('verify');
+                console.log('Rossz');
+              }
+            }
+          },
+          err => {
+            alert('Oops. ' + err.message);
+          }
+        );
+    },
+    changeAuth(context, payload) {
+      context.commit('changeAuth', { user: payload?.user ? payload.user : null });
     }
   }
 };
