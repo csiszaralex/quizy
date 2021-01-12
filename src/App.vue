@@ -1,37 +1,24 @@
 <template>
-  <the-header></the-header>
+  <div>
+    <the-header></the-header>
 
-  <router-view v-slot="slotProps">
-    <transition name="route" mode="out-in">
-      <component :is="slotProps.Component"></component>
-    </transition>
-  </router-view>
+    <router-view v-slot="slotProps">
+      <transition name="route" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
+    <!-- <router-view></router-view> -->
 
-  <the-footer></the-footer>
+    <the-footer></the-footer>
+  </div>
 </template>
 
 <script>
 import TheHeader from './components/layout/TheHeader.vue';
 import TheFooter from './components/layout/TheFooter.vue';
 
-// import { computed, watch } from 'vue';
-// import { useStore } from 'vuex';
-// import { useRouter } from 'vue-router';
-
 export default {
-  components: { TheHeader, TheFooter },
-  // setup() {
-  //   const store = useStore();
-  //   const router = useRouter();
-  //   store.dispatch('autoLogin');
-
-  //   const didAutoLogout = computed(() => {
-  //     return store.getters.didAutoLogout;
-  //   });
-  //   watch(didAutoLogout, (curVal, oldVal) => {
-  //     if (curVal && curVal !== oldVal) router.replace('/');
-  //   });
-  // }
+  components: { TheHeader, TheFooter }
 };
 </script>
 

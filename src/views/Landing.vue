@@ -1,17 +1,19 @@
 <template>
-  <p v-if="isLoading">Lading...</p>
-  <p v-else-if="error">{{ error }}</p>
-  <p v-else-if="!results || results.length === 0">No stored data.</p>
-  <ul v-else-if="results && results.length > 0">
-    <landing-item
-      v-for="result in results"
-      :key="result.id"
-      :cim="result.cim"
-      :alcim="result.alcim"
-      :orientation="orient(result.id)"
-      photo="https://via.placeholder.com/770x560"
-    ></landing-item>
-  </ul>
+  <div class="">
+    <p v-if="isLoading">Lading...</p>
+    <p v-else-if="error">{{ error }}</p>
+    <p v-else-if="!results || results.length === 0">No stored data.</p>
+    <ul v-else-if="results && results.length > 0">
+      <landing-item
+        v-for="result in results"
+        :key="result.id"
+        :cim="result.cim"
+        :alcim="result.alcim"
+        :orientation="orient(result.id)"
+        photo="https://via.placeholder.com/770x560"
+      ></landing-item>
+    </ul>
+  </div>
 </template>
 
 <script>

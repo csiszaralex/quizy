@@ -1,5 +1,8 @@
 import firebase from 'firebase/app';
 require('firebase/auth');
+// import { useRouter } from 'vue-router';
+// const router = useRouter();
+// import router from '../../../router/index.js';
 
 export default {
   state() {
@@ -29,11 +32,13 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$router.replace('login');
+          return '';
+          // console.log(router);
+          // router.replace('/');
         });
     },
-    login(context, payload) {
-      firebase
+    async login(context, payload) {
+      await firebase
         .auth() // Bejelentkezés
         .signInWithEmailAndPassword(payload.email, payload.pass)
         .then(
@@ -51,6 +56,9 @@ export default {
                 console.log('Megerősítés szükséges');
               }
             }
+            return '';
+            // console.log(router);
+            // router.replace('/teacher');
           },
           err => {
             alert('Oops. ' + err.message);
@@ -89,7 +97,8 @@ export default {
       firebase.auth().languageCode = 'hu';
       firebase
         .auth() // Bejelentkezés
-        .signInWithPopup(provider)
+        // .signInWithPopup(provider)
+        .signInWithRedirect(provider)
         .then(
           success => {
             // alert("Successful login!");
@@ -104,6 +113,7 @@ export default {
                 // this.$router.replace('verify');
                 console.log('Rossz');
               }
+              // router.replace('/teacher');
             }
           },
           err => {

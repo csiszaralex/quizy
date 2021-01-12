@@ -23,27 +23,25 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-//*Vue app csinálás
-const app = createApp(App);
-app.use(store);
-app.use(router);
-
-app.use(VueFire);
-
 // onAuthStateChanged: Bejelentkezéskor és kijelentkezéskor fut le
 firebase.auth().onAuthStateChanged(user => {
   user = firebase.auth().currentUser;
   if (user) {
-    console.log(user);
     store.dispatch('changeAuth', { user: user });
   } else {
     store.dispatch('changeAuth');
   }
+  //*Vue app csinálás
+  const app = createApp(App);
+  app.use(store);
+  app.use(router);
+
+  app.use(VueFire);
+
+  //- Componens use
+  app.component('base-button', BaseButton);
+  app.component('base-input', BaseInput);
+  app.component('base-loader', BaseLoader);
+
+  app.mount('#app');
 });
-
-//- Componens use
-app.component('base-button', BaseButton);
-app.component('base-input', BaseInput);
-app.component('base-loader', BaseLoader);
-
-app.mount('#app');

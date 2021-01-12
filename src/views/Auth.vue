@@ -69,7 +69,10 @@ export default {
 
       try {
         if (!mode.value) {
-          await store.dispatch('login', { email: login.email, pass: login.password });
+          await store.dispatch('login', { email: login.email, pass: login.password }).then(() => {
+            const redirect = '/' + (route.query.redirect || 'teacher');
+            router.replace(redirect);
+          });
         } else {
           await store.dispatch('signup', {
             email: reg.email,
@@ -79,9 +82,6 @@ export default {
             user: reg.userName
           });
         }
-
-        const redirect = '/' + (route.query.redirect || 'teacher');
-        router.replace(redirect);
       } catch (error) {
         // this.error = error.message || 'Failed to login.try later.';
         console.log(error.message || 'Failed to login.try later.');
@@ -89,8 +89,11 @@ export default {
 
       // this.isLoading = false;
     }
-    function google() {
-      store.dispatch('social', { google: true });
+    async function google() {
+      await store.dispatch('social', { google: true });
+      // const redirect = '/' + (route.query.redirect || 'teacher');
+      // router.replace(redirect);
+      router.replace('/teacher');
     }
     function fb() {
       store.dispatch('social', {});

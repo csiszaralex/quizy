@@ -17,9 +17,10 @@
         <base-button to="/asd" type="warning">NemLétező</base-button>
         <base-button to="/teacher" type="danger">Tanár</base-button>
       </div>
-      <div class="d-flex mr-n" v-if="isLoggedIn"></div>
-      <div class="d-flex mr-n" v-else>
+      <div class="d-flex mr-n" v-if="isLoggedIn">
         <base-button @click="logout" type="danger" outline>Logout</base-button>
+      </div>
+      <div class="d-flex mr-n" v-else>
         <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
         <base-button to="/auth?mode=login" type="success">Bejelentkezés</base-button>
       </div>
@@ -34,17 +35,18 @@ export default {
   setup() {
     const store = useStore();
 
-    const isLoggedIn = ref(false);
+    const isLoggedIn = ref(store.getters.isLoggedIn);
 
-    isLoggedIn.value = store.getters.isLoggedIn;
-    console.log(store.getters.isLoggedIn);
+    console.log(isLoggedIn.value);
 
     return { isLoggedIn };
   },
   methods: {
     async logout() {
-      this.$store.dispatch('logout');
-      this.$router.replace('/');
+      this.$store.dispatch('logout').then(() => {
+        // this.$router.go('/');
+        // console.log('asd');
+      });
     }
   }
 };
