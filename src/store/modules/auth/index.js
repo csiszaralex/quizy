@@ -19,6 +19,9 @@ export default {
     },
     getName(state) {
       return state.user?.displayName;
+    },
+    getId(state) {
+      return state.user.uid;
     }
   },
   mutations: {
@@ -65,8 +68,8 @@ export default {
           }
         );
     },
-    signup(context, payload) {
-      firebase
+    async signup(context, payload) {
+      await firebase
         .auth() // Felhasználó létrehozása
         .createUserWithEmailAndPassword(payload.email, payload.pass)
         .then(
@@ -90,12 +93,12 @@ export default {
           }
         );
     },
-    social(context, payload) {
+    async social(context, payload) {
       const provider = payload.google
         ? new firebase.auth.GoogleAuthProvider()
         : new firebase.auth.FacebookAuthProvider();
       firebase.auth().languageCode = 'hu';
-      firebase
+      await firebase
         .auth() // Bejelentkezés
         // .signInWithPopup(provider)
         .signInWithRedirect(provider)

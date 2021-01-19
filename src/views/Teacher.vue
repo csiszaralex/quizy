@@ -1,9 +1,11 @@
 <template>
-  <div class="">
+  <div class="container">
     TEACHER
     {{ logged }}
     {{ mail }}
     {{ name }}
+    <br />
+    {{ id }}
   </div>
 </template>
 <script>
@@ -15,7 +17,8 @@ export default {
     const logged = ref(store.getters.isLoggedIn);
     const mail = ref(store.getters.getEmail);
     const name = ref(store.getters.getName);
-    return { logged, mail, name };
+    const id = ref(store.getters.getId);
+    return { logged, mail, name, id };
   }
 };
 </script>
