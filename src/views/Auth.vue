@@ -20,7 +20,7 @@
       <base-button type="info" submit>Tovább</base-button>
     </form>
     <button @click="google">Google</button>
-    <button @click="fb">Facebook</button>
+    <!-- <button @click="fb">Facebook</button> -->
   </div>
 </template>
 
@@ -71,7 +71,7 @@ export default {
         if (!mode.value) {
           await store.dispatch('login', { email: login.email, pass: login.password }).then(() => {
             const redirect = '/' + (route.query.redirect || 'teacher');
-            router.replace(redirect);
+            router.go(redirect);
           });
         } else {
           await store.dispatch('signup', {
@@ -93,7 +93,7 @@ export default {
       await store.dispatch('social', { google: true });
       // const redirect = '/' + (route.query.redirect || 'teacher');
       // router.replace(redirect);
-      router.replace('/teacher');
+      router.go('/teacher');
     }
     function fb() {
       store.dispatch('social', {});

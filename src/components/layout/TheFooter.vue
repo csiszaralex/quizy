@@ -1,6 +1,5 @@
 <template>
-  <!-- <div class="container"> -->
-  <footer class="text-center text-lg-start w-75 mx-auto footer">
+  <footer class="text-center text-lg-start w-75 mx-auto footer mt-auto">
     <hr />
     <div class="text-center p-3 row">
       <div class="col-md-3 mt-md-0 mt-2">
@@ -13,7 +12,6 @@
       <div class="col-md-3 mt-md-0 mt-3">Nyelv</div>
     </div>
   </footer>
-  <!-- </div> -->
 </template>
 
 <script>
@@ -28,11 +26,10 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  margin-top: 20px;
   font-size: 0.7rem;
 }
-// .container {
-//   position: absolute;
-//   bottom: 0;
+// .footer {
+//   height: 50px;
+//   margin-top: 95.5%;
 // }
 </style>

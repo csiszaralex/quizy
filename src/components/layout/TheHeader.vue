@@ -12,7 +12,6 @@
         />
         Quizy
       </router-link>
-      {{ isLoggedIn }}
       <div class="d-flex mr-n">
         <base-button to="/asd" type="warning">NemLétező</base-button>
         <base-button to="/teacher" type="danger">Tanár</base-button>
@@ -37,16 +36,11 @@ export default {
 
     const isLoggedIn = ref(store.getters.isLoggedIn);
 
-    console.log(isLoggedIn.value);
-
     return { isLoggedIn };
   },
   methods: {
     async logout() {
-      this.$store.dispatch('logout').then(() => {
-        // this.$router.go('/');
-        // console.log('asd');
-      });
+      this.$store.dispatch('logout');
     }
   }
 };

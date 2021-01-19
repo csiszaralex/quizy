@@ -24,7 +24,11 @@ export default {
       return props.type ? type + props.type : type + 'info';
     });
     const btnText = computed(() => {
-      return ['success', 'secondary', 'danger'].includes(props.type) ? 'text-light' : 'text-dark';
+      const outliner = ['success', 'secondary', 'danger'].includes(props.type)
+        ? 'text-light'
+        : 'text-dark';
+
+      return props.outline === '' ? '' : outliner;
     });
     const btnSend = computed(() => {
       return props.submit === '';
