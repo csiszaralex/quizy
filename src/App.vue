@@ -1,13 +1,17 @@
 <template>
-  <the-header></the-header>
+  <div class="container-fluid d-flex flex-column justify-content-between" id="fo">
+    <the-header></the-header>
 
-  <router-view v-slot="slotProps">
-    <transition name="route" mode="out-in">
-      <component :is="slotProps.Component"></component>
-    </transition>
-  </router-view>
+    <div class="d-flex flex-row justify-content-around">
+      <router-view v-slot="slotProps">
+        <transition name="route" mode="out-in">
+          <component :is="slotProps.Component"></component>
+        </transition>
+      </router-view>
+    </div>
 
-  <the-footer></the-footer>
+    <the-footer></the-footer>
+  </div>
 </template>
 
 <script>
@@ -15,7 +19,7 @@ import TheHeader from './components/layout/TheHeader.vue';
 import TheFooter from './components/layout/TheFooter.vue';
 
 export default {
-  components: { TheHeader, TheFooter }
+  components: { TheHeader, TheFooter },
 };
 </script>
 
@@ -42,5 +46,12 @@ export default {
 .route-leave-from {
   opacity: 1;
   transform: translateY(0);
+}
+
+.container-fluid {
+  padding: 0;
+}
+#fo {
+  min-height: 100vh;
 }
 </style>

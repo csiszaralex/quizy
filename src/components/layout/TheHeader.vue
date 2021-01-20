@@ -41,8 +41,9 @@ export default {
   methods: {
     async logout() {
       this.$store.dispatch('logout');
-    }
-  }
+      this.$router.go('/');
+    },
+  },
 };
 </script>
 

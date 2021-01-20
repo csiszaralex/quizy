@@ -1,5 +1,5 @@
 <template>
-  <footer class="text-center text-lg-start w-75 mx-auto footer mt-auto">
+  <footer class="text-center text-lg-start w-75 mx-auto footer">
     <hr />
     <div class="text-center p-3 row">
       <div class="col-md-3 mt-md-0 mt-2">
