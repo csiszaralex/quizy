@@ -19,6 +19,7 @@
     "url": "https://github.com/csiszaralex/quizy"
   },
   "scripts": {
+    "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -64,7 +65,8 @@
     "vueIndentScriptAndStyle": false,
     "endOfLine": "auto",
     "semi": true,
-    "requirePragma": false
+    "requirePragma": false,
+    "trailingComma": "all"
   },
   "eslintConfig": {
     "root": true,
