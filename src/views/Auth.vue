@@ -1,5 +1,5 @@
 <template>
-  <div class="reg" v-if="mode">
+  <template class="reg" v-if="mode">
     <form @submit.prevent="submit">
       <base-input v-model="reg.fullName">Teljes név</base-input>
       <base-input v-model="reg.userName">Felhasználó név</base-input>
@@ -12,19 +12,41 @@
       <hr />
       <!-- Google, FB -->
     </form>
-  </div>
-  <div class="login" v-else>
-    <form @submit.prevent="submit">
-      <base-input v-model="login.email" type="email">E-mail</base-input>
-      <base-input v-model="login.password" type="password">Jelszó</base-input>
-      <base-button type="info" submit>Tovább</base-button>
-    </form>
-    <button @click="google">Google</button>
+  </template>
+  <template class="login" v-else>
+    <div class="">
+      <form @submit.prevent="submit">
+        <base-input v-model="login.email" type="email">E-mail</base-input>
+        <base-input v-model="login.password" type="password">Jelszó</base-input>
+        <base-button type="info" submit>Tovább</base-button>
+      </form>
+    </div>
+    <div class="h-75 bg-dark text-light separator">Elválasztó</div>
+    <div class="Social">
+      <button
+        @click="google"
+        class="btn google w-75 text-light d-flex flex-row align-items-center p-0 pe-1"
+      >
+        <img :src="Google" alt="Google brand logo" class="bg-light google-logo me-3" />
+        <div class="">Belépés Google-lal</div>
+      </button>
+
+      <!-- <a
+        class="btn btn-outline-dark"
+        href="/users/googleauth"
+        role="button"
+        style="text-transform:none"
+      >
+        <img :src="Google" alt="Google brand logo" />
+        Login with Google
+      </a> -->
+    </div>
     <!-- <button @click="fb">Facebook</button> -->
-  </div>
+  </template>
 </template>
 
 <script>
+import Google from '../assets/pics/brand/googleLogo.svg';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { computed, reactive } from 'vue';
@@ -47,11 +69,11 @@ export default {
       email: '',
       phoneNumber: '',
       password: '',
-      pass2: ''
+      pass2: '',
     });
     const login = reactive({
       email: 'a@s.com',
-      password: 'aaaaaa'
+      password: 'aaaaaa',
     });
     async function submit() {
       //*Form validálás
@@ -70,7 +92,7 @@ export default {
       try {
         if (!mode.value) {
           await store.dispatch('login', { email: login.email, pass: login.password }).then(() => {
-            const redirect = '/' + (route.query.redirect || 'teacher');
+            const redirect = '/' + (route.query.redirect || 'choose');
             router.go(redirect);
           });
         } else {
@@ -79,7 +101,7 @@ export default {
             pass: reg.password,
             name: reg.fullName,
             phone: reg.phoneNumber,
-            user: reg.userName
+            user: reg.userName,
           });
         }
       } catch (error) {
@@ -93,18 +115,25 @@ export default {
       await store.dispatch('social', { google: true });
       // const redirect = '/' + (route.query.redirect || 'teacher');
       // router.replace(redirect);
-      router.go('/teacher');
+      router.go('/choose');
     }
     function fb() {
       store.dispatch('social', {});
     }
 
-    return { mode, submit, reg, login, google, fb };
-  }
+    return { mode, submit, reg, login, google, fb, Google };
+  },
 };
 </script>
 
 <style scoped lang="scss">
+.google {
+  background-color: #4285f4;
+}
+.google-logo {
+  width: 15%;
+}
+
 $szin1: #009fe6;
 $szin2: #00b0ff;
 $betuszin: #333;

@@ -12,9 +12,8 @@
         />
         Quizy
       </router-link>
-      <div class="d-flex mr-n">
-        <base-button to="/asd" type="warning">NemLétező</base-button>
-        <base-button to="/teacher" type="danger">Tanár</base-button>
+      <div class="d-flex mr-n" v-if="isLoggedIn">
+        {{ role ? role : 'nincs' }}
       </div>
       <div class="d-flex mr-n" v-if="isLoggedIn">
         <base-button @click="logout" type="danger" outline>Logout</base-button>
@@ -28,7 +27,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 export default {
   setup() {
@@ -36,7 +35,11 @@ export default {
 
     const isLoggedIn = ref(store.getters.isLoggedIn);
 
-    return { isLoggedIn };
+    const role = computed(() => {
+      store.getters.getRole;
+    });
+
+    return { isLoggedIn, role };
   },
   methods: {
     async logout() {

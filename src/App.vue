@@ -2,7 +2,7 @@
   <div class="container-fluid d-flex flex-column justify-content-between" id="fo">
     <the-header></the-header>
 
-    <div class="d-flex flex-row justify-content-around">
+    <div class="d-md-flex flex-row justify-content-around align-items-baseline h-100">
       <router-view v-slot="slotProps">
         <transition name="route" mode="out-in">
           <component :is="slotProps.Component"></component>
