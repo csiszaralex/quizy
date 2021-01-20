@@ -31,7 +31,8 @@ export default {
       return props.outline === '' ? '' : outliner;
     });
     const btnSend = computed(() => {
-      return props.submit === '' || props.to !== '';
+      //props.submit === '' ||
+      return !props.to || props.to === '';
     });
 
     return { btnLink, btnType, btnText, btnSend };
