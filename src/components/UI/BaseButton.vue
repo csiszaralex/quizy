@@ -31,10 +31,10 @@ export default {
       return props.outline === '' ? '' : outliner;
     });
     const btnSend = computed(() => {
-      return props.submit === '';
+      return props.submit === '' || props.to !== '';
     });
 
     return { btnLink, btnType, btnText, btnSend };
-  }
+  },
 };
 </script>

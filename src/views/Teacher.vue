@@ -6,6 +6,8 @@
     {{ name }}
     <br />
     {{ id }}
+    <br />
+    <base-button @click="add">Add data</base-button>
   </div>
 </template>
 <script>
@@ -18,7 +20,14 @@ export default {
     const mail = ref(store.getters.getEmail);
     const name = ref(store.getters.getName);
     const id = ref(store.getters.getId);
-    return { logged, mail, name, id };
-  }
+    store.dispatch('teacher/getQuizez');
+
+    function add() {
+      console.log('Run');
+      store.dispatch('teacher/addQuiz', { name: 'asd' });
+    }
+
+    return { logged, mail, name, id, add };
+  },
 };
 </script>
