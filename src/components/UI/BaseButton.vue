@@ -1,12 +1,10 @@
 <template>
   <!-- SUBMIT -->
-  <router-link :to="btnLink" v-if="!btnSend">
-    <button :type="btnSend" class="btn" :class="[btnType, btnText]">
+  <button :type="btnSend" class="btn" :class="[btnType, btnText]">
+    <router-link :to="btnLink" v-if="!btnSend" class="text-reset text-decoration-none">
       <slot></slot>
-    </button>
-  </router-link>
-  <button :type="btnSend" class="btn" :class="[btnType, btnText]" v-else>
-    <slot></slot>
+    </router-link>
+    <slot v-else></slot>
   </button>
 </template>
 <script>

@@ -7,6 +7,7 @@ import { rtdbPlugin as VueFire } from 'vuefire';
 import firebase from 'firebase/app';
 require('firebase/auth');
 import firebaseConfig from './config/firebase.config';
+import 'bootstrap';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseInput from './components/UI/BaseInput.vue';
 const BaseLoader = defineAsyncComponent(() => import('./components/UI/BaseLoader.vue'));
