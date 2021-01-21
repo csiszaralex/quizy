@@ -22,12 +22,12 @@ export default {
     },
     getId(state) {
       return state.user.uid;
-    }
+    },
   },
   mutations: {
     changeAuth(state, payload) {
       state.user = payload.user;
-    }
+    },
   },
   actions: {
     logout() {
@@ -65,7 +65,7 @@ export default {
           },
           err => {
             alert('Oops. ' + err.message);
-          }
+          },
         );
     },
     async signup(context, payload) {
@@ -82,7 +82,7 @@ export default {
                 },
                 () => {
                   alert('Failed to send verification e-mail!');
-                }
+                },
               );
             }
             alert('Successful SignUp!');
@@ -90,7 +90,7 @@ export default {
           },
           err => {
             alert('Oops. ' + err.message);
-          }
+          },
         );
     },
     async social(context, payload) {
@@ -121,11 +121,11 @@ export default {
           },
           err => {
             alert('Oops. ' + err.message);
-          }
+          },
         );
     },
     changeAuth(context, payload) {
       context.commit('changeAuth', { user: payload?.user ? payload.user : null });
-    }
-  }
+    },
+  },
 };

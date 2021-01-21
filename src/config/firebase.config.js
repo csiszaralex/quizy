@@ -5,5 +5,5 @@ export default {
   projectId: 'quizy5',
   storageBucket: 'quizy5.appspot.com',
   messagingSenderId: '431282191811',
-  appId: '1:431282191811:web:cd034fbf4b71078da55176'
+  appId: '1:431282191811:web:cd034fbf4b71078da55176',
 };

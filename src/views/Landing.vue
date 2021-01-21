@@ -39,7 +39,7 @@ export default {
             datas.push({
               id: res.data[i].id,
               cim: res.data[i].cim,
-              alcim: res.data[i].alcim
+              alcim: res.data[i].alcim,
             });
           }
           results.value = datas;
@@ -57,6 +57,6 @@ export default {
       loadExp();
     });
     return { isLoading, results, error, orient };
-  }
+  },
 };
 </script>

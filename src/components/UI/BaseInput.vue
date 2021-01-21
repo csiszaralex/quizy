@@ -24,6 +24,6 @@ export default {
     });
 
     return { data, inputType };
-  }
+  },
 };
 </script>

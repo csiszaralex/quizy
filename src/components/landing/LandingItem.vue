@@ -37,7 +37,7 @@ export default {
     change();
 
     return { floating, jo };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
