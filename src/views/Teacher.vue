@@ -23,7 +23,6 @@ export default {
     store.dispatch('teacher/getQuizez');
 
     function add() {
-      console.log('Run');
       store.dispatch('teacher/addQuiz', { name: 'asd' });
     }
 

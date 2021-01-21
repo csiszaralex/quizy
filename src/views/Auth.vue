@@ -1,5 +1,5 @@
 <template>
-  <template class="reg" v-if="mode">
+  <div v-if="mode" class="reg d-md-flex flex-row justify-content-around align-items-baseline h-100">
     <form @submit.prevent="submit">
       <base-input v-model="reg.fullName">Teljes név</base-input>
       <base-input v-model="reg.userName">Felhasználó név</base-input>
@@ -12,8 +12,8 @@
       <hr />
       <!-- Google, FB -->
     </form>
-  </template>
-  <template class="login" v-else>
+  </div>
+  <span class="login d-md-flex flex-row justify-content-around align-items-baseline h-100" v-else>
     <div class="">
       <form @submit.prevent="submit">
         <base-input v-model="login.email" type="email">E-mail</base-input>
@@ -42,7 +42,7 @@
       </a> -->
     </div>
     <!-- <button @click="fb">Facebook</button> -->
-  </template>
+  </span>
 </template>
 
 <script>
@@ -113,9 +113,8 @@ export default {
     }
     async function google() {
       await store.dispatch('social', { google: true });
-      // const redirect = '/' + (route.query.redirect || 'teacher');
-      // router.replace(redirect);
-      router.go('/choose');
+      const redirect = '/' + (route.query.redirect || 'choose');
+      router.go(redirect);
     }
     function fb() {
       store.dispatch('social', {});

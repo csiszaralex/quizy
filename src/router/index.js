@@ -51,11 +51,13 @@ const router = createRouter({
 router.beforeEach(function(to, from, next) {
   if (to.meta.requiresAuth) {
     //. Belépés kell
-    if (!store.getters.isLoggedIn) next('/auth?redirect=' + to.name);
-    else if (to.meta.requiresTeacher && !store.getters.isTeacher) next('/choose');
-    else if (to.meta.requiresStudent && !store.getters.isStudent) next('/choose');
+    if (!store.getters.isLoggedIn) next(`/auth?redirect=${to.name}`);
+    else if (to.meta.requiresTeacher && !store.getters.isTeacher)
+      next(`/choose?redirect=${to.name}`);
+    else if (to.meta.requiresStudent && !store.getters.isStudent)
+      next(`/choose?redirect=${to.name}`);
     else next();
-  } else if (to.meta.requiresUnauth && store.getters.isLoggedIn) next('/choose'); //.Tilos belépve
+  } else if (to.meta.requiresUnauth && store.getters.isLoggedIn) next(`/choose`);
   else next();
 });
 

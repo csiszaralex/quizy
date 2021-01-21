@@ -7,7 +7,7 @@ require('firebase/auth');
 export default {
   state() {
     return {
-      user: null
+      user: null,
     };
   },
   getters: {
