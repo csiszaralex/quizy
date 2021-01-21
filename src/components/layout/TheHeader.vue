@@ -12,10 +12,31 @@
         />
         Quizy
       </router-link>
-      <div class="d-flex mr-n" v-if="isLoggedIn"></div>
-      <div class="d-flex mr-n" v-if="isLoggedIn">
+      <div class="d-flex mr-n"></div>
+      <div class="d-flex mr-n align-items-center" v-if="isLoggedIn">
+        <!-- TODO Itt profil szerkesztés -->
+        <span class="mx-2">{{ name }}</span>
         <base-button to="/choose" type="warning" outline v-if="roles">Switch</base-button>
         <base-button @click="logout" type="danger" outline>Logout</base-button>
+        <span class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-dark"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Dropdown
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </span>
       </div>
       <div class="d-flex mr-n" v-else>
         <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
@@ -33,8 +54,9 @@ export default {
     const store = useStore();
 
     const isLoggedIn = ref(store.getters.isLoggedIn);
+    const name = ref(store.getters.getName);
 
-    return { isLoggedIn };
+    return { isLoggedIn, name };
   },
   methods: {
     async logout() {
@@ -55,7 +77,12 @@ export default {
   padding-top: 0;
   padding-bottom: 0;
   margin-right: 0;
-  overflow-x: hidden;
+  overflow: hidden visible;
+  // overflow-x: hidden;
+  // overflow-y: visible;
+  .dropdown-menu {
+    overflow-y: visible;
+  }
   .mr-n {
     .btn {
       padding: 0.5rem 1.2rem;
