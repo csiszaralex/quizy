@@ -8,16 +8,30 @@
       </transition>
     </router-view>
 
-    <the-footer></the-footer>
+    <the-footer v-if="footer"></the-footer>
   </div>
 </template>
 
 <script>
 import TheHeader from './components/layout/TheHeader.vue';
 import TheFooter from './components/layout/TheFooter.vue';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 export default {
   components: { TheHeader, TheFooter },
+  setup() {
+    const route = useRoute();
+
+    const akt = computed(() => {
+      return route.path;
+    });
+    const footer = computed(() => {
+      return ['/', '/auth'].includes(route.path);
+    });
+
+    return { akt, footer };
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 <template>
-  <!-- SUBMIT -->
-  <button :type="btnSend" class="btn" :class="[btnType, btnText]">
+  <!-- TODO SUBMIT -->
+  <!-- BUG A success-nek light legyen a színe, ne dark -->
+  <button :type="btnSend" class="btn" :class="[btnType]">
     <router-link :to="btnLink" v-if="!btnSend" class="text-reset text-decoration-none">
       <slot></slot>
     </router-link>

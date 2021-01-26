@@ -1,18 +1,19 @@
-//*Engedély
-$enable-negative-margins: true;
+// //*Engedély
+// $enable-negative-margins: true;
 
-//*Háttér
-$bg: #f3f8fe;
-$body-bg: $bg;
-$pagination-bg: $bg;
-$card-bg: $bg;
+// //*Háttér
+// $bg: #f3f8fe;
+// $body-bg: $bg;
+// $pagination-bg: $bg;
+// $card-bg: $bg;
 
-$card-border-color: $bg;
+// $card-border-color: $bg;
 
 //* Szöveg
 $white: #ededed;
 $black: #414141;
 $gray-900: $black;
+$min-contrast-ratio: 3.1;
 
 
 //*Navbár

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-md-flex flex-row justify-content-around align-items-baseline h-100">
+  <div class="d-md-flex flex-row justify-content-around align-items-baseline">
     <choose-item role="teacher" @click="click('teacher')"></choose-item>
     <choose-item role="student" @click="click('student')"></choose-item>
     <choose-item role="both" @click="click('both')" v-if="set"></choose-item>
