@@ -20,7 +20,6 @@ export default {
 
     store.dispatch('role');
     const role = computed(() => {
-      console.log('role', store.getters.getRole);
       return store.getters.getRole;
     });
     watch(role, val => {
@@ -33,8 +32,6 @@ export default {
     });
 
     const set = computed(() => {
-      console.log(role.value);
-      console.log(role.value === null);
       return role.value === null;
     });
     function click(val) {

@@ -18,6 +18,7 @@
         <span class="mx-2">{{ name }}</span>
         <base-button to="/choose" type="warning" outline v-if="roles">Switch</base-button>
         <base-button @click="logout" type="danger" outline>Logout</base-button>
+        <!-- HACK Itt rossz a design -->
         <span class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle text-dark"

@@ -27,7 +27,7 @@ export default {
       return route.path;
     });
     const footer = computed(() => {
-      return ['/', '/auth'].includes(route.path);
+      return ['/', '/auth', '/choose'].includes(route.path);
     });
 
     return { akt, footer };

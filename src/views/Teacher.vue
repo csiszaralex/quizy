@@ -1,32 +1,44 @@
 <template>
-  <div class="container">
-    TEACHER
-    {{ logged }}
-    {{ mail }}
-    {{ name }}
-    <br />
-    {{ id }}
-    <br />
-    <base-button @click="add">Add data</base-button>
+  <div class="container h-100 w-100 my-5 flex-grow-1">
+    <div class="row">
+      <div v-for="(item, index) in dirs" :key="index" class="col-2 card m-2 bg-primary">
+        <base-badge></base-badge>
+        <!-- <div>DIR - {{ item.name }}</div> -->
+      </div>
+      <div v-for="(item, index) in data" :key="index" class="col-2 card m-2 bg-success">
+        <div v-if="!isDir(item)">ITEM - {{ item.name }}</div>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 export default {
   setup() {
     const store = useStore();
-    const logged = ref(store.getters.isLoggedIn);
-    const mail = ref(store.getters.getEmail);
-    const name = ref(store.getters.getName);
-    const id = ref(store.getters.getId);
-    store.dispatch('teacher/getQuizez');
+    const datas = ref();
+    const dirs = ref();
+    store.dispatch('teacher/getQuizez').then(() => {
+      datas.value = store.getters['teacher/getData'];
+      dirs.value = store.getters['teacher/getDirs'];
+      console.log(dirs.value);
+    });
 
-    function add() {
-      store.dispatch('teacher/addQuiz', { name: 'asd' });
+    const data = computed(() => {
+      return datas.value;
+    });
+    function isDir(object) {
+      let back = false;
+      Object.keys(object).forEach(x => {
+        back = typeof object[x] === 'object';
+      });
+      return back;
     }
 
-    return { logged, mail, name, id, add };
+    return { data, isDir, dirs };
   },
 };
 </script>
+<style lang="scss" scoped></style>
