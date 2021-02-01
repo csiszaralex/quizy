@@ -10,6 +10,7 @@ import firebaseConfig from './config/firebase.config';
 import 'bootstrap';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseInput from './components/UI/BaseInput.vue';
+import BaseBadge from './components/UI/BaseBadge.vue';
 const BaseLoader = defineAsyncComponent(() => import('./components/UI/BaseLoader.vue'));
 
 firebase.initializeApp(firebaseConfig);
@@ -31,6 +32,7 @@ firebase.auth().onAuthStateChanged(user => {
   app.component('base-button', BaseButton);
   app.component('base-input', BaseInput);
   app.component('base-loader', BaseLoader);
+  app.component('base-badge', BaseBadge);
 
   app.mount('#app');
 });

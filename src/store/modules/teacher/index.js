@@ -5,17 +5,31 @@ export default {
   state() {
     return {
       data: [],
+      dirs: [],
     };
   },
-  getters: {}, //. Lekérdezés --> state, getters, rootState, rootGetters
-  mutations: {}, //. Adatok változaatása --> state, payload
+  getters: {
+    getData(state) {
+      return state.data;
+    },
+    getDirs(state) {
+      return state.dirs;
+    },
+  },
+  mutations: {
+    setData(state, payload) {
+      state.dirs = payload.data.dirs;
+      delete payload.data.dirs;
+      state.data = payload.data;
+    },
+  },
   actions: {
-    getQuizez(context) {
+    async getQuizez(context) {
       const id = context.rootGetters.getId;
-      teacher
+      await teacher
         .get(`/${id}.json`)
         .then(res => {
-          console.log(res.data);
+          context.commit('setData', { data: res.data });
         })
         .catch(console.error);
     },
