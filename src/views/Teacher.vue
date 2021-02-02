@@ -44,7 +44,6 @@ export default {
     store.dispatch('teacher/getQuizez').then(() => {
       datas.value = store.getters['teacher/getData'];
       dirs.value = store.getters['teacher/getDirs'];
-      console.log(dirs.value);
     });
 
     function isArchive(item) {
