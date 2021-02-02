@@ -1,5 +1,5 @@
 <template>
-  <base-badge :type="pic" size="4" faSize="10" header="3" class="pt-3">{{ role }}</base-badge>
+  <base-badge :type="pic" size="3" faSize="10" header="3" class="pt-3">{{ role }}</base-badge>
 </template>
 <script>
 export default {
