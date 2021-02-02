@@ -1,7 +1,32 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserSecret, faUser, faUserAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUserSecret,
+  faUser,
+  faUserAlt,
+  faEnvelope,
+  faFolder,
+  faQuestion,
+  faSignOutAlt,
+  faRandom,
+  faArchive,
+  faUserGraduate,
+  faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUserSecret);
-library.add(faUser);
-library.add(faUserAlt);
-library.add(faEnvelope);
+library.add(
+  faFolder,
+  faQuestion,
+  faSignOutAlt,
+  faUser,
+  faUserSecret,
+  faUserAlt,
+  faEnvelope,
+  faRandom,
+  faArchive,
+  faUserGraduate,
+  faUserPlus,
+);
+
+// $ npm i --save @fortawesome/free-brands-svg-icons //. fab
+// $ npm i --save @fortawesome/free-regular-svg-icons //.far
+//-A fas a alap

@@ -1,19 +1,40 @@
 <template>
   <div class="container h-100 w-100 my-5 flex-grow-1">
     <div class="row">
-      <div v-for="(item, index) in dirs" :key="index" class="col-2 card m-2 bg-primary">
-        <base-badge></base-badge>
-        <!-- <div>DIR - {{ item.name }}</div> -->
-      </div>
-      <div v-for="(item, index) in data" :key="index" class="col-2 card m-2 bg-success">
-        <div v-if="!isDir(item)">ITEM - {{ item.name }}</div>
-      </div>
+      <!-- TODO Mappában is látni dolgokat -->
+      <!-- TODO Drag and drop -->
+      <!-- TODO Színek és minden a base-ben -->
+      <template v-for="(item, index) in dirs" :key="index">
+        <base-badge
+          type="archive"
+          color="warning"
+          order="0"
+          :alt="item.name"
+          v-if="isArchive(item)"
+        >
+          {{ makeName(item) }}
+        </base-badge>
+        <base-badge type="folder" v-else order="1" :alt="item.name">
+          {{ makeName(item) }}
+        </base-badge>
+      </template>
+      <template v-for="(item, index) in data" :key="index">
+        <base-badge
+          type="question"
+          color="success"
+          order="2"
+          :date="item.createdAt"
+          :alt="item.name"
+        >
+          {{ makeName(item) }}
+        </base-badge>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 export default {
   setup() {
@@ -26,18 +47,15 @@ export default {
       console.log(dirs.value);
     });
 
-    const data = computed(() => {
-      return datas.value;
-    });
-    function isDir(object) {
-      let back = false;
-      Object.keys(object).forEach(x => {
-        back = typeof object[x] === 'object';
-      });
-      return back;
+    function isArchive(item) {
+      return item.name === 'Archive';
+    }
+    function makeName(item) {
+      if (item.name.length < 15) return item.name;
+      return item.name.substring(0, 12) + '...';
     }
 
-    return { data, isDir, dirs };
+    return { data: datas, dirs, isArchive, makeName };
   },
 };
 </script>
