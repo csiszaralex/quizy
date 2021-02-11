@@ -1,4 +1,5 @@
 module.exports = {
+  //.Bootsrtap és saját CSS jól legyen
   css: {
     loaderOptions: {
       sass: {
@@ -9,6 +10,7 @@ module.exports = {
       },
     },
   },
+  //.Netlify miatt
   pwa: {
     workboxOptions: {
       exclude: [/_redirects/],
