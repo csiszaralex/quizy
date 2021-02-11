@@ -33,12 +33,12 @@
     "firebase": "^8.2.2",
     "firebaseui": "^4.7.1",
     "popper.js": "^1.16.1",
-    "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuefire": "^3.0.0-alpha.2",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "vue": "^3.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
