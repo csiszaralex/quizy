@@ -1,0 +1,33 @@
+{
+  "editor.formatOnSave": true,
+  "files.autoSave": "afterDelay",
+  "files.eol": "\r\n",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.gitignore": false,
+    "**/package-lock.json": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "LICENSE": true,
+    // "**/tsconfig.json": false,
+    // "**/tslint.json": false,
+    // "**/*.js.map": true,
+    // "**/*.npmrc": true,
+    //.Átláthatósághoz
+    "**/vue.config.js": true,
+    "**/public": true,
+    // "**/.vscode": true,
+    "**/help**": true
+  },
+  "color-highlight.languages": ["json", "scss", "jsonc", "vue"],
+  "better-comments.tags": [
+    { "tag": "!", "color": "#FF2020", "bold": true },
+    { "tag": "-", "color": "#ff3", "bold": true, "backgroundColor": "#3A3F41" },
+    { "tag": "?", "color": "#3498DB", "italic": true },
+    { "tag": "//", "color": "#656565", "strikethrough": true, "italic": true },
+    { "tag": "todo", "color": "#FF8C00" },
+    { "tag": "*", "color": "#40FF40" },
+    { "tag": ".", "color": "#8F57C7" }
+  ],
+  "better-comments.highlightPlainText": true
+}

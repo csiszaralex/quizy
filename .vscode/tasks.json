@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "DEV Szerver",
+			"detail": "Start Vue Develpoment server (serve)",
+			"type": "npm",
+			"script": "serve",
+			"problemMatcher": ["$eslint-stylish"],
+			"presentation": {
+        "reveal": "always",
+				"panel": "new",
+
+      },
+			"group": {
+				"kind": "build",
+				"isDefault": true
+		 }
+		},
+	]
+}
