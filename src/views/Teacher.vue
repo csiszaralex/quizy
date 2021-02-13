@@ -4,11 +4,10 @@
       <!-- TODO Mappában is látni dolgokat -->
       <!-- TODO Drag and drop -->
       <!-- TODO Színek és minden a base-ben -->
-      <template v-for="(item, index) in dirs">
+      <template v-for="(item, index) in dirs" :key="index">
         <!-- Archive -->
         <base-badge
           v-if="isArchive(item)"
-          :key="index"
           type="archive"
           color="warning"
           order="0"
@@ -17,14 +16,13 @@
           {{ makeName(item) }}
         </base-badge>
         <!-- Mappa -->
-        <base-badge v-else :key="index" type="folder" order="1" :alt="item.name" :to="toLink(item)">
+        <base-badge v-else type="folder" order="1" :alt="item.name" :to="toLink(item)">
           {{ makeName(item) }}
         </base-badge>
       </template>
       <!-- Kérdés -->
       <template v-for="(item, index) in data" :key="index">
         <base-badge
-          :key="index"
           type="question"
           color="success"
           order="2"
