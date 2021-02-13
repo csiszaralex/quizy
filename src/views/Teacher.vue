@@ -5,6 +5,7 @@
       <!-- TODO Drag and drop -->
       <!-- TODO Színek és minden a base-ben -->
       <template v-for="(item, index) in dirs" :key="index">
+        <!-- Archive -->
         <base-badge
           type="archive"
           color="warning"
@@ -14,10 +15,12 @@
         >
           {{ makeName(item) }}
         </base-badge>
-        <base-badge type="folder" v-else order="1" :alt="item.name">
+        <!-- Mappa -->
+        <base-badge type="folder" v-else order="1" :alt="item.name" :to="toLink(item)">
           {{ makeName(item) }}
         </base-badge>
       </template>
+      <!-- Kérdés -->
       <template v-for="(item, index) in data" :key="index">
         <base-badge
           type="question"
@@ -30,6 +33,7 @@
         </base-badge>
       </template>
     </div>
+    {{ id }}
   </div>
 </template>
 
@@ -37,6 +41,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 export default {
+  props: ['id'],
   setup() {
     const store = useStore();
     const datas = ref();
@@ -53,8 +58,12 @@ export default {
       if (item.name.length < 15) return item.name;
       return item.name.substring(0, 12) + '...';
     }
+    function toLink(item) {
+      console.log(item);
+      return '/teacher';
+    }
 
-    return { data: datas, dirs, isArchive, makeName };
+    return { data: datas, dirs, isArchive, makeName, toLink };
   },
 };
 </script>

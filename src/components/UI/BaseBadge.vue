@@ -1,5 +1,11 @@
 <template>
-  <div class="card m-2" :class="[background, orders, colSize]" :title="alt">
+  <component
+    :is="isRouter"
+    class="card m-2 text-dark text-decoration-none"
+    :class="[background, orders, colSize]"
+    :title="alt"
+    :to="to"
+  >
     <div class="card-body p-0 d-flex flex-column align-items-center">
       <h5 class="card-title text-muted h6 flex-fill">
         <span v-if="date">{{ date }}</span>
@@ -11,11 +17,11 @@
         <slot></slot>
       </div>
     </div>
-  </div>
+  </component>
 </template>
 <script>
 export default {
-  props: ['type', 'name', 'date', 'color', 'order', 'alt', 'size', 'faSize', 'header'],
+  props: ['type', 'name', 'date', 'color', 'order', 'alt', 'size', 'faSize', 'header', 'to'],
   computed: {
     background() {
       const color = this.color ? this.color : 'primary';
@@ -40,6 +46,9 @@ export default {
     },
     headers() {
       return this.header ? 'h' + this.header : '';
+    },
+    isRouter() {
+      return this.to ? 'router-link' : 'div';
     },
   },
 };

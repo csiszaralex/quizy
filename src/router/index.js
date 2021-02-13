@@ -7,15 +7,24 @@ import Auth from '../views/Auth.vue';
 import Teacher from '../views/Teacher.vue';
 import Student from '../views/Student.vue';
 import Choose from '../views/Choose.vue';
-import NotFound from '../views/NotFound.vue';
+import NotFound from '../views/NotFound';
 
 const routes = [
+  //? path, name,comp, props, meta, children
   { path: '/', name: 'home', component: Landing, meta: { requiresUnauth: true } },
   { path: '/auth', name: 'auth', component: Auth, props: true, meta: { requiresUnauth: true } },
   {
     path: '/teacher',
     name: 'teacher',
     component: Teacher,
+    props: true,
+    meta: { requiresAuth: true, requiresTeacher: true },
+  },
+  {
+    path: '/teacher/:id',
+    name: 'teacherId',
+    component: Teacher,
+    props: true,
     meta: { requiresAuth: true, requiresTeacher: true },
   },
   {
@@ -29,9 +38,10 @@ const routes = [
     name: 'choose',
     component: Choose,
     meta: { requiresAuth: true },
+    excludeFromHistory: true,
   },
 
-  { path: '/:notFound(.*)', component: NotFound },
+  { path: '/:notFound(.*)', name: 'notfound', component: NotFound },
 
   // {
   //   path: '/coaches/:id',
@@ -51,11 +61,11 @@ const router = createRouter({
 router.beforeEach(function(to, from, next) {
   if (to.meta.requiresAuth) {
     //. Belépés kell
-    if (!store.getters.isLoggedIn) next(`/auth?redirect=${to.name}`);
+    if (!store.getters.isLoggedIn) next(`/auth?redirect=${to.fullPath.substring(1)}`);
     else if (to.meta.requiresTeacher && !store.getters.isTeacher)
-      next(`/choose?redirect=${to.name}`);
+      next(`/choose?redirect=${to.fullPath.substring(1)}`);
     else if (to.meta.requiresStudent && !store.getters.isStudent)
-      next(`/choose?redirect=${to.name}`);
+      next(`/choose?redirect=${to.fullPath.substring(1)}`);
     else next();
   } else if (to.meta.requiresUnauth && store.getters.isLoggedIn) next(`/choose`);
   else next();
