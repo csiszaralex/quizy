@@ -31,14 +31,14 @@ firebase.auth().onAuthStateChanged(user => {
   app.use(router);
   app.use(VueFire);
 
-  app.component('base-button', BaseButton);
-  app.component('base-input', BaseInput);
-  app.component('base-loader', BaseLoader);
-  app.component('base-badge', BaseBadge);
+  app.component('BaseButton', BaseButton);
+  app.component('BaseInput', BaseInput);
+  app.component('BaseLoader', BaseLoader);
+  app.component('BaseBadge', BaseBadge);
 
-  app.component('fa-icon', FontAwesomeIcon);
-  app.component('fa-layers', FontAwesomeLayers);
-  app.component('fa-layers-text', FontAwesomeLayersText);
+  app.component('FaIcon', FontAwesomeIcon);
+  app.component('FaLayers', FontAwesomeLayers);
+  app.component('FaLayersText', FontAwesomeLayersText);
 
   app.mount('#app');
 });

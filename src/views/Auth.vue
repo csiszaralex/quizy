@@ -13,7 +13,7 @@
       <!-- Google, FB -->
     </form>
   </div>
-  <span class="login d-md-flex flex-row justify-content-around align-items-baseline h-100" v-else>
+  <span v-else class="login d-md-flex flex-row justify-content-around align-items-baseline h-100">
     <div class="">
       <form @submit.prevent="submit">
         <base-input v-model="login.email" type="email">E-mail</base-input>
@@ -24,22 +24,24 @@
     <div class="h-75 bg-dark text-light separator">Elválasztó</div>
     <div class="Social">
       <button
-        @click="google"
         class="btn google w-75 text-light d-flex flex-row align-items-center p-0 pe-1"
+        @click="google"
       >
         <img :src="Google" alt="Google brand logo" class="bg-light google-logo me-3" />
         <div class="">Belépés Google-lal</div>
       </button>
 
-      <!-- <a
+      <!--
+        <a
         class="btn btn-outline-dark"
         href="/users/googleauth"
         role="button"
         style="text-transform:none"
-      >
+        >
         <img :src="Google" alt="Google brand logo" />
         Login with Google
-      </a> -->
+        </a> 
+      -->
     </div>
     <!-- <button @click="fb">Facebook</button> -->
   </span>
@@ -52,6 +54,7 @@ import { useStore } from 'vuex';
 import { computed, reactive } from 'vue';
 
 export default {
+  name: 'Auth',
   setup() {
     //*Store
     const store = useStore();

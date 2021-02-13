@@ -1,8 +1,8 @@
 <template>
   <div class="d-md-flex flex-row justify-content-around align-items-baseline">
-    <choose-item role="teacher" @click="click('teacher')"></choose-item>
-    <choose-item role="student" @click="click('student')"></choose-item>
-    <choose-item role="both" @click="click('both')" v-if="set"></choose-item>
+    <choose-item role="teacher" @click="click('teacher')" />
+    <choose-item role="student" @click="click('student')" />
+    <choose-item v-if="set" role="both" @click="click('both')" />
   </div>
 </template>
 
@@ -12,6 +12,7 @@ import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import ChooseItem from '../components/choose/ChooseItem';
 export default {
+  name: 'Choose',
   components: { ChooseItem },
   setup() {
     const store = useStore();

@@ -12,18 +12,18 @@
         />
         Quizy
       </router-link>
-      <div class="d-flex mr-n"></div>
-      <div class="d-flex mr-n align-items-center" v-if="isLoggedIn">
+      <div class="d-flex mr-n" />
+      <div v-if="isLoggedIn" class="d-flex mr-n align-items-center">
         <!-- TODO Itt profil szerkesztés -->
         <span class="mx-2">{{ name }}</span>
-        <base-button to="/choose" type="warning" outline v-if="roles">Switch</base-button>
-        <base-button @click="logout" type="danger" outline>Logout</base-button>
+        <base-button v-if="roles" to="/choose" type="warning" outline>Switch</base-button>
+        <base-button type="danger" outline @click="logout">Logout</base-button>
         <!-- HACK Itt rossz a design -->
         <span class="nav-item dropdown">
           <a
+            id="navbarDropdown"
             class="nav-link dropdown-toggle text-dark"
             href="#"
-            id="navbarDropdown"
             role="button"
             data-toggle="dropdown"
             aria-haspopup="true"
@@ -34,12 +34,12 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
+            <div class="dropdown-divider" />
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </span>
       </div>
-      <div class="d-flex mr-n" v-else>
+      <div v-else class="d-flex mr-n">
         <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
         <base-button to="/auth?mode=login" type="success">Bejelentkezés</base-button>
       </div>
@@ -51,6 +51,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 export default {
+  name: 'TheHeader',
   setup() {
     const store = useStore();
 
@@ -59,15 +60,17 @@ export default {
 
     return { isLoggedIn, name };
   },
+
+  computed: {
+    roles() {
+      return this.$store.getters.isSwitchable;
+    },
+  },
+
   methods: {
     async logout() {
       this.$store.dispatch('logout');
       this.$router.go('/');
-    },
-  },
-  computed: {
-    roles() {
-      return this.$store.getters.isSwitchable;
     },
   },
 };

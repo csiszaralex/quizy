@@ -18,9 +18,11 @@
     </div>
   </li>
 </template>
+
 <script>
 import { ref } from 'vue';
 export default {
+  name: 'Landingitem',
   props: ['cim', 'alcim', 'photo', 'orientation'],
   setup() {
     const jo = ref(true);
@@ -40,6 +42,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 li {
   list-style: none;

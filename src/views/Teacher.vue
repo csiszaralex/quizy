@@ -4,25 +4,27 @@
       <!-- TODO Mappában is látni dolgokat -->
       <!-- TODO Drag and drop -->
       <!-- TODO Színek és minden a base-ben -->
-      <template v-for="(item, index) in dirs" :key="index">
+      <template v-for="(item, index) in dirs">
         <!-- Archive -->
         <base-badge
+          v-if="isArchive(item)"
+          :key="index"
           type="archive"
           color="warning"
           order="0"
           :alt="item.name"
-          v-if="isArchive(item)"
         >
           {{ makeName(item) }}
         </base-badge>
         <!-- Mappa -->
-        <base-badge type="folder" v-else order="1" :alt="item.name" :to="toLink(item)">
+        <base-badge v-else :key="index" type="folder" order="1" :alt="item.name" :to="toLink(item)">
           {{ makeName(item) }}
         </base-badge>
       </template>
       <!-- Kérdés -->
       <template v-for="(item, index) in data" :key="index">
         <base-badge
+          :key="index"
           type="question"
           color="success"
           order="2"
@@ -41,6 +43,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 export default {
+  name: 'Teacher',
   props: ['id'],
   setup() {
     const store = useStore();
@@ -67,4 +70,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>

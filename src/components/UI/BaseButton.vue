@@ -2,17 +2,19 @@
   <!-- TODO SUBMIT -->
   <!-- BUG A success-nek light legyen a színe, ne dark -->
   <button :type="btnSend" class="btn" :class="[btnType]">
-    <router-link :to="btnLink" v-if="!btnSend" class="text-reset text-decoration-none">
-      <slot></slot>
+    <router-link v-if="!btnSend" :to="btnLink" class="text-reset text-decoration-none">
+      <slot />
     </router-link>
-    <slot v-else></slot>
+    <slot v-else />
   </button>
 </template>
+
 <script>
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 export default {
-  props: ['to', 'type', 'outline', 'submit'],
+  name: 'BaseButton',
+  props: ['to', 'type', 'outline' /*'submit'*/],
   setup(props) {
     const route = useRoute();
     const btnLink = computed(() => {

@@ -16,7 +16,7 @@
     //.Átláthatósághoz
     "**/vue.config.js": true,
     "**/public": true,
-    // "**/.vscode": true,
+    "**/.vscode": true,
     "**/help**": true
   },
   "color-highlight.languages": ["json", "scss", "jsonc", "vue"],

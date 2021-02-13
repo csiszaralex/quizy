@@ -16,6 +16,7 @@
 
 <script>
 export default {
+  name: 'TheFooter',
   setup() {
     const year = new Date().getFullYear();
 
@@ -28,8 +29,4 @@ export default {
 div {
   font-size: 0.7rem;
 }
-// .footer {
-//   height: 50px;
-//   margin-top: 95.5%;
-// }
 </style>

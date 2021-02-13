@@ -1,14 +1,14 @@
 <template>
-  <div class="container-fluid d-flex flex-column justify-content-between" id="fo">
-    <the-header></the-header>
+  <div id="fo" class="container-fluid d-flex flex-column justify-content-between">
+    <the-header />
 
     <router-view v-slot="slotProps">
       <transition name="route" mode="out-in">
-        <component :is="slotProps.Component"></component>
+        <component :is="slotProps.Component" />
       </transition>
     </router-view>
 
-    <the-footer v-if="footer"></the-footer>
+    <the-footer v-if="footer" />
   </div>
 </template>
 
@@ -19,6 +19,7 @@ import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
 export default {
+  name: 'App',
   components: { TheHeader, TheFooter },
   setup() {
     const route = useRoute();

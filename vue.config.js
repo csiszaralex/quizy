@@ -3,17 +3,23 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `
-        @import "@/assets/style/main.scss";
-        @import "@/../node_modules/bootstrap/scss/bootstrap.scss";
-        `,
+        prependData:
+          '\n        @import "@/assets/style/main.scss";\n        @import "@/../node_modules/bootstrap/scss/bootstrap.scss";\n        ',
       },
     },
   },
+
   //.Netlify miatt
   pwa: {
     workboxOptions: {
       exclude: [/_redirects/],
     },
   },
+
+  publicPath: '/quizy',
+  assetsDir: 'assets',
 };
+//! Require def prop
+//! req name prop -> warn
+//! REQ prop types -> off
+//!SORTKEYS

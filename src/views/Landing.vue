@@ -11,7 +11,7 @@
         :alcim="result.alcim"
         :orientation="orient(result.id)"
         photo="https://via.placeholder.com/770x560"
-      ></landing-item>
+      />
     </ul>
   </div>
 </template>
@@ -21,6 +21,7 @@ import { ref, onBeforeMount } from 'vue';
 import LandingItem from '../components/landing/LandingItem.vue';
 import axios from 'axios';
 export default {
+  name: 'Landing',
   components: { LandingItem },
   setup() {
     const results = ref([]);

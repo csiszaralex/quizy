@@ -3,13 +3,15 @@
   <!-- Error  -->
   <!-- animáció  -->
   <div class="">
-    <slot></slot>
-    <input :type="inputType" :placeholder="ph" v-model="data" />
+    <slot />
+    <input v-model="data" :type="inputType" :placeholder="ph" />
   </div>
 </template>
+
 <script>
 import { ref, watch, computed } from 'vue';
 export default {
+  name: 'BaseInput',
   props: ['ph', 'modelValue', 'type'],
   setup(props, context) {
     const data = ref(props.modelValue ? props.modelValue : '');
