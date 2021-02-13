@@ -133,7 +133,7 @@
       "vue/no-useless-mustaches": "error",
       "vue/no-useless-v-bind": "warn",
       "vue/no-v-for-template-key-on-child": "error",
-      "vue/no-v-for-template-key": "warn",
+      "vue/no-v-for-template-key": "off",
       "vue/no-v-html": "error",
       "vue/no-v-model-argument": "error",
       "vue/no-watch-after-await": "error",
