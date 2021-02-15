@@ -43,7 +43,7 @@ jobs:
     name: Build
     runs-on: self-hosted
     needs: teszt
-    timeout-minutes: 15
+    timeout-minutes: 50
     steps:
       - name: Download repository
         uses: actions/checkout@v2
@@ -54,8 +54,8 @@ jobs:
           node-version: '14.x'
 
       - name: Install node dependencies
-        run: npm ci --prod
-        timeout-minutes: 10
+        run: npm i
+        timeout-minutes: 45
 
       - name: Build
         run: npm run build
