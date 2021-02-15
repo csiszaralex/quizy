@@ -4,7 +4,7 @@ import BaseLoader from '@/components/UI/BaseLoader.vue';
 describe('BaseLoader.vue', () => {
   const wrapper = mount(BaseLoader);
 
-  test('Van e tartalma',async () => {
+  test('Van e tartalma', async () => {
     const todo = await wrapper.findAll('.visually-hidden');
 
     expect(todo).toHaveLength(1);
