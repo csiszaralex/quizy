@@ -33,7 +33,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-@@ -40,5 +42,22 @@ jobs:
+      - name: Install node dependencies
+        run: npm ci
+
       - name: Tesztek futtatása
         run: npm run test:unit
 
