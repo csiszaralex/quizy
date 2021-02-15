@@ -21,11 +21,11 @@
   },
   "color-highlight.languages": ["json", "scss", "jsonc", "vue"],
   "better-comments.tags": [
-    { "tag": "!", "color": "#FF2020", "bold": true },
+    { "tag": "!", "color": "#c003e3", "bold": true },
     { "tag": "-", "color": "#ff3", "bold": true, "backgroundColor": "#3A3F41" },
     { "tag": "?", "color": "#3498DB", "italic": true },
     { "tag": "//", "color": "#656565", "strikethrough": true, "italic": true },
-    { "tag": "todo", "color": "#FF8C00" },
+    { "tag": ":", "color": "#FF8C00" },
     { "tag": "*", "color": "#40FF40" },
     { "tag": ".", "color": "#8F57C7" }
   ],

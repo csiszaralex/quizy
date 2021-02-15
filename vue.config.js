@@ -16,6 +16,6 @@ module.exports = {
     },
   },
 
-  publicPath: '/quizy',
+  publicPath: process.env.NODE_ENV === 'production' ? '/quizy/' : '/',
   assetsDir: 'assets',
 };
