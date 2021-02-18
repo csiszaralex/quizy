@@ -39,23 +39,23 @@ jobs:
       - name: Tesztek futtatása
         run: npm run test:unit
 
-  build:
-    name: Build
-    runs-on: self-hosted
-    needs: teszt
-    timeout-minutes: 50
-    steps:
-      - name: Download repository
-        uses: actions/checkout@v2
+  # build:
+  #   name: Build
+  #   runs-on: self-hosted
+  #   needs: teszt
+  #   timeout-minutes: 50
+  #   steps:
+  #     - name: Download repository
+  #       uses: actions/checkout@v2
 
-      - name: Use Node.js 14
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
+  #     - name: Use Node.js 14
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '14.x'
 
-      - name: Install node dependencies
-        run: npm i
-        timeout-minutes: 45
+  #     - name: Install node dependencies
+  #       run: npm i
+  #       timeout-minutes: 45
 
-      - name: Build
-        run: npm run build
+  #     - name: Build
+  #       run: npm run build
