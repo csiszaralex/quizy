@@ -1,9 +1,12 @@
 <template>
   <div class="container-fluid flex-grow-1 d-flex">
+    <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
+      <p>{{ uzenet }}</p>
+    </base-dialog>
     <div class="col-3 flex-grow-1 d-flex flex-column">
-      <div class="h-75">Beállít</div>
+      <div class="h-75">Diák</div>
       <div class="h-25 text-center py-2 qSet">
-        <p>import</p>
+        <button @click="wip">Import</button>
         <p>Export</p>
         <p>Beállítások</p>
       </div>
@@ -16,5 +19,16 @@
 export default {
   name: 'Edit',
   props: ['id'],
+  data() {
+    return { uzenet: null };
+  },
+  methods: {
+    elfogad() {
+      this.uzenet = null;
+    },
+    wip() {
+      this.uzenet = 'Ezen a funkción még dolgozunk, de hamarosan elérhető lesz.';
+    },
+  },
 };
 </script>
