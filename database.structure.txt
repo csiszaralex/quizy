@@ -1,0 +1,23 @@
+tanrok
+  teszt1
+  teszt2
+  mappák
+    NÉV
+    tesztX
+      NÉV
+      :LEÍRÁS
+      :PUBLIC/Privát
+      :Időlimit
+      MIORKÉSZÜLT
+      KÉRDÉSEK
+        :SoRSZám
+        :KÉRDÉS
+        :Időlimit-Sec
+        :V1
+          :NÉV
+          :PONT
+        :v2
+        :V3
+        :v4
+    tesztY
+    archive
