@@ -17,7 +17,9 @@
     "**/vue.config.js": true,
     "**/public": true,
     "**/.vscode": true,
-    "**/help**": true
+    "**/help**": true,
+    "netlify.toml": true,
+    ".github": true
   },
   "color-highlight.languages": ["json", "scss", "jsonc", "vue"],
   "better-comments.tags": [
