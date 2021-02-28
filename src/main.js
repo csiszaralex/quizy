@@ -1,7 +1,7 @@
 import { createApp, defineAsyncComponent } from 'vue';
-import router from './router';
-import store from './store';
-import App from './App.vue';
+import router from '@/router';
+import store from '@/store';
+import App from '@/App.vue';
 import { rtdbPlugin as VueFire } from 'vuefire';
 import firebase from 'firebase/app';
 require('firebase/auth');
@@ -12,7 +12,7 @@ import {
   FontAwesomeLayers,
   FontAwesomeLayersText,
 } from '@fortawesome/vue-fontawesome';
-import './config/fontawesome.config';
+import '@/config/fontawesome.config';
 import BaseButton from './components/UI/BaseButton.vue';
 import BaseInput from './components/UI/BaseInput.vue';
 import BaseBadge from './components/UI/BaseBadge.vue';

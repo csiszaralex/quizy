@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import store from './store/index.js';
+import store from '@/store';
 
 import Landing from '@/views/Landing.vue';
 import Auth from '@/views/Auth.vue';

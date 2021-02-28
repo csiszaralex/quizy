@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
-import Auth from './modules/auth/index';
-import Teacher from './modules/teacher/index';
-import User from './modules/user';
+import Auth from '@/store/auth';
+import Teacher from '@/store/teacher';
+import User from '@/store/user';
 
 export default createStore({
   modules: {

@@ -1,8 +1,5 @@
 import firebase from 'firebase/app';
 require('firebase/auth');
-// import { useRouter } from 'vue-router';
-// const router = useRouter();
-// import router from '../../../router/index.js';
 
 export default {
   state() {

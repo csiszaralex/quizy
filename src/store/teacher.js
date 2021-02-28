@@ -1,4 +1,4 @@
-import teacher from '../../../config/axiosTeacher.config';
+import teacher from '@/config/axiosTeacher.config';
 
 export default {
   namespaced: true,

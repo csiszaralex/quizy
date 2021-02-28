@@ -1,4 +1,4 @@
-import users from '../../config/axiosUser.config';
+import users from '@/config/axiosUser.config';
 
 export default {
   state() {
@@ -17,7 +17,6 @@ export default {
     isSwitchable(state) {
       return [0, 3].includes(state.role);
     },
-    //! Törölni majd
     getRole(state) {
       return state.role;
     },
