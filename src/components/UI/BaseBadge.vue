@@ -23,13 +23,50 @@
 <script>
 export default {
   name: 'BaseBadge',
-  props: ['type', 'date', 'color', 'order', 'alt', 'size', 'faSize', 'header', 'to'],
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: String,
+      default: '',
+    },
+    color: {
+      type: String,
+      default: 'primary',
+    },
+    order: {
+      type: String,
+      default: '',
+    },
+    alt: {
+      type: String,
+      default: '',
+    },
+    size: {
+      type: String,
+      default: '',
+    },
+    faSize: {
+      type: String,
+      default: '',
+    },
+    header: {
+      type: String,
+      default: '',
+    },
+    to: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     background() {
-      const color = this.color ? this.color : 'primary';
-      return 'bg-' + color;
+      return 'bg-' + this.color;
     },
 
+    // BUG order csak 12ig lehet
     orders() {
       const order = this.order ? 'order-' + this.order : '';
       return order;
