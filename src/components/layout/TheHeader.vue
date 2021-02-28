@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/html-comment-indent  -->
   <!-- Image and text -->
   <nav class="navbar navbar-light bg-primary">
     <div class="container-fluid">
@@ -16,10 +17,16 @@
       <div v-if="isLoggedIn" class="d-flex mr-n align-items-center">
         <!-- TODO Itt profil szerkesztés -->
         <span class="mx-2">{{ name }}</span>
-        <base-button v-if="roles" to="/choose" type="warning" outline>Switch</base-button>
+        <base-button v-if="isQuiz" type="warning">Teszt</base-button>
+        <base-button v-if="isQuiz" type="success">Mentés</base-button>
+        <base-button v-if="isQuiz" to="/teacher" type="danger">Elvetés</base-button>
+        <base-button v-if="roles && !isQuiz" to="/choose" type="warning" outline>
+          Switch
+        </base-button>
         <base-button type="danger" outline @click="logout">Logout</base-button>
         <!-- HACK Itt rossz a design -->
-        <span class="nav-item dropdown">
+        <!-- 
+          <span class="nav-item dropdown">
           <a
             id="navbarDropdown"
             class="nav-link dropdown-toggle text-dark"
@@ -38,6 +45,7 @@
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </span>
+         -->
       </div>
       <div v-else class="d-flex mr-n">
         <base-button to="/auth?mode=reg" type="info">Regisztráció</base-button>
@@ -64,6 +72,9 @@ export default {
   computed: {
     roles() {
       return this.$store.getters.isSwitchable;
+    },
+    isQuiz() {
+      return this.$route.name === 'edit';
     },
   },
 
