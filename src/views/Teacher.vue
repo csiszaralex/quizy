@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-100 w-100 my-5 flex-grow-1">
+  <div class="container my-5 flex-grow-1">
     <div class="row">
       <!-- TODO Mappában is látni dolgokat -->
       <!-- TODO Drag and drop -->
@@ -16,7 +16,7 @@
           {{ makeName(item) }}
         </base-badge>
         <!-- Mappa -->
-        <base-badge v-else type="folder" order="1" :alt="item.name" :to="toLink(item)">
+        <base-badge v-else type="folder" order="1" :alt="item.name" :to="toLinkDir(item)">
           {{ makeName(item) }}
         </base-badge>
       </template>
@@ -28,6 +28,7 @@
           order="2"
           :date="item.createdAt"
           :alt="item.name"
+          :to="toLinkQuiz(item)"
         >
           {{ makeName(item) }}
         </base-badge>
@@ -50,6 +51,8 @@ export default {
     store.dispatch('teacher/getQuizez').then(() => {
       datas.value = store.getters['teacher/getData'];
       dirs.value = store.getters['teacher/getDirs'];
+      // console.log('dir', dirs.value);
+      // console.log('key', Object.keys(dirs.value));
     });
 
     function isArchive(item) {
@@ -59,12 +62,22 @@ export default {
       if (item.name.length < 15) return item.name;
       return item.name.substring(0, 12) + '...';
     }
-    function toLink(item) {
-      console.log(item);
+    function toLinkDir() {
+      // Object.keys(dirs.value).forEach(x => {
+      //   if (dirs.value[x].name === item.name) console.log(x);
+      // });
+      // console.log('item', item.name);
       return '/teacher';
     }
+    function toLinkQuiz(item) {
+      let val = '/teacher';
+      Object.keys(datas.value).forEach(x => {
+        if (datas.value[x].name === item.name) val = '/edit/' + x;
+      });
+      return val;
+    }
 
-    return { data: datas, dirs, isArchive, makeName, toLink };
+    return { data: datas, dirs, isArchive, makeName, toLinkDir, toLinkQuiz };
   },
 };
 </script>
