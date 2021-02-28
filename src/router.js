@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import store from '../store/index.js';
+import store from './store/index.js';
 
-import Landing from '../views/Landing.vue';
-import Auth from '../views/Auth.vue';
-import Teacher from '../views/Teacher.vue';
-import Student from '../views/Student.vue';
-import Choose from '../views/Choose.vue';
-import NotFound from '../views/NotFound';
+import Landing from '@/views/Landing.vue';
+import Auth from '@/views/Auth.vue';
+import Teacher from '@/views/Teacher.vue';
+import Edit from '@/views/Edit.vue';
+import Student from '@/views/Student.vue';
+import Choose from '@/views/Choose.vue';
+import NotFound from '@/views/NotFound';
 
 const routes = [
   //? path, name,comp, props, meta, children
@@ -28,6 +29,13 @@ const routes = [
     meta: { requiresAuth: true, requiresTeacher: true },
   },
   {
+    path: '/edit/:id',
+    name: 'edit',
+    component: Edit,
+    props: true,
+    meta: { requiresAuth: true, requiresTeacher: true },
+  },
+  {
     path: '/student',
     name: 'student',
     component: Student,
@@ -42,15 +50,6 @@ const routes = [
   },
 
   { path: '/:notFound(.*)', name: 'notfound', component: NotFound },
-
-  // {
-  //   path: '/coaches/:id',
-  //   component: CoachDetail,
-  //   props: true,
-  //   children: [
-  //     { path: 'contact', component: ContactCoach } // /coaches/c1/contact
-  //   ]
-  // },
 ];
 
 const router = createRouter({
