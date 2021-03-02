@@ -34,6 +34,15 @@ const routes = [
     component: Edit,
     props: true,
     meta: { requiresAuth: true, requiresTeacher: true },
+    children: [
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: ':quest',
+        name: 'edit',
+        component: Edit,
+      },
+    ],
   },
   {
     path: '/student',
