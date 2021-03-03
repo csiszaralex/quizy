@@ -13,6 +13,7 @@ import { ref, watch, computed } from 'vue';
 export default {
   name: 'BaseInput',
   props: ['ph', 'modelValue', 'type'],
+  emits: ['update:modelValue'],
   setup(props, context) {
     const data = ref(props.modelValue ? props.modelValue : '');
 

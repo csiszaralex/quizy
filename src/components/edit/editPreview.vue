@@ -13,7 +13,7 @@ export default {
   emits: ['up', 'down', 'go'],
   computed: {
     kiNev() {
-      if (this.nev.length < 20) return this.nev;
+      if (this.nev.length < 22) return this.nev;
       return this.nev.substring(0, 20) + '...';
     },
   },
