@@ -12,11 +12,12 @@
           :key="item"
           :srsz="item.srsz"
           :nev="item.name"
+          :max="max"
           @up="move(item, -1)"
           @down="move(item, 1)"
           @go="go(item)"
         ></edit-preview>
-        <edit-preview :srsz="99" nev="PLUSZ"></edit-preview>
+        <edit-preview :srsz="max + 1" :max="max" nev="PLUSZ"></edit-preview>
       </div>
       <div class="text-center py-2 qSet">
         <p class="btn d-block p-0 gomb mb-2" @click="wip">Importálás</p>
@@ -27,7 +28,7 @@
       </div>
     </div>
     <div class="col-9 flex-grow-1 bg-secondary d-grid">
-      <edit-question v-model="question"></edit-question>
+      <!-- TODO <edit-question v-model="question"></edit-question> -->
       <pre>{{ question }}</pre>
     </div>
     <!-- XXX <edit-settings></edit-settings> -->
@@ -35,7 +36,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import teacher from '@/config/axiosTeacher.config';
@@ -59,9 +60,16 @@ export default {
     });
 
     function move(item, count) {
-      console.log(item, count);
-      const asd = data.value.find(x => x === item);
-      console.log(asd);
+      const id = item.srsz;
+      for (const x in data.value.questions) {
+        if (count === -1) {
+          if (data.value.questions[x].srsz === id) data.value.questions[x].srsz++;
+          else if (data.value.questions[x].srsz === id + 1) data.value.questions[x].srsz--;
+        } else if (count === 1) {
+          if (data.value.questions[x].srsz === id) data.value.questions[x].srsz--;
+          else if (data.value.questions[x].srsz === id - 1) data.value.questions[x].srsz++;
+        }
+      }
     }
     function go(item) {
       Object.keys(data.value.questions).forEach(x => {
@@ -69,6 +77,9 @@ export default {
       });
       question.value = item;
     }
+    const max = computed(() => {
+      return Object.keys(data.value.questions).length;
+    });
 
     const question = ref();
     function setQuest() {
@@ -77,7 +88,7 @@ export default {
       });
     }
 
-    return { data, move, go, question };
+    return { data, move, go, question, max };
   },
   data() {
     return { uzenet: null };
