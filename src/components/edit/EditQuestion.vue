@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid w-100">
     <div class="h-50 col-9">asd</div>
-  <textarea v-model="data.name" cols="30" rows="5"></textarea>
+    <textarea v-model="data.name" cols="30" rows="5"></textarea>
   </div>
 </template>
 

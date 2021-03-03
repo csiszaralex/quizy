@@ -19,7 +19,6 @@
           class="row mx-3 my-2 qSet py-3 d-flex justify-content-center"
           :style="{ order: max + 1 }"
         >
-          {{ max }}
           <div class="col-8 text-center" @click="plusz">Plusz</div>
         </div>
       </div>
@@ -32,8 +31,8 @@
       </div>
     </div>
     <div class="col-9 flex-grow-1 bg-secondary d-grid">
-      <!-- TODO <edit-question v-model="question"></edit-question> -->
-      <!-- <pre>{{ question }}</pre> -->
+      <!-- <edit-question v-model="question"></edit-question> -->
+      <pre>{{ question }}</pre>
     </div>
     <!-- XXX <edit-settings></edit-settings> -->
   </div>
@@ -80,18 +79,18 @@ export default {
       Object.keys(data.value.questions).forEach(x => {
         if (data.value.questions[x].name === item.name) router.replace(`/edit/${props.id}/${x}`);
       });
-      // question.value = item;
+      question.value = item;
     }
     const max = computed(() => {
       if (data?.value?.questions) return Object.keys(data.value.questions).length;
       return 0;
     });
 
-    // const question = ref();
+    const question = ref();
     function setQuest() {
-      // Object.keys(data.value.questions).forEach(x => {
-      // if (x === props.quest) question.value = data.value.questions[x];
-      // });
+      Object.keys(data.value.questions).forEach(x => {
+        if (x === props.quest) question.value = data.value.questions[x];
+      });
     }
 
     function plusz() {
@@ -120,7 +119,7 @@ export default {
       go(uj);
     }
 
-    return { data, move, go, max, plusz };
+    return { data, move, go, max, plusz, question };
   },
   data() {
     return { uzenet: null };
