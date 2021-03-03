@@ -5,7 +5,6 @@
     </base-dialog>
     <div class="col-3 flex-grow-1 d-flex flex-column bg-light">
       <div class="flex-grow-1 d-flex flex-column">
-        <!-- TODO Fel és Le mozgatás (up, down)=>move -->
         <edit-preview
           v-for="item in data.questions"
           :key="item"
@@ -16,7 +15,13 @@
           @down="move(item, 1)"
           @go="go(item)"
         ></edit-preview>
-        <edit-preview :srsz="max + 1" :max="max" nev="PLUSZ" @click="plusz"></edit-preview>
+        <div
+          class="row mx-3 my-2 qSet py-3 d-flex justify-content-center"
+          :style="{ order: max + 1 }"
+        >
+          {{ max }}
+          <div class="col-8 text-center" @click="plusz">Plusz</div>
+        </div>
       </div>
       <div class="text-center py-2 qSet">
         <p class="btn d-block p-0 gomb mb-2" @click="wip">Importálás</p>
@@ -78,7 +83,8 @@ export default {
       // question.value = item;
     }
     const max = computed(() => {
-      return Object.keys(data.value.questions).length;
+      if (data?.value?.questions) return Object.keys(data.value.questions).length;
+      return 0;
     });
 
     // const question = ref();

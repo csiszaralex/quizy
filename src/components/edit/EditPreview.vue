@@ -1,10 +1,10 @@
 <template>
   <div class="row mx-3 my-2 qSet py-3 d-flex justify-content-center" :style="{ order: srsz }">
-    <div v-if="isFirst" class="col-2 btn text-" @click="down">↑</div>
+    <div v-if="isFirst" class="col-2 btn text-" @click="$emit('down')">↑</div>
     <div v-else class="col-2"></div>
-    <div v-if="isLast" class="col-2 btn" @click="up">↓</div>
+    <div v-if="isLast" class="col-2 btn" @click="$emit('up')">↓</div>
     <div v-else class="col-2"></div>
-    <div class="col-8 text-center" @click="go">{{ kiNev }}</div>
+    <div class="col-8 text-center" @click="$emit('go')">{{ kiNev }}</div>
   </div>
 </template>
 
@@ -23,17 +23,6 @@ export default {
     },
     isLast() {
       return this.srsz < this.max;
-    },
-  },
-  methods: {
-    up() {
-      this.$emit('up');
-    },
-    down() {
-      this.$emit('down');
-    },
-    go() {
-      this.$emit('go');
     },
   },
 };
