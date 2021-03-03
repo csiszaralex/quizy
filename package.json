@@ -72,7 +72,6 @@
     "rules": {
       "vue/attributes-order": "warn",
       "vue/attribute-hyphenation": "error",
-      "vue/block-tag-newline": "error",
       "vue/component-definition-name-casing": "error",
       "vue/component-tags-order": "error",
       "vue/html-closing-bracket-newline": "warn",
