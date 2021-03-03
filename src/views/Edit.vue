@@ -2,6 +2,7 @@
   <div class="container-fluid flex-grow-1 d-flex p-0">
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
       <p>{{ uzenet }}</p>
+      <p>Q: {{ question }}</p>
     </base-dialog>
     <div class="col-3 flex-grow-1 d-flex flex-column bg-light">
       <div class="flex-grow-1 d-flex flex-column">
@@ -26,14 +27,10 @@
       </div>
     </div>
     <div class="col-9 flex-grow-1 bg-secondary d-grid">
-      <div class="text center">
-        asd
-      </div>
-      <!-- Ediiit {{ id }}
-      <br />
-      {{ quest }} -->
+      <edit-question v-model="question"></edit-question>
+      <pre>{{ question }}</pre>
     </div>
-    <edit-settings></edit-settings>
+    <!-- XXX <edit-settings></edit-settings> -->
   </div>
 </template>
 
@@ -43,11 +40,12 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import teacher from '@/config/axiosTeacher.config';
 import EditPreview from '@/components/edit/EditPreview.vue';
-import EditSettings from '@/components/edit/EditSettings.vue';
+//XXX import EditSettings from '@/components/edit/EditSettings.vue';
+import EditQuestion from '@/components/edit/EditQuestion.vue';
 
 export default {
   name: 'Edit',
-  components: { EditPreview, EditSettings },
+  components: { EditPreview, EditQuestion },
   props: ['id', 'quest'],
   setup(props) {
     const router = useRouter();
@@ -57,6 +55,7 @@ export default {
     const data = ref({});
     teacher.get(`/${id}/${props.id}.json`).then(res => {
       data.value = res.data;
+      setQuest();
     });
 
     function move(item, count) {
@@ -68,9 +67,17 @@ export default {
       Object.keys(data.value.questions).forEach(x => {
         if (data.value.questions[x].name === item.name) router.replace(`/edit/${props.id}/${x}`);
       });
+      question.value = item;
     }
 
-    return { data, move, go };
+    const question = ref();
+    function setQuest() {
+      Object.keys(data.value.questions).forEach(x => {
+        if (x === props.quest) question.value = data.value.questions[x];
+      });
+    }
+
+    return { data, move, go, question };
   },
   data() {
     return { uzenet: null };
