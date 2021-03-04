@@ -16,3 +16,11 @@ body,
 .qSet {
   background-color: rgba($dark, 0.2);
 }
+.pointed-text {
+  overflow: hidden;
+  // text-overflow: ellipsis;
+  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+}
