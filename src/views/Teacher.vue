@@ -13,11 +13,11 @@
           order="0"
           :alt="item.name"
         >
-          {{ makeName(item) }}
+          {{ item.name }}
         </base-badge>
         <!-- Mappa -->
         <base-badge v-else type="folder" order="1" :alt="item.name" :to="toLinkDir(item)">
-          {{ makeName(item) }}
+          {{ item.name }}
         </base-badge>
       </template>
       <!-- Kérdés -->
@@ -30,7 +30,7 @@
           :alt="item.name"
           :to="toLinkQuiz(item)"
         >
-          {{ makeName(item) }}
+          {{ item.name }}
         </base-badge>
       </template>
     </div>
@@ -58,10 +58,6 @@ export default {
     function isArchive(item) {
       return item.name === 'Archive';
     }
-    function makeName(item) {
-      if (item.name.length < 15) return item.name;
-      return item.name.substring(0, 12) + '...';
-    }
     function toLinkDir() {
       // Object.keys(dirs.value).forEach(x => {
       //   if (dirs.value[x].name === item.name) console.log(x);
@@ -77,7 +73,7 @@ export default {
       return val;
     }
 
-    return { data: datas, dirs, isArchive, makeName, toLinkDir, toLinkQuiz };
+    return { data: datas, dirs, isArchive, toLinkDir, toLinkQuiz };
   },
 };
 </script>

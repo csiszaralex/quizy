@@ -30,10 +30,8 @@
         </p>
       </div>
     </div>
-    <div class="col-9 flex-grow-1 bg-secondary d-grid">
-      <!-- <edit-question v-model="question"></edit-question> -->
-      <pre>{{ question }}</pre>
-    </div>
+    <edit-question v-if="!!question" v-model="question"></edit-question>
+    <div v-else class="col-9"></div>
     <!-- XXX <edit-settings></edit-settings> -->
   </div>
 </template>

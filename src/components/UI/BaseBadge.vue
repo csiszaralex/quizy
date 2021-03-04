@@ -13,7 +13,7 @@
       <fa-layers v-if="type" full-width class="mb-2" :class="faSizes">
         <fa-icon :icon="['fas', type]" />
       </fa-layers>
-      <div class="text-center" :class="headers">
+      <div class="text-center pointed-text w-100" :class="headers">
         <slot />
       </div>
     </div>
