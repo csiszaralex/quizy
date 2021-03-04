@@ -18,7 +18,7 @@
       <fa-icon :icon="['fas', 'arrow-up']" />
     </fa-layers>
     <div v-else class="col-2"></div>
-    <div class="col-7 text-center pointed-text" @click="$emit('go')">{{ nev }}</div>
+    <div class="col-7 text-center pointed-text cursor-pointer" @click="$emit('go')">{{ nev }}</div>
   </div>
 </template>
 
