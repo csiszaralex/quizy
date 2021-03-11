@@ -1,17 +1,41 @@
 <template>
   <div class="container-fluid flex-grow-1 d-flex p-0">
     <teleport to=".navbar .container-fluid .d-flex">
-      <input v-model="data.name" type="text" class="w-100" />
-      <base-button class="mr-5">
-        <fa-icon :icon="['fas', 'cog']" />
-      </base-button>
-      <!-- TODO TESZT -->
-      <base-button type="warning">!!!Teszt!!!</base-button>
-      <base-button type="success" @click="save">Mentés</base-button>
-      <base-button to="/teacher" type="danger">Elvetés</base-button>
+      <div class="flex-grow-1">
+        <input v-model="data.name" class="form-control" type="text" />
+      </div>
+      <div>
+        <base-button @click="sett">
+          <fa-icon :icon="['fas', 'cog']" />
+        </base-button>
+        <!-- TODO TESZT -->
+        <base-button type="warning">Teszt</base-button>
+        <base-button type="success" @click="save">Mentés</base-button>
+        <base-button to="/teacher" type="danger">Elvetés</base-button>
+      </div>
     </teleport>
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
       <p>{{ uzenet }}</p>
+    </base-dialog>
+    <base-dialog :show="settings" title="Beállítások" @close="bezar">
+      <label for="desc" class="form-label">Leírás</label>
+      <input id="desc" v-model="data.desc" type="text" class="form-control" />
+      <div class="form-text mb-4">
+        Itt adhat meg hosszabb leírást, melyet a kitöltők a teszt megkezdése előtt láthatnak.
+      </div>
+      <label for="desc" class="form-label">Időlimit</label>
+      <input id="desc" v-model="data.limit" type="text" class="form-control" />
+      <div class="form-text mb-4">
+        Beállíthatod, hogy hány perc álljon rendelkezésre a teljes teszt kitöltésére és leadására.
+        <br />
+        Alapértelmezetten:0 - nincs időlimit
+      </div>
+      <label for="type" class="form-label">Típus</label>
+      <select id="type" v-model="data.type" class="form-select">
+        <option value="private">Privát</option>
+        <option value="public">Publikus</option>
+      </select>
+      <div class="form-text mb-4">{{ typeDesc }}</div>
     </base-dialog>
     <div class="col-3 flex-grow-1 d-flex flex-column bg-light">
       <div class="flex-grow-1 d-flex flex-column">
@@ -26,23 +50,23 @@
           @go="go(item)"
         ></edit-preview>
         <div
-          class="row mx-3 my-2 qSet py-3 d-flex justify-content-center"
+          class="row mx-3 my-2 qSet py-3 d-flex justify-content-center cursor-pointer"
           :style="{ order: max + 1 }"
+          @click="plusz"
         >
-          <div class="col-8 text-center" @click="plusz">Plusz</div>
+          <div class="col-8 text-center">Plusz</div>
         </div>
       </div>
       <div class="text-center py-2 qSet">
         <p class="btn d-block p-0 gomb mb-2" @click="wip">Importálás</p>
         <p class="btn d-block p-0 gomb mb-2" @click="wip">Exportálás</p>
-        <p class="btn d-block p-0 gomb mb-2" data-bs-toggle="modal" data-bs-target="#settings">
+        <p class="btn d-block p-0 gomb mb-2" @click="sett">
           Beállítások
         </p>
       </div>
     </div>
     <edit-question v-if="!!question" v-model="question" @del="del(question.srsz)"></edit-question>
     <div v-else class="col-9"></div>
-    <!-- XXX <edit-settings></edit-settings> -->
   </div>
 </template>
 
@@ -53,7 +77,6 @@ import { useRouter } from 'vue-router';
 import { v4 as uuid } from 'uuid';
 import teacher from '@/config/axiosTeacher.config';
 import EditPreview from '@/components/edit/EditPreview.vue';
-//XXX import EditSettings from '@/components/edit/EditSettings.vue';
 import EditQuestion from '@/components/edit/EditQuestion.vue';
 
 export default {
@@ -126,11 +149,9 @@ export default {
       data.value.questions[id] = uj;
       go(uj);
     }
-
     function save() {
       teacher.patch(`/${id}/${props.id}.json`, JSON.stringify(data.value));
     }
-
     function del(id) {
       for (const i in data.value.questions) {
         if (data.value.questions[i].srsz === id) delete data.value.questions[i];
@@ -139,12 +160,24 @@ export default {
       go(data.value.questions[Object.keys(data.value.questions)[0]]);
     }
 
-    return { data, move, go, max, plusz, question, save, del };
+    const typeDesc = computed(() => {
+      return data.value.type === 'private'
+        ? `A privát teszteket kizárólag szereszteni tudja, így azok kitöltéséreés kitöltetésére nincs lehetőség.`
+        : `A publikus teszteket bármikor kitöltetheti tanulóival, így ezek szerkesztése kihatással lehet a már kitöltött tesztek eredményére!`;
+    });
+
+    return { data, move, go, max, plusz, question, save, del, typeDesc };
   },
   data() {
-    return { uzenet: null };
+    return { uzenet: null, settings: false };
   },
   methods: {
+    bezar() {
+      this.settings = false;
+    },
+    sett() {
+      this.settings = true;
+    },
     elfogad() {
       this.uzenet = null;
     },
