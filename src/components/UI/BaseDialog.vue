@@ -3,7 +3,7 @@
     <div v-if="show" class="backdrop" @click="tryClose"></div>
     <transition name="dialog">
       <dialog v-if="show" open class="m-0 p-0 overflow-hidden border-0">
-        <header class="bg-info w-100 p-3">
+        <header class="w-100 p-3" :class="'bg-' + type">
           <slot name="header">
             <h2 class="m-0">{{ title }}</h2>
           </slot>
@@ -13,7 +13,7 @@
         </section>
         <menu v-if="!fixed" class="m-0 p-3 pt-0 d-flex justify-content-end">
           <slot name="actions">
-            <base-button type="primary" @click="tryClose">Close</base-button>
+            <base-button :type="btn" @click="tryClose">Close</base-button>
           </slot>
         </menu>
       </dialog>
@@ -31,12 +31,19 @@ export default {
     },
     title: {
       type: String,
-      required: false,
       default: 'Error!',
     },
     fixed: {
       type: Boolean,
       required: false,
+    },
+    type: {
+      type: String,
+      default: 'info',
+    },
+    btn: {
+      type: String,
+      default: 'primary',
     },
   },
   emits: ['close'],

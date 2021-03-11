@@ -17,14 +17,14 @@
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
       <p>{{ uzenet }}</p>
     </base-dialog>
-    <base-dialog :show="settings" title="Beállítások" @close="bezar">
+    <base-dialog :show="settings" title="Beállítások" btn="success" @close="bezar">
       <label for="desc" class="form-label">Leírás</label>
       <input id="desc" v-model="data.desc" type="text" class="form-control" />
       <div class="form-text mb-4">
         Itt adhat meg hosszabb leírást, melyet a kitöltők a teszt megkezdése előtt láthatnak.
       </div>
-      <label for="desc" class="form-label">Időlimit</label>
-      <input id="desc" v-model="data.limit" type="text" class="form-control" />
+      <label for="limit" class="form-label">Időlimit</label>
+      <input id="limit" v-model="data.limit" type="text" class="form-control" />
       <div class="form-text mb-4">
         Beállíthatod, hogy hány perc álljon rendelkezésre a teljes teszt kitöltésére és leadására.
         <br />
