@@ -13,7 +13,7 @@
         />
         Quizy
       </router-link>
-      <div class="d-flex mr-n" />
+      <div v-if="isQuiz" class="d-flex flex-grow-1 mx-3" />
       <div v-if="isLoggedIn" class="d-flex mr-n align-items-center">
         <!-- TODO Itt profil szerkesztés -->
         <span class="mx-2">{{ name }}</span>

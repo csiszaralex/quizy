@@ -13,6 +13,7 @@ import {
   faUserPlus,
   faArrowUp,
   faArrowDown,
+  faCog,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -29,6 +30,7 @@ library.add(
   faUserPlus,
   faArrowUp,
   faArrowDown,
+  faCog
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab

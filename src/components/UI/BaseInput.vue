@@ -1,8 +1,8 @@
 <template>
-  <!-- LOGO mellé  -->
-  <!-- Error  -->
-  <!-- animáció  -->
-  <div class="">
+  <!-- TODO LOGO mellé  -->
+  <!-- TODO Error  -->
+  <!-- TODO animáció  -->
+  <div>
     <slot />
     <input v-model="data" :type="inputType" :placeholder="ph" />
   </div>

@@ -1,5 +1,11 @@
 <template>
   <div class="container-fluid flex-grow-1 d-flex p-0">
+    <teleport to=".navbar .container-fluid .d-flex">
+      <input v-model="data.name" type="text" class="w-100" />
+      <base-button>
+        <fa-icon :icon="['fas', 'cog']" />
+      </base-button>
+    </teleport>
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
       <p>{{ uzenet }}</p>
     </base-dialog>
