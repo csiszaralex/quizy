@@ -13,14 +13,11 @@
         />
         Quizy
       </router-link>
-      <div v-if="isQuiz" class="d-flex flex-grow-1 mx-3" />
-      <div v-if="isLoggedIn" class="d-flex mr-n align-items-center">
+      <div v-if="isQuiz" class="d-flex flex-grow-1 mr-n ms-3" />
+      <div v-else-if="isLoggedIn" class="d-flex mr-n align-items-center">
         <!-- TODO Itt profil szerkesztés -->
         <span class="mx-2">{{ name }}</span>
-        <base-button v-if="isQuiz" type="warning">Teszt</base-button>
-        <base-button v-if="isQuiz" type="success">Mentés</base-button>
-        <base-button v-if="isQuiz" to="/teacher" type="danger">Elvetés</base-button>
-        <base-button v-if="roles && !isQuiz" to="/choose" type="warning" outline>
+        <base-button v-if="roles" to="/choose" type="warning" outline>
           Switch
         </base-button>
         <base-button type="danger" outline @click="logout">Logout</base-button>

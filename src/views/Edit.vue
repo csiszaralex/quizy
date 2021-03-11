@@ -2,9 +2,13 @@
   <div class="container-fluid flex-grow-1 d-flex p-0">
     <teleport to=".navbar .container-fluid .d-flex">
       <input v-model="data.name" type="text" class="w-100" />
-      <base-button>
+      <base-button class="mr-5">
         <fa-icon :icon="['fas', 'cog']" />
       </base-button>
+      <!-- TODO TESZT -->
+      <base-button type="warning">!!!Teszt!!!</base-button>
+      <base-button type="success" @click="save">Mentés</base-button>
+      <base-button to="/teacher" type="danger">Elvetés</base-button>
     </teleport>
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
       <p>{{ uzenet }}</p>
@@ -36,7 +40,7 @@
         </p>
       </div>
     </div>
-    <edit-question v-if="!!question" v-model="question"></edit-question>
+    <edit-question v-if="!!question" v-model="question" @del="del(question.srsz)"></edit-question>
     <div v-else class="col-9"></div>
     <!-- XXX <edit-settings></edit-settings> -->
   </div>
@@ -102,7 +106,7 @@ export default {
       const uj = {
         ans1: {
           name: '',
-          point: 0,
+          point: 10,
         },
         ans2: {
           name: '',
@@ -123,7 +127,19 @@ export default {
       go(uj);
     }
 
-    return { data, move, go, max, plusz, question };
+    function save() {
+      teacher.patch(`/${id}/${props.id}.json`, JSON.stringify(data.value));
+    }
+
+    function del(id) {
+      for (const i in data.value.questions) {
+        if (data.value.questions[i].srsz === id) delete data.value.questions[i];
+        else if (data.value.questions[i].srsz > id) data.value.questions[i].srsz--;
+      }
+      go(data.value.questions[Object.keys(data.value.questions)[0]]);
+    }
+
+    return { data, move, go, max, plusz, question, save, del };
   },
   data() {
     return { uzenet: null };
