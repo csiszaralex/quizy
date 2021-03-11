@@ -11,9 +11,17 @@
         <section class="p-3 pb-0">
           <slot></slot>
         </section>
-        <menu v-if="!fixed" class="m-0 p-3 pt-0 d-flex justify-content-end">
+        <menu
+          v-if="!fixed"
+          class="m-0 p-3 pt-0 d-flex"
+          :class="btn2Text === '' ? 'justify-content-end' : 'justify-content-between'"
+        >
           <slot name="actions">
-            <base-button :type="btn" @click="tryClose">Close</base-button>
+            <base-button :type="btn" @click="tryClose">{{ closeText }}</base-button>
+
+            <base-button v-if="btn2Text !== ''" :type="btn2Type" @click="trySend">
+              {{ btn2Text }}
+            </base-button>
           </slot>
         </menu>
       </dialog>
@@ -45,14 +53,32 @@ export default {
       type: String,
       default: 'primary',
     },
+    closeText: {
+      type: String,
+      default: 'Bezárás',
+    },
+    btn2Text: {
+      type: String,
+      default: '',
+    },
+    btn2Type: {
+      type: String,
+      default: 'success',
+    },
   },
-  emits: ['close'],
+  emits: ['close', 'send'],
   methods: {
     tryClose() {
       if (this.fixed) {
         return;
       }
       this.$emit('close');
+    },
+    trySend() {
+      if (this.fixed) {
+        return;
+      }
+      this.$emit('send');
     },
   },
 };

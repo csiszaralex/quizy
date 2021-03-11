@@ -7,7 +7,10 @@
     :to="to"
   >
     <div class="card-body p-0 d-flex flex-column align-items-center">
-      <h5 class="card-title text-muted h6 flex-fill">
+      <h5 class="card-title text-muted h6 flex-fill d-flex justify-content-around w-100 ">
+        <span v-if="pub" class="text-dark">
+          <fa-icon :icon="['fas', 'lock']" />
+        </span>
         <span v-if="date">{{ date }}</span>
       </h5>
       <fa-layers v-if="type" full-width class="mb-2" :class="faSizes">
@@ -60,9 +63,14 @@ export default {
       type: String,
       default: '',
     },
+    pub: {
+      type: Boolean,
+      required: false,
+    },
   },
   computed: {
     background() {
+      if (this.pub) return 'bg-warning';
       return 'bg-' + this.color;
     },
 

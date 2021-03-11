@@ -13,7 +13,16 @@
         />
         Quizy
       </router-link>
-      <div v-if="isQuiz" class="d-flex flex-grow-1 mr-n ms-3 justify-content-between" />
+      <div
+        v-if="isTeacher"
+        id="teacherNav"
+        class="d-flex flex-grow-1 ms-3 justify-content-start align-items-center h-100"
+      />
+      <div
+        v-if="isQuiz"
+        id="quizNav"
+        class="d-flex flex-grow-1 mr-n ms-3 justify-content-between"
+      />
       <div v-else-if="isLoggedIn" class="d-flex mr-n align-items-center">
         <!-- TODO Itt profil szerkesztés -->
         <span class="mx-2">{{ name }}</span>
@@ -72,6 +81,9 @@ export default {
     },
     isQuiz() {
       return this.$route.name === 'edit';
+    },
+    isTeacher() {
+      return ['teacher'].includes(this.$route.name);
     },
   },
 

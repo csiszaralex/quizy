@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid flex-grow-1 d-flex p-0">
-    <teleport to=".navbar .container-fluid .d-flex">
+    <teleport to="#quizNav">
       <div class="flex-grow-1">
         <input v-model="data.name" class="form-control" type="text" />
       </div>
