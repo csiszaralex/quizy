@@ -20,7 +20,9 @@
         <input v-model="data['ans' + ans].point" type="text" />
       </div>
     </div>
-    <base-button class="del mt-4" type="danger" @click="$emit('del')">Törlés</base-button>
+    <base-button v-if="deletable" class="del mt-4" type="danger" @click="$emit('del')">
+      Törlés
+    </base-button>
   </div>
 </template>
 
@@ -28,7 +30,7 @@
 import { ref, watch } from 'vue';
 export default {
   name: 'EditQuestion',
-  props: ['modelValue'],
+  props: ['modelValue', 'deletable'],
   emits: ['update:modelValue', 'del'],
   setup(props, context) {
     const data = ref(props.modelValue);

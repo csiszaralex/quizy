@@ -86,7 +86,12 @@
         </p>
       </div>
     </div>
-    <edit-question v-if="!!question" v-model="question" @del="del(question.srsz)"></edit-question>
+    <edit-question
+      v-if="!!question"
+      v-model="question"
+      :deletable="max > 1"
+      @del="del(question.srsz)"
+    ></edit-question>
     <div v-else class="col-9"></div>
   </div>
 </template>
@@ -113,6 +118,9 @@ export default {
     teacher.get(`/${id}/${props.id}.json`).then(res => {
       data.value = res.data;
       setQuest();
+      if (!props.quest) {
+        go(data.value.questions[Object.keys(data.value.questions)[0]]);
+      }
     });
 
     function move(item, count) {
