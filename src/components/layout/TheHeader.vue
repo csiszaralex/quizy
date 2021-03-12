@@ -16,7 +16,7 @@
       <div
         v-if="isTeacher"
         id="teacherNav"
-        class="d-flex flex-grow-1 ms-3 justify-content-start align-items-center h-100"
+        class="d-flex flex-grow-1 ml-2 justify-content-start align-items-center h-100"
       />
       <div
         v-if="isQuiz"
@@ -27,9 +27,13 @@
         <!-- TODO Itt profil szerkesztés -->
         <span class="mx-2">{{ name }}</span>
         <base-button v-if="roles" to="/choose" type="warning" outline>
+          <fa-icon icon="exchange-alt" class="fa-1x mr-1" />
           Switch
         </base-button>
-        <base-button type="danger" outline @click="logout">Logout</base-button>
+        <base-button type="danger" outline @click="logout">
+          <fa-icon icon="sign-out-alt" class="fa-1x mr-1" />
+          Logout
+        </base-button>
         <!-- HACK Itt rossz a design -->
         <!-- 
           <span class="nav-item dropdown">
@@ -77,7 +81,7 @@ export default {
 
   computed: {
     roles() {
-      return this.$store.getters.isSwitchable;
+      return this.$store.getters.isSwitchable && this.$route.name !== 'choose';
     },
     isQuiz() {
       return this.$route.name === 'edit';

@@ -10,14 +10,28 @@
         </base-button>
         <!-- TODO TESZT -->
         <base-button type="warning">Teszt</base-button>
-        <base-button type="success" @click="save">Mentés</base-button>
-        <base-button to="/teacher" type="danger">Elvetés</base-button>
+        <base-button type="success" @click="save">
+          <fa-icon :icon="['fas', 'save']" class="fa-1x mr-1" />
+          Mentés
+        </base-button>
+        <base-button to="/teacher" type="danger">
+          <fa-icon :icon="['far', 'window-close']" class="fa-1x mr-1" />
+        Elvetés
+        </base-button>
       </div>
     </teleport>
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
       <p>{{ uzenet }}</p>
     </base-dialog>
-    <base-dialog :show="settings" title="Beállítások" btn="success" @close="bezar">
+    <base-dialog
+      :show="settings"
+      title="Beállítások"
+      btn="outline-danger"
+      btn2-text="Bezárás"
+      close-text="Teszt törlés"
+      @close="deleteQuiz"
+      @send="bezar"
+    >
       <label for="desc" class="form-label">Leírás</label>
       <input id="desc" v-model="data.desc" type="text" class="form-control" />
       <div class="form-text mb-4">
@@ -50,17 +64,25 @@
           @go="go(item)"
         ></edit-preview>
         <div
-          class="row mx-3 my-2 qSet py-3 d-flex justify-content-center cursor-pointer"
+          class="row mx-3 my-2 qSet py-1 d-flex justify-content-center cursor-pointer"
           :style="{ order: max + 1 }"
           @click="plusz"
         >
-          <div class="col-8 text-center">Plusz</div>
+          <!-- <div class="col-8 text-center">Plusz</div> -->
+          <fa-icon :icon="['far', 'plus-square']" class="fa-4x mr-1" />
         </div>
       </div>
-      <div class="text-center py-2 qSet">
-        <p class="btn d-block p-0 gomb mb-2" @click="wip">Importálás</p>
-        <p class="btn d-block p-0 gomb mb-2" @click="wip">Exportálás</p>
+      <div class="text-center py-1 qSet">
+        <p class="btn d-block p-0 gomb mb-2" @click="wip">
+          <fa-icon icon="file-upload" class="fa-1x mr-1" />
+          Importálás
+        </p>
+        <p class="btn d-block p-0 gomb mb-2" @click="wip">
+          <fa-icon icon="file-download" class="fa-1x mr-1" />
+          Exportálás
+        </p>
         <p class="btn d-block p-0 gomb mb-2" @click="sett">
+          <fa-icon icon="cog" class="fa-1x mr-1" />
           Beállítások
         </p>
       </div>
@@ -166,7 +188,12 @@ export default {
         : `A publikus teszteket bármikor kitöltetheti tanulóival, így ezek szerkesztése kihatással lehet a már kitöltött tesztek eredményére!`;
     });
 
-    return { data, move, go, max, plusz, question, save, del, typeDesc };
+    function deleteQuiz() {
+      teacher.delete(`/${id}/${props.id}.json`);
+      router.replace('/teacher');
+    }
+
+    return { data, move, go, max, plusz, question, save, del, typeDesc, deleteQuiz };
   },
   data() {
     return { uzenet: null, settings: false };

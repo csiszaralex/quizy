@@ -1,4 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlusSquare, faWindowClose } from '@fortawesome/free-regular-svg-icons';
 import {
   faUserSecret,
   faUser,
@@ -15,6 +16,13 @@ import {
   faArrowDown,
   faCog,
   faLock,
+  faPlusCircle,
+  faHome,
+  faUsers,
+  faFileUpload,
+  faFileDownload,
+  faSave,
+  faExchangeAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -33,6 +41,16 @@ library.add(
   faArrowDown,
   faCog,
   faLock,
+  faPlusCircle,
+  faHome,
+  faUsers,
+  faPlusSquare,
+  faFileUpload,
+  faFileDownload,
+  faSave,
+  faWindowClose,
+  faSignOutAlt,
+  faExchangeAlt
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab

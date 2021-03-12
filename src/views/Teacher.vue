@@ -1,9 +1,18 @@
 <template>
-  <div class="container my-5 flex-grow-1">
+  <div class="container mb-5 mt-2 flex-grow-1">
     <teleport to="#teacherNav">
-      <base-button type="primary" to="/teacher" class="bg-dark-blue">Főoldal</base-button>
-      <base-button type="primary" to="/teacher" @click="ujQ">Új teszt</base-button>
-      <base-button type="primary" to="/teacher">Csoportjaim</base-button>
+      <base-button type="primary" to="/teacher" class="bg-dark-blue">
+        <fa-icon icon="home" class="fa-1x mr-1" />
+        Főoldal
+      </base-button>
+      <base-button type="primary" to="/teacher" @click="ujQ">
+        <fa-icon icon="plus-circle" class="fa-1x mr-1" />
+        Új teszt
+      </base-button>
+      <base-button type="primary" to="/teacher">
+        <fa-icon icon="users" class="fa-1x mr-1" />
+        Csoportjaim
+      </base-button>
     </teleport>
     <base-dialog
       :show="uj"
@@ -13,12 +22,20 @@
       @close="megse"
       @send="ment"
     >
-      <label for="desc" class="form-label">Név</label>
-      <input id="desc" v-model="newName" type="text" class="form-control" />
-      <div class="form-text mb-4">
-        Kérem adja meg a létrehozandó teszt nevét.
-      </div>
+      <form @submit.prevent="ment">
+        <label for="desc" class="form-label">Név</label>
+        <input id="desc" v-model="newName" type="text" class="form-control" />
+        <div class="form-text mb-4">
+          Kérem adja meg a létrehozandó teszt nevét.
+        </div>
+      </form>
     </base-dialog>
+    <div class="row m-4 mt-3 d-flex flex-row-reverse">
+      <base-button class="col-2 d-flex align-items-center" @click="ujQ">
+        <fa-icon :icon="['fas', 'plus-circle']" class="fa-2x mr-2" /> Új teszt
+      </base-button>
+    </div>
+    <!-- <base-button>asd</base-button> -->
     <div class="row">
       <!-- TODO Mappában is látni dolgokat -->
       <!-- TODO Drag and drop -->
@@ -103,48 +120,51 @@ export default {
       this.uj = true;
     },
     ment() {
-      const questId = v4();
-      teacher
-        .post(
-          `/${this.$store.getters.getId}.json`,
-          JSON.stringify({
-            createdAt:
-              new Date()
-                .toISOString()
-                .split('T')[0]
-                .replace(/-/g, '.') + '.',
-            name: this.newName,
-            desc: '',
-            type: 'private',
-            questions: {
-              [questId]: {
-                srsz: 1,
-                name: 'Első kérdés',
-                limit: 0,
-                ans1: {
-                  name: '',
-                  point: 10,
-                },
-                ans2: {
-                  name: '',
-                  point: 0,
-                },
-                ans3: {
-                  name: '',
-                  point: 0,
-                },
-                ans4: {
-                  name: '',
-                  point: 0,
+      if (this.newName.trim() !== '') {
+        const questId = v4();
+        teacher
+          .post(
+            `/${this.$store.getters.getId}.json`,
+            JSON.stringify({
+              createdAt:
+                new Date()
+                  .toISOString()
+                  .split('T')[0]
+                  .replace(/-/g, '.') + '.',
+              name: this.newName.trim(),
+              desc: '',
+              limit: 0,
+              type: 'private',
+              questions: {
+                [questId]: {
+                  srsz: 1,
+                  name: 'Első kérdés',
+                  limit: 0,
+                  ans1: {
+                    name: '',
+                    point: 10,
+                  },
+                  ans2: {
+                    name: '',
+                    point: 0,
+                  },
+                  ans3: {
+                    name: '',
+                    point: 0,
+                  },
+                  ans4: {
+                    name: '',
+                    point: 0,
+                  },
                 },
               },
-            },
-          }),
-        )
-        .then(res => {
-          this.$router.replace(`/edit/${res.data.name}/${questId}`);
-        });
-      this.megse();
+            }),
+          )
+          .then(res => {
+            this.$router.replace(`/edit/${res.data.name}/${questId}`);
+          });
+        this.megse();
+      }
     },
   },
 };

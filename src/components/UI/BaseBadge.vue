@@ -6,8 +6,8 @@
     :title="alt"
     :to="to"
   >
-    <div class="card-body p-0 d-flex flex-column align-items-center">
-      <h5 class="card-title text-muted h6 flex-fill d-flex justify-content-around w-100 ">
+    <div class="card-body p-0 d-flex flex-column align-items-center justify-content-around">
+      <h5 class="card-title text-muted h d-flex justify-content-around w-100 ">
         <span v-if="pub" class="text-dark">
           <fa-icon :icon="['fas', 'lock']" />
         </span>
