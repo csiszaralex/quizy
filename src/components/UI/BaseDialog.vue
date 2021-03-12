@@ -14,14 +14,17 @@
         <menu
           v-if="!fixed"
           class="m-0 p-3 pt-0 d-flex"
-          :class="btn2Text === '' ? 'justify-content-end' : 'justify-content-between'"
+          :class="[
+            btn2Text === '' ? 'justify-content-end' : 'justify-content-between',
+            reverse ? 'flex-row-reverse' : '',
+          ]"
         >
           <slot name="actions">
-            <base-button :type="btn" @click="tryClose">{{ closeText }}</base-button>
-
             <base-button v-if="btn2Text !== ''" :type="btn2Type" @click="trySend">
               {{ btn2Text }}
             </base-button>
+
+            <base-button :type="btn" @click="tryClose">{{ closeText }}</base-button>
           </slot>
         </menu>
       </dialog>
@@ -64,6 +67,10 @@ export default {
     btn2Type: {
       type: String,
       default: 'success',
+    },
+    reverse: {
+      type: Boolean,
+      required: false,
     },
   },
   emits: ['close', 'send'],

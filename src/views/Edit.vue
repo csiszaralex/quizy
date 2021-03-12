@@ -16,7 +16,7 @@
         </base-button>
         <base-button to="/teacher" type="danger">
           <fa-icon :icon="['far', 'window-close']" class="fa-1x mr-1" />
-        Elvetés
+          Elvetés
         </base-button>
       </div>
     </teleport>
@@ -26,11 +26,10 @@
     <base-dialog
       :show="settings"
       title="Beállítások"
-      btn="outline-danger"
-      btn2-text="Bezárás"
-      close-text="Teszt törlés"
-      @close="deleteQuiz"
-      @send="bezar"
+      btn2-text="Teszt törlése"
+      btn2-type="outline-danger"
+      @close="bezar"
+      @send="deleteQuiz"
     >
       <label for="desc" class="form-label">Leírás</label>
       <input id="desc" v-model="data.desc" type="text" class="form-control" />

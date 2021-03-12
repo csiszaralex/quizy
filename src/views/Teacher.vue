@@ -19,6 +19,7 @@
       title="Folyamatban"
       close-text="Mégse"
       btn2-text="Létrehozás"
+      reverse
       @close="megse"
       @send="ment"
     >
