@@ -67,7 +67,6 @@
           :style="{ order: max + 1 }"
           @click="plusz"
         >
-          <!-- <div class="col-8 text-center">Plusz</div> -->
           <fa-icon :icon="['far', 'plus-square']" class="fa-4x mr-1" />
         </div>
       </div>
