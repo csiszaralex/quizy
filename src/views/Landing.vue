@@ -1,9 +1,9 @@
 <template>
-  <div class="">
+  <div>
     <p v-if="isLoading">Lading...</p>
     <p v-else-if="error">{{ error }}</p>
     <p v-else-if="!results || results.length === 0">No stored data.</p>
-    <ul v-else-if="results && results.length > 0">
+    <ul v-else-if="results && results.length > 0" class="p-0">
       <landing-item
         v-for="result in results"
         :key="result.id"

@@ -5,10 +5,6 @@
         <fa-icon icon="home" class="fa-1x mr-1" />
         Főoldal
       </base-button>
-      <base-button type="primary" to="/teacher" @click="ujQ">
-        <fa-icon icon="plus-circle" class="fa-1x mr-1" />
-        Új teszt
-      </base-button>
       <base-button type="primary" to="/teacher">
         <fa-icon icon="users" class="fa-1x mr-1" />
         Csoportjaim
@@ -32,22 +28,37 @@
       </form>
     </base-dialog>
     <div class="row m-4 mt-3 d-flex flex-row-reverse">
-      <base-button class="col-2 d-flex align-items-center" @click="ujQ">
+      <base-button class="col-md-2 d-flex align-items-center" @click="ujQ">
         <fa-icon :icon="['fas', 'plus-circle']" class="fa-2x mr-2" /> Új teszt
       </base-button>
     </div>
-    <!-- <base-button>asd</base-button> -->
-    <div class="row">
+    <div class="row d-flex justify-content-center justify-content-md-start">
       <!-- TODO Mappában is látni dolgokat -->
       <!-- TODO Drag and drop -->
       <!-- TODO Színek és minden a base-ben -->
       <template v-for="(item, index) in dirs" :key="index">
         <!-- Archive -->
-        <base-badge v-if="isArchive(item)" type="archive" color="danger" order="0" :alt="item.name">
+        <base-badge
+          v-if="isArchive(item)"
+          type="archive"
+          color="danger"
+          order="0"
+          :alt="item.name"
+          res-size="5"
+          resp
+        >
           {{ item.name }}
         </base-badge>
         <!-- Mappa -->
-        <base-badge v-else type="folder" order="1" :alt="item.name" :to="toLinkDir(item)">
+        <base-badge
+          v-else
+          type="folder"
+          order="1"
+          :alt="item.name"
+          :to="toLinkDir(item)"
+          res-size="5"
+          resp
+        >
           {{ item.name }}
         </base-badge>
       </template>
@@ -61,6 +72,8 @@
           :alt="item.name"
           :to="toLinkQuiz(item)"
           :pub="item.type === 'private'"
+          res-size="5"
+          resp
         >
           {{ item.name }}
         </base-badge>

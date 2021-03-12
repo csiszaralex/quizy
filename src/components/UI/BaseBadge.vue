@@ -49,7 +49,7 @@ export default {
     },
     size: {
       type: String,
-      default: '',
+      default: '2',
     },
     faSize: {
       type: String,
@@ -67,6 +67,14 @@ export default {
       type: Boolean,
       required: false,
     },
+    resp: {
+      type: Boolean,
+      required: false,
+    },
+    resSize: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     background() {
@@ -81,7 +89,8 @@ export default {
     },
 
     colSize() {
-      return this.size ? 'col-' + this.size : 'col-2';
+      if (this.resp) return ['col-md-' + this.size, 'col-' + this.resSize];
+      return 'col-' + this.size;
     },
 
     faSizes() {
