@@ -19,6 +19,11 @@
         class="d-flex flex-grow-1 ml-2 justify-content-start align-items-center h-100"
       />
       <div
+        v-if="isFill"
+        id="fillNav"
+        class="d-flex flex-grow-1 ml-2 justify-content-start align-items-center h-100"
+      />
+      <div
         v-if="isQuiz"
         id="quizNav"
         class="d-flex flex-grow-1 mr-n ms-3 justify-content-between"
@@ -88,6 +93,9 @@ export default {
     },
     isTeacher() {
       return ['teacher'].includes(this.$route.name);
+    },
+    isFill() {
+      return ['fills'].includes(this.$route.name);
     },
   },
 

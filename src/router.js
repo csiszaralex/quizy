@@ -7,6 +7,7 @@ import Auth from '@/views/Auth.vue';
 import Teacher from '@/views/Teacher.vue';
 import Edit from '@/views/Edit.vue';
 import Student from '@/views/Student.vue';
+import Fills from '@/views/Fills.vue';
 import Choose from '@/views/Choose.vue';
 import NotFound from '@/views/NotFound';
 
@@ -25,6 +26,13 @@ const routes = [
     path: '/teacher/:id',
     name: 'teacherId',
     component: Teacher,
+    props: true,
+    meta: { requiresAuth: true, requiresTeacher: true },
+  },
+  {
+    path: '/fills',
+    name: 'fills',
+    component: Fills,
     props: true,
     meta: { requiresAuth: true, requiresTeacher: true },
   },

@@ -23,6 +23,7 @@ import {
   faFileDownload,
   faSave,
   faExchangeAlt,
+  faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -50,7 +51,8 @@ library.add(
   faSave,
   faWindowClose,
   faSignOutAlt,
-  faExchangeAlt
+  faExchangeAlt,
+  faEdit,
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab
