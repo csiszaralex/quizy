@@ -37,7 +37,7 @@
         Itt adhat meg hosszabb leírást, melyet a kitöltők a teszt megkezdése előtt láthatnak.
       </div>
       <label for="limit" class="form-label">Időlimit</label>
-      <input id="limit" v-model="data.limit" type="text" class="form-control" />
+      <input id="limit" v-model.number="data.limit" type="text" class="form-control" />
       <div class="form-text mb-4">
         Beállíthatod, hogy hány perc álljon rendelkezésre a teljes teszt kitöltésére és leadására.
         <br />

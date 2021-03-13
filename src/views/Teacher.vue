@@ -5,14 +5,14 @@
         <fa-icon icon="home" class="fa-1x mr-1" />
         Főoldal
       </base-button>
-      <base-button type="primary" to="/teacher">
-        <fa-icon icon="users" class="fa-1x mr-1" />
-        Csoportjaim
+      <base-button type="primary" to="/fills">
+        <fa-icon icon="edit" class="fa-1x mr-1" />
+        Kitöltések
       </base-button>
     </teleport>
     <base-dialog
       :show="uj"
-      title="Folyamatban"
+      title="Új teszt"
       close-text="Mégse"
       btn2-text="Létrehozás"
       reverse

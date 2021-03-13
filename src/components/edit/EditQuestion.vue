@@ -17,7 +17,7 @@
       </div>
       <div v-if="data['ans' + ans].point !== 0" class="my-3 mx-2 text-center w-50">
         Pontszám
-        <input v-model="data['ans' + ans].point" type="text" />
+        <input v-model.number="data['ans' + ans].point" type="text" />
       </div>
     </div>
     <base-button v-if="deletable" class="del mt-4" type="danger" @click="$emit('del')">
