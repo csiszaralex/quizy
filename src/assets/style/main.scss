@@ -26,5 +26,22 @@ body,
   cursor: pointer;
 }
 .bg-dark-blue {
-  background-color: #6D9EF9 !important;
+  background-color: #6d9ef9 !important;
+}
+.form-switch .form-check-input {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='rgba%28255, 255, 255, 1%29'/></svg>") !important;
+  background-color: $danger;
+  &:checked {
+    background-color: $success;
+  }
+  &.big {
+    width: 50px;
+    height: 25px;
+    margin-top: 0;
+  }
+}
+.selection-none {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
