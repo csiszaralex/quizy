@@ -10,7 +10,7 @@
         :cim="result.cim"
         :alcim="result.alcim"
         :orientation="orient(result.id)"
-        photo="https://via.placeholder.com/770x560"
+        :photo="result.picture"
       />
     </ul>
   </div>
@@ -41,6 +41,7 @@ export default {
               id: res.data[i].id,
               cim: res.data[i].cim,
               alcim: res.data[i].alcim,
+              picture: res.data[i].picture,
             });
           }
           results.value = datas;
