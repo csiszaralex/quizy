@@ -1,5 +1,10 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCalendarAlt, faPlusSquare, faWindowClose } from '@fortawesome/free-regular-svg-icons';
+import {
+  faCalendarAlt,
+  faClock,
+  faPlusSquare,
+  faWindowClose,
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faUserSecret,
   faUser,
@@ -24,7 +29,6 @@ import {
   faSave,
   faExchangeAlt,
   faEdit,
-  faClock,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
