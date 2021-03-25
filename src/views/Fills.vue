@@ -12,172 +12,147 @@
     </teleport>
     <base-dialog
       :show="uj"
-      title="Folyamatban"
+      title="Új kitöltés"
       close-text="Mégse"
       btn2-text="Létrehozás"
+      :type="newH"
       reverse
       @close="megse"
       @send="ment"
     >
       <form @submit.prevent="ment">
-        <label for="desc" class="form-label">Név</label>
-        <input id="desc" v-model="newName" type="text" class="form-control" />
-        <div class="form-text mb-4">
-          Kérem adja meg a létrehozandó teszt nevét.
+        <div v-if="type === 'real'">
+          <label for="type" class="form-label">Teszt</label>
+          <select id="type" v-model="test" class="form-select">
+            <option v-for="test in tests" :key="test.value" :value="test.value">
+              {{ test.text }}
+            </option>
+          </select>
+          <div class="form-text mb-4">
+            Válassza ki melyik tesztet szeretné kitöltetni.
+            <br />
+            FIGYELEM! Csak publikus teszteket lehet kitöltetni.
+          </div>
+          <template v-for="option in options" :key="option.key">
+            <div class="form-check form-switch d-flex align-items-center my-1">
+              <input
+                :id="option.key"
+                v-model="option.value"
+                class="form-check-input cursor-pointer big mr-1"
+                type="checkbox"
+              />
+              <label class="form-check-label selection-none" :for="option.key">
+                {{ option.name }}
+              </label>
+            </div>
+          </template>
         </div>
+        <div v-else-if="type === 'time'">
+          Idő
+        </div>
+        <div v-else class="d-md-flex justify-content-around">
+          <choose-item role="Most" :pic="['far', 'clock']" @click="type = 'real'" />
+          <choose-item role="Időzített" :pic="['far', 'calendar-alt']" @click="type = 'time'" />
+        </div>
+        <hr />
       </form>
     </base-dialog>
     <div class="row m-4 mt-3 d-flex flex-row-reverse">
-      <base-button class="col-md-2 d-flex align-items-center" @click="ujQ">
-        <fa-icon :icon="['fas', 'plus-circle']" class="fa-2x mr-2" /> Új teszt
+      <base-button class="col-md-2 d-flex align-items-center" type="primary" @click="ujQ">
+        <fa-icon :icon="['fas', 'plus-circle']" class="fa-2x mr-4" /> Új kitöltés
       </base-button>
     </div>
-    <div class="row d-flex justify-content-center justify-content-md-start">
-      <!-- TODO Mappában is látni dolgokat -->
-      <!-- TODO Drag and drop -->
-      <!-- TODO Színek és minden a base-ben -->
-      <template v-for="(item, index) in dirs" :key="index">
-        <!-- Archive -->
-        <base-badge
-          v-if="isArchive(item)"
-          type="archive"
-          color="danger"
-          order="0"
-          :alt="item.name"
-          res-size="5"
-          resp
-        >
-          {{ item.name }}
-        </base-badge>
-        <!-- Mappa -->
-        <base-badge
-          v-else
-          type="folder"
-          order="1"
-          :alt="item.name"
-          :to="toLinkDir(item)"
-          res-size="5"
-          resp
-        >
-          {{ item.name }}
-        </base-badge>
-      </template>
-      <!-- Kérdés -->
-      <template v-for="(item, index) in data" :key="index">
-        <base-badge
-          type="question"
-          color="success"
-          order="2"
-          :date="item.createdAt"
-          :alt="item.name"
-          :to="toLinkQuiz(item)"
-          :pub="item.type === 'private'"
-          res-size="5"
-          resp
-        >
-          {{ item.name }}
-        </base-badge>
-      </template>
-    </div>
-    {{ id }}
+    <div class="row d-flex justify-content-center justify-content-md-start bg-danger">1</div>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import teacher from '@/config/axiosTeacher.config';
-import { v4 } from 'uuid';
+import ChooseItem from '../components/choose/ChooseItem';
+import teacher from '../config/axiosTeacher.config';
+import fills from '../config/axiosFills.config';
+
 export default {
-  name: 'Teacher',
-  props: ['id'],
+  name: 'Fills',
+  components: { ChooseItem },
   setup() {
     const store = useStore();
     const datas = ref();
-    const dirs = ref();
-    store.dispatch('teacher/getQuizez').then(() => {
-      datas.value = store.getters['teacher/getData'];
-      dirs.value = store.getters['teacher/getDirs'];
-      // console.log('dir', dirs.value);
-      // console.log('key', Object.keys(dirs.value));
-    });
+    //: const type = ref('');
+    const type = ref('real');
+    const newH = ref('info');
+    const options = ref([
+      {
+        key: 'change',
+        name: 'Kérdések közti váltás engedélyezése',
+        value: true,
+      },
+      {
+        key: 'mix',
+        name: 'Kérdések keverése',
+        value: true,
+      },
+      {
+        key: 'showPer',
+        name: 'Válaszok mutatása kérdésenként',
+        value: false,
+      },
+      {
+        key: 'denyCopy',
+        name: 'Másolás-beillesztés letiltása',
+        value: false,
+      },
+      {
+        key: 'denyScreen',
+        name: 'Képernyőkép készítésének letiltása',
+        value: false,
+      },
+    ]);
 
-    function isArchive(item) {
-      return item.name === 'Archive';
-    }
-    function toLinkDir() {
-      // Object.keys(dirs.value).forEach(x => {
-      //   if (dirs.value[x].name === item.name) console.log(x);
-      // });
-      // console.log('item', item.name);
-      return '/teacher';
-    }
-    function toLinkQuiz(item) {
-      let val = '/teacher';
-      Object.keys(datas.value).forEach(x => {
-        if (datas.value[x].name === item.name) val = '/edit/' + x;
+    const tests = ref([]);
+    const test = ref();
+
+    teacher
+      .get(`/${store.getters.getId}.json`)
+      .then(res => {
+        for (const x in res.data) {
+          if (res.data[x].type === 'public') {
+            console.log(x + ' - ' + res.data[x].name);
+            tests.value.push({ value: x, text: res.data[x].name });
+          }
+        }
+      })
+      .then(() => {
+        if (tests.value.length === 0) newH.value = 'danger';
+        else test.value = tests.value[0].value;
       });
-      return val;
-    }
 
-    return { data: datas, dirs, isArchive, toLinkDir, toLinkQuiz };
+    return { data: datas, type, tests, test, newH, options };
   },
   data() {
-    return { uj: false, newName: '' };
+    //: return { uj: false };
+    return { uj: true };
   },
   methods: {
     megse() {
       this.uj = false;
-      this.newName = '';
+      this.type = '';
     },
     ujQ() {
       this.uj = true;
     },
     ment() {
-      if (this.newName.trim() !== '') {
-        const questId = v4();
-        teacher
-          .post(
-            `/${this.$store.getters.getId}.json`,
-            JSON.stringify({
-              createdAt:
-                new Date()
-                  .toISOString()
-                  .split('T')[0]
-                  .replace(/-/g, '.') + '.',
-              name: this.newName.trim(),
-              desc: '',
-              limit: 0,
-              type: 'private',
-              questions: {
-                [questId]: {
-                  srsz: 1,
-                  name: 'Első kérdés',
-                  limit: 0,
-                  ans1: {
-                    name: '',
-                    point: 10,
-                  },
-                  ans2: {
-                    name: '',
-                    point: 0,
-                  },
-                  ans3: {
-                    name: '',
-                    point: 0,
-                  },
-                  ans4: {
-                    name: '',
-                    point: 0,
-                  },
-                },
-              },
-            }),
-          )
+      if (this.type !== '' && this.test) {
+        fills
+          .put('.json', {
+            assd: {
+              dsa: 5,
+            },
+          })
           .then(res => {
-            this.$router.replace(`/edit/${res.data.name}/${questId}`);
+            console.log('DONE', res);
           });
-        this.megse();
       }
     },
   },
