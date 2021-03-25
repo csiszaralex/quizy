@@ -21,18 +21,25 @@
       @send="ment"
     >
       <form @submit.prevent="ment">
-        <div v-if="type === 'real'">
+        <div v-if="type !== ''">
           <label for="type" class="form-label">Teszt</label>
           <select id="type" v-model="test" class="form-select">
             <option v-for="test in tests" :key="test.value" :value="test.value">
               {{ test.text }}
             </option>
           </select>
-          <div class="form-text mb-4">
+          <div class="form-text" :class="type === 'time' ? 'mb-1' : 'mb-4'">
             Válassza ki melyik tesztet szeretné kitöltetni.
             <br />
             FIGYELEM! Csak publikus teszteket lehet kitöltetni.
           </div>
+          {{ to }}
+          <template v-if="type === 'time'">
+            <label for="type" class="form-label">Kezdési időpont</label>
+            <input v-model="from" type="datetime-local" class="form-control mb-1" />
+            <label for="type" class="form-label">Záró időpont</label>
+            <input v-model="to" type="datetime-local" class="form-control mb-4" />
+          </template>
           <template v-for="option in options" :key="option.key">
             <div class="form-check form-switch d-flex align-items-center my-1">
               <input
@@ -46,9 +53,6 @@
               </label>
             </div>
           </template>
-        </div>
-        <div v-else-if="type === 'time'">
-          Idő
         </div>
         <div v-else class="d-md-flex justify-content-around">
           <choose-item role="Most" :pic="['far', 'clock']" @click="type = 'real'" />
@@ -70,6 +74,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import ChooseItem from '../components/choose/ChooseItem';
+import idGen from '../config/nanoid';
 import teacher from '../config/axiosTeacher.config';
 import fills from '../config/axiosFills.config';
 
@@ -79,9 +84,10 @@ export default {
   setup() {
     const store = useStore();
     const datas = ref();
-    //: const type = ref('');
-    const type = ref('real');
+    const type = ref('');
     const newH = ref('info');
+    const from = ref(new Date().toISOString().substring(0, 16));
+    const to = ref(new Date(new Date().getTime() + 3600000).toISOString().substring(0, 16));
     const options = ref([
       {
         key: 'change',
@@ -118,7 +124,6 @@ export default {
       .then(res => {
         for (const x in res.data) {
           if (res.data[x].type === 'public') {
-            console.log(x + ' - ' + res.data[x].name);
             tests.value.push({ value: x, text: res.data[x].name });
           }
         }
@@ -128,11 +133,10 @@ export default {
         else test.value = tests.value[0].value;
       });
 
-    return { data: datas, type, tests, test, newH, options };
+    return { data: datas, type, tests, test, newH, options, from, to };
   },
   data() {
-    //: return { uj: false };
-    return { uj: true };
+    return { uj: false };
   },
   methods: {
     megse() {
@@ -143,16 +147,27 @@ export default {
       this.uj = true;
     },
     ment() {
+      const opt = [];
+      this.options.forEach(option => {
+        opt.push({ name: option.key, value: option.value });
+      });
       if (this.type !== '' && this.test) {
-        fills
-          .put('.json', {
-            assd: {
-              dsa: 5,
-            },
-          })
-          .then(res => {
-            console.log('DONE', res);
-          });
+        const id = idGen.generate();
+        const save = {
+          [id]: {
+            owner: this.$store.getters.getId,
+            testId: this.test,
+            type: this.type,
+            options: opt,
+          },
+        };
+        if (this.type === 'time') {
+          save[id]['to'] = this.to;
+          save[id]['from'] = this.from;
+        }
+        fills.patch('.json', save).then(res => {
+          console.log('DONE', Object.keys(res.data)[0]);
+        });
       }
     },
   },

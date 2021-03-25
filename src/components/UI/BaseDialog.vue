@@ -2,7 +2,7 @@
   <teleport to="body">
     <div v-if="show" class="backdrop" @click="tryClose"></div>
     <transition name="dialog">
-      <dialog v-if="show" open class="m-0 p-0 overflow-hidden border-0">
+      <dialog v-if="show" open class="m-0 mt-n5 p-0 overflow-hidden border-0">
         <header class="w-100 p-3" :class="'bg-' + type">
           <slot name="header">
             <h2 class="m-0">{{ title }}</h2>
