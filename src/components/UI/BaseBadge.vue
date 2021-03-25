@@ -14,7 +14,7 @@
         <span v-if="date">{{ date }}</span>
       </h5>
       <fa-layers v-if="type" full-width class="mb-2" :class="faSizes">
-        <fa-icon :icon="['fas', type]" />
+        <fa-icon :icon="type" />
       </fa-layers>
       <div class="text-center pointed-text w-100" :class="headers">
         <slot />
@@ -28,7 +28,7 @@ export default {
   name: 'BaseBadge',
   props: {
     type: {
-      type: String,
+      type: [String, Array],
       required: true,
     },
     date: {
