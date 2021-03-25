@@ -1,8 +1,8 @@
 <template>
   <div class="d-md-flex flex-row justify-content-around align-items-baseline">
-    <choose-item role="teacher" @click="click('teacher')" />
-    <choose-item role="student" @click="click('student')" />
-    <choose-item v-if="set" role="both" @click="click('both')" />
+    <choose-item role="Teacher" pic="user-graduate" @click="click('teacher')" />
+    <choose-item role="Student" pic="user" @click="click('student')" />
+    <choose-item v-if="set" pic="user-plus" role="Both" @click="click('both')" />
   </div>
 </template>
 
