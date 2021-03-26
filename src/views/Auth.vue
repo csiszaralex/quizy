@@ -1,27 +1,31 @@
 <template>
-  <div v-if="mode" class="reg d-md-flex flex-row justify-content-around align-items-baseline h-100">
+  <div
+    v-if="mode"
+    class="reg d-flex flex-md-row flex-column justify-content-center justify-content-md-around align-items-center flex-grow-1"
+  >
     <form @submit.prevent="submit">
-      <base-input v-model="reg.fullName">Teljes név</base-input>
-      <base-input v-model="reg.userName">Felhasználó név</base-input>
-      <base-input v-model="reg.email" type="email">E-mail</base-input>
-      <base-input v-model="reg.phoneNumber" type="phone">Telefonszám</base-input>
-      <base-input v-model="reg.password" type="password">Jelszó</base-input>
-      <base-input v-model="reg.pass2" type="password">Jelszó megismétlése</base-input>
-      <!-- ÁSZF -->
+      <base-input v-model="reg.fullName" type="text" :pattern="patterns.name" icon="signature">
+        Teljes név
+      </base-input>
+      <base-input v-model="reg.userName" type="text" :pattern="patterns.user" icon="user">
+        Felhasználó név
+      </base-input>
+      <base-input v-model="reg.email" type="email" :pattern="patterns.email" icon="at">
+        E-mail
+      </base-input>
+      <base-input v-model="reg.phoneNumber" type="phone" :pattern="patterns.phone" icon="phone">
+        Telefonszám
+      </base-input>
+      <base-input v-model="reg.password" type="password" :pattern="patterns.password" icon="lock">
+        Jelszó
+      </base-input>
+      <base-input v-model="reg.pass2" type="password" :pattern="patterns.password" icon="lock">
+        Jelszó megismétlése
+      </base-input>
       <base-button type="info" submit>Tovább</base-button>
-      <hr />
-      <!-- Google, FB -->
     </form>
-  </div>
-  <span v-else class="login d-md-flex flex-row justify-content-around align-items-baseline h-100">
-    <div class="">
-      <form @submit.prevent="submit">
-        <base-input v-model="login.email" type="email">E-mail</base-input>
-        <base-input v-model="login.password" type="password">Jelszó</base-input>
-        <base-button type="info" submit>Tovább</base-button>
-      </form>
-    </div>
-    <div class="h-75 bg-dark text-light separator">Elválasztó</div>
+    <!-- <hr class="border-dark bg-dark text-dark p-1" /> -->
+    <div class="separator p-1"></div>
     <div class="Social">
       <button
         class="btn google w-75 text-light d-flex flex-row align-items-center p-0 pe-1"
@@ -30,20 +34,38 @@
         <img :src="Google" alt="Google brand logo" class="bg-light google-logo me-3" />
         <div class="">Belépés Google-lal</div>
       </button>
-
-      <!--
-        <a
-        class="btn btn-outline-dark"
-        href="/users/googleauth"
-        role="button"
-        style="text-transform:none"
-        >
-        <img :src="Google" alt="Google brand logo" />
-        Login with Google
-        </a> 
-      -->
     </div>
-    <!-- <button @click="fb">Facebook</button> -->
+  </div>
+  <span
+    v-else
+    class="login d-flex flex-md-row flex-column justify-content-center justify-content-md-around align-items-center flex-grow-1"
+  >
+    <div class="">
+      <form @submit.prevent="submit">
+        <base-input v-model="login.email" type="email" :pattern="patterns.email" icon="at">
+          E-mail
+        </base-input>
+        <base-input
+          v-model="login.password"
+          type="password"
+          :pattern="patterns.password"
+          icon="lock"
+        >
+          Jelszó
+        </base-input>
+        <base-button type="info" submit>Bejelentkezés</base-button>
+      </form>
+    </div>
+    <div class="separator m-3"></div>
+    <div class="Social">
+      <button
+        class="btn google w-75 text-light d-flex flex-row align-items-center p-0 pe-1"
+        @click="google"
+      >
+        <img :src="Google" alt="Google brand logo" class="bg-light google-logo me-3" />
+        <div class="">Belépés Google-lal</div>
+      </button>
+    </div>
   </span>
 </template>
 
@@ -56,14 +78,20 @@ import { computed, reactive } from 'vue';
 export default {
   name: 'Auth',
   setup() {
-    //*Store
     const store = useStore();
-    //* Route
     const route = useRoute();
     const router = useRouter();
     const mode = computed(() => {
       return route.query.mode === 'reg';
     });
+
+    const patterns = {
+      name: /^([A-Za-z]+[.][ ]?)?[A-ZÁ-ű][a-zÁ-ű]{2,}(?:[-][[A-ZÁ-ű][a-zÁ-ű]*){0,1}(?: [A-ZÁ-ű][a-zÁ-ű]{2,}){1,2}$/,
+      user: /^[^@&#\s]{4,}$/,
+      email: /^([A-Za-z0-9]+([._%+!-]?[A-Za-z0-9])?)+[@](([A-Za-z0-9]+([._-]?[A-Za-z0-9])?)+[.])+([A-z]{2,})$/,
+      password: /^(?=.*[a-záéóőűúüö])(?=.*[A-ZÁÉÓŐŰÚÜÖ])(?=.*[0-9])(?=.{8,})/,
+      phone: /^[+]?[03][6]((([23578][0]|[1])[0-9]{7,7})|[^23578][0-9]{7,7})$/,
+    };
 
     //*Auth
     const reg = reactive({
@@ -123,7 +151,7 @@ export default {
       store.dispatch('social', {});
     }
 
-    return { mode, submit, reg, login, google, fb, Google };
+    return { mode, submit, reg, login, google, fb, Google, patterns };
   },
 };
 </script>

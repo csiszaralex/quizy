@@ -1,3 +1,4 @@
+@use "sass:map";
 @import 'variables';
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap');
 
@@ -44,4 +45,16 @@ body,
   user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.separator {
+  background: $black;
+  @media screen and (min-width: map.get($grid-bs, "md")) {
+    height: 75vh;
+    width: 5px;
+  }
+  @media screen and (max-width: map.get($grid-bs, "md")) {
+    width: 85vw;
+    height: 5px;
+  }
 }

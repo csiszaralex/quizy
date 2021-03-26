@@ -1,4 +1,12 @@
 //*Engedély
+$grid-bs: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
 $enable-negative-margins: true;
 
 //*Háttér
@@ -6,8 +14,6 @@ $bg: #f3f8fe;
 $body-bg: $bg;
 $pagination-bg: $bg;
 $card-bg: $bg;
-
-// $card-border-color: $bg;
 
 //* Szöveg
 $white: #ededed;
