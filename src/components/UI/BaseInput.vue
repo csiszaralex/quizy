@@ -61,13 +61,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$szin1: #009fe6;
-$szin2: #00b0ff;
-$betuszin: #333;
-$h2szin: #666;
-$feher: #fff;
-$fail: #f00;
-$okay: #0f0;
+$szin1: darken($primary, 10%);
+$h2szin: $dark;
+$feher: $light;
+$fail: $danger;
+$okay: $success;
 
 .input-div {
   position: relative;
