@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 require('firebase/auth');
+import router from '@/router';
 
 export default {
   state() {
@@ -67,23 +68,17 @@ export default {
     },
     async signup(context, payload) {
       await firebase
-        .auth() // Felhasználó létrehozása
+        .auth()
         .createUserWithEmailAndPassword(payload.email, payload.pass)
         .then(
           success => {
             if (success.user) {
-              // Ha sikeres regisztráció, a visszaigazoló e-mail kiküldése
-              success.user.sendEmailVerification().then(
-                () => {
-                  alert('Verification e-mail sent!');
-                },
-                () => {
-                  alert('Failed to send verification e-mail!');
-                },
-              );
+              success.user.sendEmailVerification();
+              success.user.updateProfile({ displayName: payload.user }).then(() => {
+                alert('Sikeres regisztráció!');
+                router.go('/choose');
+              });
             }
-            alert('Successful SignUp!');
-            // this.$router.replace('verify'); // Átirányítás a megerősítő email újraküldés oldalára
           },
           err => {
             alert('Oops. ' + err.message);
