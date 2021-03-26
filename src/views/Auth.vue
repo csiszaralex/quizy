@@ -87,7 +87,7 @@ export default {
 
     const patterns = {
       name: /^([A-Za-z]+[.][ ]?)?[A-ZÁ-ű][a-zÁ-ű]{2,}(?:[-][[A-ZÁ-ű][a-zÁ-ű]*){0,1}(?: [A-ZÁ-ű][a-zÁ-ű]{2,}){1,2}$/,
-      user: /^[^@&#\s]{4,}$/,
+      user: /^[^@&#\s]{4,30}$/,
       email: /^([A-Za-z0-9]+([._%+!-]?[A-Za-z0-9])?)+[@](([A-Za-z0-9]+([._-]?[A-Za-z0-9])?)+[.])+([A-z]{2,})$/,
       password: /^(?=.*[a-záéóőűúüö])(?=.*[A-ZÁÉÓŐŰÚÜÖ])(?=.*[0-9])(?=.{8,})/,
       phone: /^[+]?[03][6]((([23578][0]|[1])[0-9]{7,7})|[^23578][0-9]{7,7})$/,
@@ -104,22 +104,9 @@ export default {
     });
     const login = reactive({
       email: 'a@s.com',
-      password: 'aaaaaa',
+      password: 'Szakd123',
     });
     async function submit() {
-      //*Form validálás
-      // this.formIsValid = true;
-      // if (
-      //   this.email === '' ||
-      //   !this.email.includes('@') ||
-      //   this.pass.length < 6
-      // ) {
-      //   this.formIsValid = false;
-      //   return;
-      // }
-
-      // this.isLoading = true;
-
       try {
         if (!mode.value) {
           await store.dispatch('login', { email: login.email, pass: login.password }).then(() => {
@@ -136,11 +123,8 @@ export default {
           });
         }
       } catch (error) {
-        // this.error = error.message || 'Failed to login.try later.';
-        console.log(error.message || 'Failed to login.try later.');
+        console.log(error.message || 'Failed to login. Try later.');
       }
-
-      // this.isLoading = false;
     }
     async function google() {
       await store.dispatch('social', { google: true });

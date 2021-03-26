@@ -4,7 +4,7 @@
       <fa-icon :icon="icon" />
     </fa-layers>
     <div>
-      <h2><slot /></h2>
+      <h2 class="selection-none"><slot /></h2>
       <input
         ref="input"
         v-model="data"
@@ -16,6 +16,18 @@
         @click="check"
       />
     </div>
+    <fa-icon
+      v-if="type === 'password' && eye"
+      :icon="['far', 'eye-slash']"
+      class="cursor-pointer"
+      @click="changeEye"
+    />
+    <fa-icon
+      v-else-if="type === 'password'"
+      :icon="['far', 'eye']"
+      class="cursor-pointer"
+      @click="changeEye"
+    />
   </div>
 </template>
 
@@ -24,21 +36,25 @@ import { ref, watch, computed } from 'vue';
 export default {
   name: 'BaseInput',
   props: ['modelValue', 'type', 'pattern', 'icon'],
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'check'],
   setup(props, context) {
     const data = ref(props.modelValue ? props.modelValue : '');
     watch(data, () => {
       context.emit('update:modelValue', data.value);
     });
 
+    const eye = ref(true);
+    function changeEye() {
+      eye.value = !eye.value;
+    }
+
     const inputType = computed(() => {
-      //* type csak password legyen más, többire custom hiba
-      return props.type ? props.type : 'text';
+      return props.type ? (eye.value ? props.type : 'text') : 'text';
     });
 
     function blur(e) {
       let parent = e.target.parentNode.parentNode;
-      if (e.target.value == '') parent.classList.remove('focus');
+      if (data.value == '') parent.classList.remove('focus');
     }
     function focus(e) {
       let parent = e.target.parentNode.parentNode;
@@ -47,12 +63,17 @@ export default {
     function check(e) {
       const szulo = e.target.parentNode.parentNode;
       szulo.classList.remove('focus', 'okay', 'fail');
-      if (e.target.value === '') szulo.classList.add('focus');
-      else if (e.target.value.match(props.pattern)) szulo.classList.add('okay');
-      else szulo.classList.add('fail');
+      if (data.value === '') szulo.classList.add('focus');
+      else if (data.value.match(props.pattern)) {
+        szulo.classList.add('okay');
+        context.emit('check', { val: true });
+      } else {
+        szulo.classList.add('fail');
+        context.emit('check', { val: false });
+      }
     }
 
-    return { data, inputType, blur, focus, check };
+    return { data, inputType, blur, focus, check, eye, changeEye };
   },
   mounted() {
     if (this.$refs['input'].value !== '') this.check({ target: this.$refs['input'] });
@@ -71,7 +92,7 @@ $okay: $success;
   position: relative;
   display: grid;
   align-items: center;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 10% 85% 5%;
   margin: 25px 0;
   padding: 5px 0;
   border-bottom: 2px solid #ccc;

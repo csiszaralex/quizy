@@ -33,7 +33,6 @@
             <br />
             FIGYELEM! Csak publikus teszteket lehet kitöltetni.
           </div>
-          {{ to }}
           <template v-if="type === 'time'">
             <label for="type" class="form-label">Kezdési időpont</label>
             <input v-model="from" type="datetime-local" class="form-control mb-1" />

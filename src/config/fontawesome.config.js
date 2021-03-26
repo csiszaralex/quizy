@@ -2,6 +2,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCalendarAlt,
   faClock,
+  faEye,
+  faEyeSlash,
   faPlusSquare,
   faWindowClose,
 } from '@fortawesome/free-regular-svg-icons';
@@ -66,6 +68,8 @@ library.add(
   faAt,
   faSignature,
   faPhone,
+  faEye,
+  faEyeSlash,
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab
