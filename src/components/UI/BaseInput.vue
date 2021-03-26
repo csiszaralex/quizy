@@ -55,7 +55,7 @@ export default {
     return { data, inputType, blur, focus, check };
   },
   mounted() {
-    this.check({ target: this.$refs['input'] });
+    if (this.$refs['input'].value !== '') this.check({ target: this.$refs['input'] });
   },
 };
 </script>
