@@ -29,6 +29,9 @@ import {
   faSave,
   faExchangeAlt,
   faEdit,
+  faAt,
+  faSignature,
+  faPhone,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -60,6 +63,9 @@ library.add(
   faEdit,
   faClock,
   faCalendarAlt,
+  faAt,
+  faSignature,
+  faPhone,
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab
