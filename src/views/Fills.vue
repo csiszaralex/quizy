@@ -60,12 +60,96 @@
         <hr />
       </form>
     </base-dialog>
+    <base-dialog
+      :show="setup"
+      title="Új kitöltés"
+      close-text="Mégse"
+      btn2-text="Mentés"
+      :type="newH"
+      reverse
+      @close="csuk"
+      @send="ment"
+    >
+      <form @submit.prevent="ment">
+        <!-- <div>
+          <label for="type" class="form-label">Kezdési időpont</label>
+          <input v-model="from" type="datetime-local" class="form-control mb-1" />
+          <label for="type" class="form-label">Záró időpont</label>
+          <input v-model="to" type="datetime-local" class="form-control mb-4" />
+          <template v-for="option in options" :key="option.key">
+            <div class="form-check form-switch d-flex align-items-center my-1">
+              <input
+                :id="option.key"
+                v-model="option.value"
+                class="form-check-input cursor-pointer big mr-1"
+                type="checkbox"
+              />
+              <label class="form-check-label selection-none" :for="option.key">
+                {{ option.name }}
+              </label>
+            </div>
+          </template>
+          <base-button type="danger" outline class="mt-2">Törlés</base-button>
+        </div> -->
+        Oooo:
+        {{ tests }}
+        <hr />
+      </form>
+    </base-dialog>
+    <base-dialog
+      :show="activeTest"
+      title="Teszt folyamatban"
+      close-text="Rendben"
+      type="warning"
+      btn="success"
+      @close="csukT"
+    >
+      <p class=" mb-4 mt-2">
+        Ez a kitöltés jelenleg folyamatban van, így a beállításai már
+        <em class="text-bold"> nem </em>
+        változtathatóak!
+      </p>
+    </base-dialog>
     <div class="row m-4 mt-3 d-flex flex-row-reverse">
       <base-button class="col-md-2 d-flex align-items-center" type="primary" @click="ujQ">
         <fa-icon :icon="['fas', 'plus-circle']" class="fa-2x mr-4" /> Új kitöltés
       </base-button>
     </div>
-    <div class="row d-flex justify-content-center justify-content-md-start bg-danger">1</div>
+    <div class="row d-flex justify-content-center justify-content-md-start">
+      <template v-for="(item, index) in active" :key="index">
+        <base-badge
+          :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
+          :color="item.type === 'real' ? 'info' : 'primary'"
+          order="0"
+          :alt="item.testName"
+          res-size="5"
+          resp
+          @click="getCall(item, index)"
+        >
+          {{ item.testName }}
+          <br />
+          <small>{{ index }}</small>
+        </base-badge>
+      </template>
+    </div>
+    <div class="separator horizontal my-3 text-center w-100"></div>
+    <div class="row d-flex justify-content-center justify-content-md-start">
+      <template v-for="(item, index) in done" :key="index">
+        <base-badge
+          :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
+          :color="item.type === 'real' ? 'info' : 'primary'"
+          order="0"
+          :alt="item.testName"
+          res-size="5"
+          resp
+          @click="stat(index)"
+        >
+          {{ item.testName }}
+          <br />
+          <small>{{ index }}</small>
+        </base-badge>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -85,8 +169,8 @@ export default {
     const datas = ref();
     const type = ref('');
     const newH = ref('info');
-    const from = ref(new Date().toISOString().substring(0, 16));
-    const to = ref(new Date(new Date().getTime() + 3600000).toISOString().substring(0, 16));
+    const from = ref(new Date(new Date().getTime() + 3600000).toISOString().substring(0, 16));
+    const to = ref(new Date(new Date().getTime() + 3600000 * 2).toISOString().substring(0, 16));
     const options = ref([
       {
         key: 'change',
@@ -115,9 +199,28 @@ export default {
       },
     ]);
 
+    const done = ref({});
+    const active = ref({});
+    function getAll() {
+      fills.get('.json').then(res => {
+        for (const fill in res.data) {
+          if (res.data[fill].owner === store.getters.getId) {
+            if (
+              res.data[fill].to &&
+              new Date(res.data[fill].to) < new Date(new Date().getTime() + 3600000)
+            ) {
+              done.value[fill] = res.data[fill];
+            } else {
+              active.value[fill] = res.data[fill];
+            }
+          }
+        }
+      });
+    }
+    getAll();
+
     const tests = ref([]);
     const test = ref();
-
     teacher
       .get(`/${store.getters.getId}.json`)
       .then(res => {
@@ -132,12 +235,42 @@ export default {
         else test.value = tests.value[0].value;
       });
 
-    return { data: datas, type, tests, test, newH, options, from, to };
+    return {
+      data: datas,
+      type,
+      tests,
+      test,
+      newH,
+      options,
+      from,
+      to,
+      getAll,
+      done,
+      active,
+    };
   },
   data() {
-    return { uj: false };
+    return { uj: false, setup: false, activeTest: false, id: '' };
   },
   methods: {
+    getCall(item, index) {
+      if (new Date(item.from) < new Date(new Date().getTime() + 3600000)) this.nyitT();
+      else this.nyit(index);
+    },
+    csuk() {
+      this.id = '';
+      this.setup = false;
+    },
+    nyit(id) {
+      this.id = id;
+      this.setup = true;
+    },
+    csukT() {
+      this.activeTest = false;
+    },
+    nyitT() {
+      this.activeTest = true;
+    },
     megse() {
       this.uj = false;
       this.type = '';
@@ -152,22 +285,33 @@ export default {
       });
       if (this.type !== '' && this.test) {
         const id = idGen.generate();
+        let tName = '';
+        this.tests.forEach(x => {
+          if (x.value === this.test) tName = x.text;
+        });
         const save = {
           [id]: {
             owner: this.$store.getters.getId,
             testId: this.test,
+            testName: tName,
             type: this.type,
             options: opt,
           },
         };
+        save[id]['from'] = this.from;
         if (this.type === 'time') {
           save[id]['to'] = this.to;
-          save[id]['from'] = this.from;
         }
         fills.patch('.json', save).then(res => {
-          console.log('DONE', Object.keys(res.data)[0]);
+          if (res.data[Object.keys(res.data)[0]].type === 'real')
+            this.$router.replace(`/stat/${Object.keys(res.data)[0]}`);
+          this.megse();
+          this.getAll();
         });
       }
+    },
+    stat(id) {
+      this.$router.replace(`/stat/${id}`);
     },
   },
 };

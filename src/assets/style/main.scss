@@ -49,11 +49,17 @@ body,
 
 .separator {
   background: $black;
-  @media screen and (min-width: map.get($grid-bs, "md")) {
-    height: 75vh;
-    width: 5px;
+  &:not(.horizontal) {
+    @media screen and (min-width: map.get($grid-bs, 'md')) {
+      height: 75vh;
+      width: 5px;
+    }
+    @media screen and (max-width: map.get($grid-bs, 'md')) {
+      width: 85vw;
+      height: 5px;
+    }
   }
-  @media screen and (max-width: map.get($grid-bs, "md")) {
+  &.horizontal {
     width: 85vw;
     height: 5px;
   }

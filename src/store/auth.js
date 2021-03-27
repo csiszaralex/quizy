@@ -74,7 +74,7 @@ export default {
           success => {
             if (success.user) {
               success.user.sendEmailVerification();
-              success.user.updateProfile({ displayName: payload.user }).then(() => {
+              success.user.updateProfile({ displayName: payload.name }).then(() => {
                 alert('Sikeres regisztráció!');
                 router.go('/choose');
               });
