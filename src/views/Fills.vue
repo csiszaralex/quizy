@@ -62,37 +62,35 @@
     </base-dialog>
     <base-dialog
       :show="setup"
-      title="Új kitöltés"
+      title="Szerkesztés"
       close-text="Mégse"
       btn2-text="Mentés"
-      :type="newH"
+      type="dark-blue"
       reverse
       @close="csuk"
-      @send="ment"
+      @send="frissit"
     >
-      <form @submit.prevent="ment">
-        <!-- <div>
+      <form @submit.prevent="frissit">
+        <div>
           <label for="type" class="form-label">Kezdési időpont</label>
-          <input v-model="from" type="datetime-local" class="form-control mb-1" />
+          <input v-model="id.from" type="datetime-local" class="form-control mb-1" />
           <label for="type" class="form-label">Záró időpont</label>
-          <input v-model="to" type="datetime-local" class="form-control mb-4" />
-          <template v-for="option in options" :key="option.key">
+          <input v-model="id.to" type="datetime-local" class="form-control mb-4" />
+          <template v-for="option in id.options" :key="option.key">
             <div class="form-check form-switch d-flex align-items-center my-1">
               <input
-                :id="option.key"
+                :id="option.name"
                 v-model="option.value"
                 class="form-check-input cursor-pointer big mr-1"
                 type="checkbox"
               />
-              <label class="form-check-label selection-none" :for="option.key">
-                {{ option.name }}
+              <label class="form-check-label selection-none" :for="option.name">
+                {{ getOptionName(option.name) }}
               </label>
             </div>
           </template>
-          <base-button type="danger" outline class="mt-2">Törlés</base-button>
-        </div> -->
-        Oooo:
-        {{ tests }}
+          <base-button type="danger" outline class="mt-2" @click="del">Törlés</base-button>
+        </div>
         <hr />
       </form>
     </base-dialog>
@@ -250,19 +248,36 @@ export default {
     };
   },
   data() {
-    return { uj: false, setup: false, activeTest: false, id: '' };
+    return { uj: false, setup: false, activeTest: false, id: '', cId: '' };
   },
   methods: {
     getCall(item, index) {
       if (new Date(item.from) < new Date(new Date().getTime() + 3600000)) this.nyitT();
       else this.nyit(index);
     },
+    getOptionName(name) {
+      return this.options.filter(x => x.key === name)[0].name;
+    },
+    del() {
+      fills.delete(`/${this.cId}.json`).then(() => {
+        delete this.active[this.cId];
+        this.csuk();
+      });
+    },
+    frissit() {
+      fills.patch(`/${this.cId}.json`, this.id).then(() => {
+        this.csuk();
+        this.getAll();
+      });
+    },
     csuk() {
       this.id = '';
+      this.cId = '';
       this.setup = false;
     },
     nyit(id) {
-      this.id = id;
+      this.cId = id;
+      this.id = JSON.parse(JSON.stringify(this.active[id]));
       this.setup = true;
     },
     csukT() {
