@@ -4,7 +4,7 @@ import store from '@/store';
 import App from '@/App.vue';
 import { rtdbPlugin as VueFire } from 'vuefire';
 import firebase from 'firebase/app';
-require('firebase/auth');
+import 'firebase/auth';
 import firebaseConfig from './config/firebase.config';
 import 'bootstrap';
 import {
