@@ -10,6 +10,7 @@
         v-model="data"
         :type="inputType"
         class="input"
+        :autofocus="autofocus"
         @blur="blur"
         @focus="focus"
         @keyup="check"
@@ -35,12 +36,15 @@
 import { ref, watch, computed } from 'vue';
 export default {
   name: 'BaseInput',
-  props: ['modelValue', 'type', 'pattern', 'icon'],
+  props: ['modelValue', 'type', 'pattern', 'icon', 'autofocus'],
   emits: ['update:modelValue', 'check'],
   setup(props, context) {
     const data = ref(props.modelValue ? props.modelValue : '');
     watch(data, () => {
       context.emit('update:modelValue', data.value);
+    });
+    watch(props, () => {
+      data.value = props.modelValue;
     });
 
     const eye = ref(true);
@@ -63,8 +67,10 @@ export default {
     function check(e) {
       const szulo = e.target.parentNode.parentNode;
       szulo.classList.remove('focus', 'okay', 'fail');
-      if (data.value === '') szulo.classList.add('focus');
-      else if (data.value.match(props.pattern)) {
+      if (data.value === '') {
+        szulo.classList.add('focus');
+        context.emit('check', { val: false });
+      } else if (data.value.match(props.pattern)) {
         szulo.classList.add('okay');
         context.emit('check', { val: true });
       } else {
