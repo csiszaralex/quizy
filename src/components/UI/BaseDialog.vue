@@ -36,42 +36,15 @@
 export default {
   name: 'BaseDialog',
   props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
-    title: {
-      type: String,
-      default: 'Error!',
-    },
-    fixed: {
-      type: Boolean,
-      required: false,
-    },
-    type: {
-      type: String,
-      default: 'info',
-    },
-    btn: {
-      type: String,
-      default: 'primary',
-    },
-    closeText: {
-      type: String,
-      default: 'Bezárás',
-    },
-    btn2Text: {
-      type: String,
-      default: '',
-    },
-    btn2Type: {
-      type: String,
-      default: 'success',
-    },
-    reverse: {
-      type: Boolean,
-      required: false,
-    },
+    show: { type: Boolean, required: true },
+    title: { type: String, default: 'Error!' },
+    fixed: { type: Boolean, required: false },
+    type: { type: String, default: 'info' },
+    btn: { type: String, default: 'primary' },
+    closeText: { type: String, default: 'Bezárás' },
+    btn2Text: { type: String, default: '' },
+    btn2Type: { type: String, default: 'success' },
+    reverse: { type: Boolean, required: false },
   },
   emits: ['close', 'send'],
   methods: {

@@ -27,54 +27,18 @@
 export default {
   name: 'BaseBadge',
   props: {
-    type: {
-      type: [String, Array],
-      required: true,
-    },
-    date: {
-      type: String,
-      default: '',
-    },
-    color: {
-      type: String,
-      default: 'primary',
-    },
-    order: {
-      type: String,
-      default: '',
-    },
-    alt: {
-      type: String,
-      default: '',
-    },
-    size: {
-      type: String,
-      default: '2',
-    },
-    faSize: {
-      type: String,
-      default: '',
-    },
-    header: {
-      type: String,
-      default: '',
-    },
-    to: {
-      type: String,
-      default: '',
-    },
-    pub: {
-      type: Boolean,
-      required: false,
-    },
-    resp: {
-      type: Boolean,
-      required: false,
-    },
-    resSize: {
-      type: String,
-      default: '',
-    },
+    type: { type: [String, Array], required: true },
+    date: { type: String, default: '' },
+    color: { type: String, default: 'primary' },
+    order: { type: String, default: '' },
+    alt: { type: String, default: '' },
+    size: { type: String, default: '2' },
+    faSize: { type: String, default: '' },
+    header: { type: String, default: '' },
+    to: { type: String, default: '' },
+    pub: { type: Boolean, required: false },
+    resp: { type: Boolean, required: false },
+    resSize: { type: String, default: '' },
   },
   computed: {
     background() {

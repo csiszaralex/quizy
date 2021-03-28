@@ -65,7 +65,7 @@ export default {
           else if (new Date(res.data.from) > new Date())
             err.value = 'Ezt a tesztet még nem indították el!';
           else if (new Date(res.data.to) < new Date()) err.value = 'Ezt a tesztet már lezárták!';
-          else router.replace(`/fill/${id.value}`);
+          else router.replace(`/fill/${id.value.toLowerCase()}`);
         });
       }
     }
