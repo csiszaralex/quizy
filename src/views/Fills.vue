@@ -181,6 +181,11 @@ export default {
         value: true,
       },
       {
+        key: 'showEnd',
+        name: 'Teszt végi visszajelzés',
+        value: true,
+      },
+      {
         key: 'showPer',
         name: 'Válaszok mutatása kérdésenként',
         value: false,
