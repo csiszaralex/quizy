@@ -8,6 +8,7 @@ import Teacher from '@/views/Teacher.vue';
 import Edit from '@/views/Edit.vue';
 import Student from '@/views/Student.vue';
 import Fills from '@/views/Fills.vue';
+import Fill from '@/views/Fill.vue';
 import Choose from '@/views/Choose.vue';
 import NotFound from '@/views/NotFound';
 
@@ -42,15 +43,7 @@ const routes = [
     component: Edit,
     props: true,
     meta: { requiresAuth: true, requiresTeacher: true },
-    children: [
-      {
-        // UserProfile will be rendered inside User's <router-view>
-        // when /user/:id/profile is matched
-        path: ':quest',
-        name: 'edit',
-        component: Edit,
-      },
-    ],
+    children: [{ path: ':quest', name: 'edit', component: Edit }],
   },
   {
     path: '/student',
@@ -59,13 +52,19 @@ const routes = [
     meta: { requiresAuth: true, requiresStudent: true },
   },
   {
+    path: '/fill/:id',
+    name: 'fill',
+    component: Fill,
+    props: true,
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/choose',
     name: 'choose',
     component: Choose,
     meta: { requiresAuth: true },
     excludeFromHistory: true,
   },
-
   { path: '/:notFound(.*)', name: 'notfound', component: NotFound },
 ];
 

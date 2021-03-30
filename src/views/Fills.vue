@@ -44,6 +44,7 @@
               <input
                 :id="option.key"
                 v-model="option.value"
+                :disabled="dis(option)"
                 class="form-check-input cursor-pointer big mr-1"
                 type="checkbox"
               />
@@ -174,33 +175,21 @@ export default {
         key: 'change',
         name: 'Kérdések közti váltás engedélyezése',
         value: true,
+        dis: 'showPer',
       },
-      {
-        key: 'mix',
-        name: 'Kérdések keverése',
-        value: true,
-      },
-      {
-        key: 'showEnd',
-        name: 'Teszt végi visszajelzés',
-        value: true,
-      },
-      {
-        key: 'showPer',
-        name: 'Válaszok mutatása kérdésenként',
-        value: false,
-      },
-      {
-        key: 'denyCopy',
-        name: 'Másolás-beillesztés letiltása',
-        value: false,
-      },
-      {
-        key: 'denyScreen',
-        name: 'Képernyőkép készítésének letiltása',
-        value: false,
-      },
+      { key: 'mix', name: 'Kérdések keverése', value: true },
+      { key: 'showEnd', name: 'Teszt végi visszajelzés', value: true },
+      { key: 'showPer', name: 'Válaszok mutatása kérdésenként', value: false, dis: 'change' },
+      { key: 'denyCopy', name: 'Másolás-beillesztés letiltása', value: false },
+      { key: 'denyScreen', name: 'Képernyőkép készítésének letiltása', value: false },
     ]);
+
+    function dis(option) {
+      if (option.value || !option.dis) return false;
+      const masik = options.value.filter(x => x.key === option.dis)[0];
+      if (masik.value) return true;
+      return false;
+    }
 
     const done = ref({});
     const active = ref({});
@@ -250,6 +239,7 @@ export default {
       getAll,
       done,
       active,
+      dis,
     };
   },
   data() {
