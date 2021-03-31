@@ -8,32 +8,72 @@
       <div class="que">
         <h1>{{ aktQ?.name }}</h1>
       </div>
-      <fill-item v-if="aktQ?.ans1" classes="ans1 bg-info" @click="change(aktQ.ans1)">
+      <fill-item
+        v-if="aktQ?.ans1"
+        classes="ans1"
+        :class="getCol(aktQ.ans1, 'bg-info')"
+        @click="change(aktQ.ans1)"
+      >
         {{ aktQ?.ans1.name }}
       </fill-item>
-      <fill-item v-if="aktQ?.ans2" classes="ans2 bg-primary" @click="change(aktQ.ans2)">
+      <fill-item
+        v-if="aktQ?.ans2"
+        classes="ans2"
+        :class="getCol(aktQ.ans2, 'bg-primary')"
+        @click="change(aktQ.ans2)"
+      >
         {{ aktQ?.ans2.name }}
       </fill-item>
-      <fill-item v-if="aktQ?.ans3" classes="ans3 bg-primary" @click="change(aktQ.ans3)">
+      <fill-item
+        v-if="aktQ?.ans3"
+        classes="ans3"
+        :class="getCol(aktQ.ans3, 'bg-primary')"
+        @click="change(aktQ.ans3)"
+      >
         {{ aktQ?.ans3.name }}
       </fill-item>
-      <fill-item v-if="aktQ?.ans4" classes="ans4 bg-info" @click="change(aktQ.ans4)">
+      <fill-item
+        v-if="aktQ?.ans4"
+        classes="ans4"
+        :class="getCol(aktQ.ans4, 'bg-info')"
+        @click="change(aktQ.ans4)"
+      >
         {{ aktQ?.ans4.name }}
       </fill-item>
       <div v-if="aktQ?.sum && options['showEnd']" class="done">
         <h3>{{ aktQ?.sum }}</h3>
       </div>
-      <template v-if="options['change']">
-        <div class="prev bg-danger">Előző</div>
-        <div class="next bg-info">Következő</div>
-        <div class="list bg-warning">Kérdések</div>
+      <template v-else-if="options['change']">
+        <div v-if="qId !== 0" class="prev">
+          <base-button type="warning" @click="prevQ">Előző</base-button>
+        </div>
+        <div v-if="!isLast" class="next">
+          <base-button type="warning" @click="nextQ">Következő</base-button>
+        </div>
+        <div
+          class="list border border-secondary border-3 d-flex flex-column justify-content-between mb-2"
+        >
+          <div class="row px-3">
+            <div
+              v-for="(question, index) in questions"
+              :key="index"
+              class="col-2 text-center p-1 m-1 ml-2 border cursor-pointer q-prev"
+              :class="getPrevBg(question)"
+              :title="question.name"
+              @click="changeQ(index)"
+            >
+              {{ index + 1 }}
+            </div>
+          </div>
+          <base-button type="success" @click="send">Befejezés</base-button>
+        </div>
       </template>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from '@/config/axiosFills.config';
 import teacher from '@/config/axiosTeacher.config';
@@ -48,9 +88,11 @@ export default {
     const questions = ref([]);
     const limit = ref(0);
     const aktQ = ref();
+    const show = ref(false);
     let point = 0;
     let maxP = 0;
-    let qId = 0;
+    const qId = ref(0);
+    const selects = ref({});
 
     onBeforeMount(async () => {
       let id = '';
@@ -77,18 +119,22 @@ export default {
       });
       questions.value.sort((x, y) => x.srsz - y.srsz);
       if (options.value['mix']) questions.value.sort(() => Math.random() - 0.5);
-      aktQ.value = questions.value[qId];
+      aktQ.value = questions.value[qId.value];
     });
 
     function change(item) {
       point += item.point;
-      if (questions.value.length - 1 > qId) {
-        axios.patch(`/${props.id}/stat/${store.getters['getId']}/points.json`, {
-          [aktQ.value.id]: item.point,
-        });
-        qId++;
-        aktQ.value = questions.value[qId];
-      } else {
+      if (options.value['change']) selects.value[aktQ.value.id] = { n: item.name, p: item.point };
+      else if (questions.value.length - 1 > qId.value) {
+        if (!show.value)
+          axios.patch(`/${props.id}/stat/${store.getters['getId']}/points.json`, {
+            [aktQ.value.id]: item.point,
+          });
+        if (!options.value['showPer'] || show.value) nextQ();
+        else {
+          show.value = true;
+        }
+      } else if (!options.value['change']) {
         axios.patch(`/${props.id}/stat/${store.getters['getId']}/points.json`, {
           [aktQ.value.id]: item.point,
         });
@@ -98,16 +144,79 @@ export default {
         });
 
         aktQ.value = {
-          name: 'VÉGEEE',
+          name: 'Sikeres beküldés!',
           sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
           ${Math.floor((point / maxP) * 100)}
           %-ot sikerült elérned`,
         };
       }
     }
+    function nextQ() {
+      show.value = false;
+      qId.value++;
+      aktQ.value = questions.value[qId.value];
+    }
+    function prevQ() {
+      show.value = false;
+      qId.value--;
+      aktQ.value = questions.value[qId.value];
+    }
+    function changeQ(id) {
+      show.value = false;
+      qId.value = id;
+      aktQ.value = questions.value[qId.value];
+    }
 
-    //TODO Ha 44-es key akkor vágólap ürítése
-    return { options, limit, aktQ, change };
+    function getCol(item, def) {
+      if (options.value['change']) {
+        if (selects.value[aktQ.value.id]?.n === item.name) {
+          return 'bg-info';
+        }
+        return 'bg-primary';
+      } else if (show.value) {
+        return item.point !== 0 ? 'bg-success' : 'bg-danger';
+      }
+      return def;
+    }
+
+    const isLast = computed(() => {
+      return questions.value.length - 2 < qId.value;
+    });
+    function send() {
+      for (const q in selects.value) {
+        axios.patch(`/${props.id}/stat/${store.getters['getId']}/points.json`, {
+          [q]: selects.value[q].p,
+        });
+      }
+      aktQ.value = {
+        name: 'Sikeres beküldés!',
+        sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
+          ${Math.floor((point / maxP) * 100)}
+          %-ot sikerült elérned`,
+      };
+    }
+    function getPrevBg(item) {
+      if (item?.id === aktQ?.value?.id) return 'bg-success';
+      else if (selects.value[item?.id]) return 'bg-primary';
+      return '';
+    }
+
+    return {
+      options,
+      limit,
+      aktQ,
+      nextQ,
+      prevQ,
+      change,
+      show,
+      getCol,
+      qId,
+      isLast,
+      send,
+      changeQ,
+      questions,
+      getPrevBg,
+    };
   },
 };
 </script>
@@ -128,7 +237,7 @@ export default {
     grid-area: 1 / 2 / 3 / 12;
     place-self: center;
   }
-  div:not(.que):hover {
+  div:is(.ans1, .ans2, .ans3, .ans4):hover {
     color: blue;
     background-color: yellow !important;
   }
@@ -150,12 +259,19 @@ export default {
   }
   .prev {
     grid-area: 5 / 1 / span 1 / span 1;
+    justify-self: start;
+    align-self: center;
   }
   .next {
     grid-area: 5 / 13 / span 1 / span 1;
+    justify-self: end;
+    align-self: center;
   }
   .list {
     grid-area: 2 / 13 / span 3 / span 1;
+  }
+  .q-prev:hover {
+    background-color: $info !important;
   }
   .jo {
     background: #9f9;

@@ -181,7 +181,6 @@ export default {
       { key: 'showEnd', name: 'Teszt végi visszajelzés', value: true },
       { key: 'showPer', name: 'Válaszok mutatása kérdésenként', value: false, dis: 'change' },
       { key: 'denyCopy', name: 'Másolás-beillesztés letiltása', value: false },
-      { key: 'denyScreen', name: 'Képernyőkép készítésének letiltása', value: false },
     ]);
 
     function dis(option) {
