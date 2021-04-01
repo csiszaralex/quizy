@@ -37,6 +37,9 @@ import {
   faPencilAlt,
   faChevronRight,
   faChevronDown,
+  faUserCheck,
+  faPlay,
+  faStop,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -76,6 +79,9 @@ library.add(
   faPencilAlt,
   faChevronRight,
   faChevronDown,
+  faUserCheck,
+  faPlay,
+  faStop
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab

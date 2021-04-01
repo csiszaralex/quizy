@@ -95,20 +95,6 @@
         <hr />
       </form>
     </base-dialog>
-    <base-dialog
-      :show="activeTest"
-      title="Teszt folyamatban"
-      close-text="Rendben"
-      type="warning"
-      btn="success"
-      @close="csukT"
-    >
-      <p class=" mb-4 mt-2">
-        Ez a kitöltés jelenleg folyamatban van, így a beállításai már
-        <em class="text-bold"> nem </em>
-        változtathatóak!
-      </p>
-    </base-dialog>
     <div class="row m-4 mt-3 d-flex flex-row-reverse">
       <base-button class="col-md-2 d-flex align-items-center" type="primary" @click="ujQ">
         <fa-icon :icon="['fas', 'plus-circle']" class="fa-2x mr-4" /> Új kitöltés
@@ -125,15 +111,20 @@
           <base-badge
             :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
             :color="item.type === 'real' ? 'info' : 'primary'"
-            order="0"
             :alt="item.testName"
+            :date="item.testName"
             res-size="5"
             resp
+            unmuted
             @click="stat(index)"
           >
-            {{ item.testName }}
+            {{ index }}
             <br />
-            <small>{{ index }}</small>
+            <fa-icon :icon="item.to ? 'stop' : 'play'" />
+            <small>
+              &nbsp;
+              {{ getDate(item.to) }}
+            </small>
           </base-badge>
         </template>
       </template>
@@ -150,15 +141,20 @@
           <base-badge
             :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
             :color="item.type === 'real' ? 'info' : 'primary'"
-            order="0"
             :alt="item.testName"
+            :date="item.testName"
             res-size="5"
             resp
+            unmuted
             @click="nyit(index)"
           >
-            {{ item.testName }}
+            {{ index }}
             <br />
-            <small>{{ index }}</small>
+            <fa-icon icon="play" />
+            <small>
+              &nbsp;
+              {{ getDate(item.from) }}
+            </small>
           </base-badge>
         </template>
       </template>
@@ -175,15 +171,18 @@
           <base-badge
             :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
             :color="item.type === 'real' ? 'info' : 'primary'"
-            order="0"
             :alt="item.testName"
+            :date="item.testName"
             res-size="5"
             resp
+            unmuted
             @click="stat(index)"
           >
-            {{ item.testName }}
+            {{ index }}
             <br />
-            <small>{{ index }}</small>
+            {{ item.stat ? Object.keys(item.stat).length : 0 }}
+            &nbsp;
+            <fa-icon icon="user-check" />
           </base-badge>
         </template>
       </template>
@@ -268,6 +267,22 @@ export default {
         else test.value = tests.value[0].value;
       });
 
+    function getDate(date) {
+      if (!date) return '';
+      const format = new Date(date);
+      const now = new Date();
+      if (Math.abs(format - now) > 24 * 60 * 60 * 1000)
+        return `${format.getFullYear()}.${formatDate(format.getMonth() + 1)}.${formatDate(
+          format.getDate(),
+        )}`;
+      else if (now.getHours() < format.getHours())
+        return `Ma ${format.getHours()}:${format.getMinutes()}`;
+      else return `Holnap ${format.getHours()}:${format.getMinutes()}`;
+    }
+    function formatDate(num) {
+      return num < 10 ? `0${num}` : num;
+    }
+
     return {
       data: datas,
       type,
@@ -282,13 +297,13 @@ export default {
       active,
       dis,
       editabble,
+      getDate,
     };
   },
   data() {
     return {
       uj: false,
       setup: false,
-      activeTest: false,
       id: '',
       cId: '',
       act: true,
@@ -325,12 +340,6 @@ export default {
       this.cId = id;
       this.id = JSON.parse(JSON.stringify(this.editabble[id]));
       this.setup = true;
-    },
-    csukT() {
-      this.activeTest = false;
-    },
-    nyitT() {
-      this.activeTest = true;
     },
     megse() {
       this.uj = false;

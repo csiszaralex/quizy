@@ -7,7 +7,10 @@
     :to="to"
   >
     <div class="card-body p-0 d-flex flex-column align-items-center justify-content-around">
-      <h5 class="card-title text-muted h d-flex justify-content-around w-100 ">
+      <h5
+        class="card-title d-flex justify-content-around w-100"
+        :class="unmuted ? '' : 'text-muted'"
+      >
         <span v-if="pub" class="text-dark">
           <fa-icon :icon="['fas', 'lock']" />
         </span>
@@ -16,7 +19,7 @@
       <fa-layers v-if="type" full-width class="mb-2" :class="faSizes">
         <fa-icon :icon="type" />
       </fa-layers>
-      <div class="text-center pointed-text w-100" :class="headers">
+      <div class="text-center w-100" :class="[headers, unmuted ? '' : 'pointed-text']">
         <slot />
       </div>
     </div>
@@ -39,6 +42,7 @@ export default {
     pub: { type: Boolean, required: false },
     resp: { type: Boolean, required: false },
     resSize: { type: String, default: '' },
+    unmuted: { type: Boolean, required: false },
   },
   computed: {
     background() {
