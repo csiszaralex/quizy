@@ -115,38 +115,77 @@
       </base-button>
     </div>
     <div class="row d-flex justify-content-center justify-content-md-start">
-      <template v-for="(item, index) in active" :key="index">
-        <base-badge
-          :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
-          :color="item.type === 'real' ? 'info' : 'primary'"
-          order="0"
-          :alt="item.testName"
-          res-size="5"
-          resp
-          @click="getCall(item, index)"
-        >
-          {{ item.testName }}
-          <br />
-          <small>{{ index }}</small>
-        </base-badge>
+      <legend class="cursor-pointer selection-none" @click="changeShow('act')">
+        <fa-icon v-if="act" icon="chevron-down" />
+        <fa-icon v-else icon="chevron-right" />
+        &nbsp; Aktív
+      </legend>
+      <template v-if="act">
+        <template v-for="(item, index) in active" :key="index">
+          <base-badge
+            :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
+            :color="item.type === 'real' ? 'info' : 'primary'"
+            order="0"
+            :alt="item.testName"
+            res-size="5"
+            resp
+            @click="stat(index)"
+          >
+            {{ item.testName }}
+            <br />
+            <small>{{ index }}</small>
+          </base-badge>
+        </template>
       </template>
     </div>
     <div class="separator horizontal my-3 text-center w-100"></div>
     <div class="row d-flex justify-content-center justify-content-md-start">
-      <template v-for="(item, index) in done" :key="index">
-        <base-badge
-          :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
-          :color="item.type === 'real' ? 'info' : 'primary'"
-          order="0"
-          :alt="item.testName"
-          res-size="5"
-          resp
-          @click="stat(index)"
-        >
-          {{ item.testName }}
-          <br />
-          <small>{{ index }}</small>
-        </base-badge>
+      <legend class="cursor-pointer selection-none" @click="changeShow('edi')">
+        <fa-icon v-if="edi" icon="chevron-down" />
+        <fa-icon v-else icon="chevron-right" />
+        &nbsp; El nem kezdett
+      </legend>
+      <template v-if="edi">
+        <template v-for="(item, index) in editabble" :key="index">
+          <base-badge
+            :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
+            :color="item.type === 'real' ? 'info' : 'primary'"
+            order="0"
+            :alt="item.testName"
+            res-size="5"
+            resp
+            @click="nyit(index)"
+          >
+            {{ item.testName }}
+            <br />
+            <small>{{ index }}</small>
+          </base-badge>
+        </template>
+      </template>
+    </div>
+    <div class="separator horizontal my-3 text-center w-100"></div>
+    <div class="row d-flex justify-content-center justify-content-md-start">
+      <legend class="cursor-pointer selection-none" @click="changeShow('don')">
+        <fa-icon v-if="don" icon="chevron-down" />
+        <fa-icon v-else icon="chevron-right" />
+        &nbsp; Befelyezett
+      </legend>
+      <template v-if="don">
+        <template v-for="(item, index) in done" :key="index">
+          <base-badge
+            :type="item.type === 'real' ? ['far', 'clock'] : ['far', 'calendar-alt']"
+            :color="item.type === 'real' ? 'info' : 'primary'"
+            order="0"
+            :alt="item.testName"
+            res-size="5"
+            resp
+            @click="stat(index)"
+          >
+            {{ item.testName }}
+            <br />
+            <small>{{ index }}</small>
+          </base-badge>
+        </template>
       </template>
     </div>
   </div>
@@ -168,8 +207,8 @@ export default {
     const datas = ref();
     const type = ref('');
     const newH = ref('info');
-    const from = ref(new Date(new Date().getTime() + 3600000).toISOString().substring(0, 16));
-    const to = ref(new Date(new Date().getTime() + 3600000 * 2).toISOString().substring(0, 16));
+    const from = ref(new Date(new Date().getTime() + 3600000 * 2).toISOString().substring(0, 16));
+    const to = ref(new Date(new Date().getTime() + 3600000 * 3).toISOString().substring(0, 16));
     const options = ref([
       {
         key: 'change',
@@ -192,17 +231,20 @@ export default {
 
     const done = ref({});
     const active = ref({});
+    const editabble = ref({});
     function getAll() {
+      done.value = {};
+      active.value = {};
+      editabble.value = {};
       fills.get('.json').then(res => {
         for (const fill in res.data) {
           if (res.data[fill].owner === store.getters.getId) {
-            if (
-              res.data[fill].to &&
-              new Date(res.data[fill].to) < new Date(new Date().getTime() + 3600000)
-            ) {
+            if (res.data[fill].to && new Date(res.data[fill].to) < new Date(new Date().getTime())) {
               done.value[fill] = res.data[fill];
-            } else {
+            } else if (new Date(res.data[fill].from) < new Date(new Date().getTime())) {
               active.value[fill] = res.data[fill];
+            } else {
+              editabble.value[fill] = res.data[fill];
             }
           }
         }
@@ -239,17 +281,27 @@ export default {
       done,
       active,
       dis,
+      editabble,
     };
   },
   data() {
-    return { uj: false, setup: false, activeTest: false, id: '', cId: '' };
+    return {
+      uj: false,
+      setup: false,
+      activeTest: false,
+      id: '',
+      cId: '',
+      act: true,
+      edi: false,
+      don: false,
+    };
   },
   methods: {
-    getCall(item, index) {
-      if (new Date(item.from) < new Date(new Date().getTime() + 3600000)) this.nyitT();
-      else this.nyit(index);
+    changeShow(name) {
+      this[name] = !this[name];
     },
     getOptionName(name) {
+      if (!this.options.filter(x => x.key === name)[0]?.name) return 'Törölt lehetőség';
       return this.options.filter(x => x.key === name)[0].name;
     },
     del() {
@@ -271,7 +323,7 @@ export default {
     },
     nyit(id) {
       this.cId = id;
-      this.id = JSON.parse(JSON.stringify(this.active[id]));
+      this.id = JSON.parse(JSON.stringify(this.editabble[id]));
       this.setup = true;
     },
     csukT() {
@@ -283,6 +335,8 @@ export default {
     megse() {
       this.uj = false;
       this.type = '';
+      this.from = ref(new Date(new Date().getTime() + 3600000 * 2).toISOString().substring(0, 16));
+      this.to = ref(new Date(new Date().getTime() + 3600000 * 3).toISOString().substring(0, 16));
     },
     ujQ() {
       this.uj = true;
@@ -307,20 +361,20 @@ export default {
             options: opt,
           },
         };
-        save[id]['from'] = this.from;
         if (this.type === 'time') {
+          save[id]['from'] = this.from;
           save[id]['to'] = this.to;
         }
         fills.patch('.json', save).then(res => {
           if (res.data[Object.keys(res.data)[0]].type === 'real')
-            this.$router.replace(`/stat/${Object.keys(res.data)[0]}`);
+            this.$router.push(`/stat/${Object.keys(res.data)[0]}`);
           this.megse();
           this.getAll();
         });
       }
     },
     stat(id) {
-      this.$router.replace(`/stat/${id}`);
+      this.$router.push(`/stat/${id}`);
     },
   },
 };
