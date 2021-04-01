@@ -5,6 +5,12 @@
     @click.right.prevent=""
   >
     <div class="d-grid" :class="{ change: options['change'] }">
+      <div v-if="timer > 0 && counter > 0" class="timer rounded-circle bg-info p-2 px-3">
+        {{ time }}
+      </div>
+      <div v-if="!options['change'] && counter > 0" class="counter">
+        {{ counter }}/{{ questions.length }}
+      </div>
       <div class="que">
         <h1>{{ aktQ?.name }}</h1>
       </div>
@@ -73,7 +79,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, computed } from 'vue';
+import { ref, onBeforeMount, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import axios from '@/config/axiosFills.config';
 import teacher from '@/config/axiosTeacher.config';
@@ -93,6 +99,7 @@ export default {
     let maxP = 0;
     const qId = ref(0);
     const selects = ref({});
+    const timer = ref();
 
     onBeforeMount(async () => {
       let id = '';
@@ -111,6 +118,7 @@ export default {
             data.questions[question].ans3.point,
             data.questions[question].ans4.point,
           );
+          timer.value = +data.limit * 60;
           questions.value.push({ id: question, ...data.questions[question] });
         }
       });
@@ -179,6 +187,37 @@ export default {
       return def;
     }
 
+    watch(timer, cur => {
+      if (cur === 1) {
+        axios.patch(`/${props.id}/stat/${store.getters['getId']}.json`, {
+          point,
+          end: new Date(),
+        });
+        aktQ.value = {
+          name: 'Sikeres beküldés!',
+          sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
+          ${Math.floor((point / maxP) * 100)}
+          %-ot sikerült elérned`,
+        };
+      }
+      if (cur === -1) clearInterval(clock);
+    });
+    const clock = setInterval(() => {
+      incTime();
+    }, 1000);
+    function incTime() {
+      timer.value--;
+    }
+    const time = computed(() => {
+      return `${Math.floor(timer.value / 60)}:${
+        timer.value % 60 > 10 ? timer.value % 60 : `0${timer.value % 60}`
+      }`;
+    });
+
+    const counter = computed(() => {
+      return questions?.value.findIndex(x => x?.id === aktQ?.value?.id) + 1;
+    });
+
     const isLast = computed(() => {
       return questions.value.length - 2 < qId.value;
     });
@@ -188,6 +227,10 @@ export default {
           [q]: selects.value[q].p,
         });
       }
+      axios.patch(`/${props.id}/stat/${store.getters['getId']}.json`, {
+        point,
+        end: new Date(),
+      });
       aktQ.value = {
         name: 'Sikeres beküldés!',
         sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
@@ -216,6 +259,9 @@ export default {
       changeQ,
       questions,
       getPrevBg,
+      time,
+      timer,
+      counter,
     };
   },
 };
@@ -240,6 +286,14 @@ export default {
   div:is(.ans1, .ans2, .ans3, .ans4):hover {
     color: blue;
     background-color: yellow !important;
+  }
+  .timer {
+    grid-area: 1 / 1 / span 1 / span 1;
+    place-self: center;
+  }
+  .counter {
+    grid-area: 1 / 12 / span 1 / span 1;
+    place-self: center;
   }
   .ans1 {
     grid-area: 3 / 1 / span 1 / 7;
