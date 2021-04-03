@@ -2,6 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCalendarAlt,
   faClock,
+  faCopy,
   faEye,
   faEyeSlash,
   faPlusSquare,
@@ -40,6 +41,8 @@ import {
   faUserCheck,
   faPlay,
   faStop,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -82,6 +85,9 @@ library.add(
   faUserCheck,
   faPlay,
   faStop,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+  faCopy,
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab

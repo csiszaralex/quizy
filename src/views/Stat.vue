@@ -1,9 +1,6 @@
 <template>
   <stat-start v-if="!data?.from" @start="start">Teszt indítása</stat-start>
-  <div v-else-if="showInv" class="container-fluid row flex-grow-1 m-0 p-0">
-    Indíít
-    <button @click="showInv = false">Ind</button>
-  </div>
+  <stat-invite v-else-if="showInv" :id="id"></stat-invite>
   <div v-else class="container-fluid row flex-grow-1 m-0 p-0">
     <p>STAT</p>
     <pre>{{ data }}</pre>
@@ -13,10 +10,11 @@
 <script>
 import { ref } from 'vue';
 import StatStart from '../components/stat/StatStart';
+import StatInvite from '../components/stat/StatInvite';
 import fills from '../config/axiosFills.config';
 export default {
   name: 'Stat',
-  components: { StatStart },
+  components: { StatStart, StatInvite },
   props: { id: { type: String, required: true } },
   setup(props) {
     const data = ref();
