@@ -146,7 +146,7 @@
             res-size="5"
             resp
             unmuted
-            @click="nyit(index)"
+            @click="item.from ? nyit(index) : stat(index)"
           >
             {{ index }}
             <br />
