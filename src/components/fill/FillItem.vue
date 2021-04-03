@@ -1,9 +1,9 @@
 <template>
   <div :class="classes">
     <div class="d-flex justify-content-center align-items-center h-100 cursor-pointer">
-      <h5>
+      <h4>
         <slot></slot>
-      </h5>
+      </h4>
     </div>
   </div>
 </template>

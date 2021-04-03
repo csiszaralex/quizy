@@ -5,7 +5,7 @@
     @click.right.prevent=""
   >
     <div class="d-grid" :class="{ change: options['change'] }">
-      <div v-if="timer > 0 && counter > 0" class="timer rounded-circle bg-info p-2 px-3">
+      <div v-if="timer > 0 && counter > 0" class="timer">
         {{ time }}
       </div>
       <div v-if="!options['change'] && counter > 0" class="counter">
@@ -17,7 +17,7 @@
       <fill-item
         v-if="aktQ?.ans1"
         classes="ans1"
-        :class="getCol(aktQ.ans1, 'bg-info')"
+        :class="getCol(aktQ.ans1)"
         @click="change(aktQ.ans1)"
       >
         {{ aktQ?.ans1.name }}
@@ -25,7 +25,7 @@
       <fill-item
         v-if="aktQ?.ans2"
         classes="ans2"
-        :class="getCol(aktQ.ans2, 'bg-primary')"
+        :class="getCol(aktQ.ans2)"
         @click="change(aktQ.ans2)"
       >
         {{ aktQ?.ans2.name }}
@@ -33,7 +33,7 @@
       <fill-item
         v-if="aktQ?.ans3"
         classes="ans3"
-        :class="getCol(aktQ.ans3, 'bg-primary')"
+        :class="getCol(aktQ.ans3)"
         @click="change(aktQ.ans3)"
       >
         {{ aktQ?.ans3.name }}
@@ -47,23 +47,22 @@
         {{ aktQ?.ans4.name }}
       </fill-item>
       <div v-if="aktQ?.sum && options['showEnd']" class="done">
-        <h3>{{ aktQ?.sum }}</h3>
+        <h2>{{ aktQ?.sum }}</h2>
+        <h3 class="text-center mt-4">{{ aktQ?.percent }}</h3>
       </div>
       <template v-else-if="options['change']">
         <div v-if="qId !== 0" class="prev">
-          <base-button type="warning" @click="prevQ">Előző</base-button>
+          <base-button type="secondary" class="text-light" @click="prevQ">Előző</base-button>
         </div>
         <div v-if="!isLast" class="next">
-          <base-button type="warning" @click="nextQ">Következő</base-button>
+          <base-button type="secondary" class="text-light" @click="nextQ">Következő</base-button>
         </div>
-        <div
-          class="list border border-secondary border-3 d-flex flex-column justify-content-between mb-2"
-        >
-          <div class="row px-3">
+        <div class="list d-flex flex-column justify-content-between">
+          <div class="row px-3 border border-secondary border-3 py-2 pb-5 mx-1">
             <div
               v-for="(question, index) in questions"
               :key="index"
-              class="col-2 text-center p-1 m-1 ml-2 border cursor-pointer q-prev"
+              class="col-2 text-center p-1 m-1 ml-2 border cursor-pointer q-prev mx-auto"
               :class="getPrevBg(question)"
               :title="question.name"
               @click="changeQ(index)"
@@ -71,7 +70,7 @@
               {{ index + 1 }}
             </div>
           </div>
-          <base-button type="success" @click="send">Befejezés</base-button>
+          <base-button type="secondary" class="text-light" @click="send">Befejezés</base-button>
         </div>
       </template>
     </div>
@@ -153,9 +152,16 @@ export default {
 
         aktQ.value = {
           name: 'Sikeres beküldés!',
-          sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
-          ${Math.floor((point / maxP) * 100)}
-          %-ot sikerült elérned`,
+          sum: `Elértél ${point} pontot a ${maxP}-${
+            maxP % 10 !== 0
+              ? [3, 6, 8].includes(maxP % 10)
+                ? 'ból'
+                : 'ből'
+              : [20, 30, 60, 80, 0].includes(maxP % 100)
+              ? 'ból'
+              : 'ből'
+          }!`,
+          percent: `${Math.round((point / maxP) * 100)}%`,
         };
       }
     }
@@ -175,16 +181,16 @@ export default {
       aktQ.value = questions.value[qId.value];
     }
 
-    function getCol(item, def) {
+    function getCol(item) {
       if (options.value['change']) {
         if (selects.value[aktQ.value.id]?.n === item.name) {
-          return 'bg-info';
+          return 'active';
         }
-        return 'bg-primary';
+        return '';
       } else if (show.value) {
-        return item.point !== 0 ? 'bg-success' : 'bg-danger';
+        return item.point !== 0 ? 'jo' : 'rossz';
       }
-      return def;
+      return '';
     }
 
     watch(timer, cur => {
@@ -195,9 +201,16 @@ export default {
         });
         aktQ.value = {
           name: 'Sikeres beküldés!',
-          sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
-          ${Math.floor((point / maxP) * 100)}
-          %-ot sikerült elérned`,
+          sum: `Elértél ${point} pontot a ${maxP}-${
+            maxP % 10 !== 0
+              ? [3, 6, 8].includes(maxP % 10)
+                ? 'ból'
+                : 'ből'
+              : [20, 30, 60, 80, 0].includes(maxP % 100)
+              ? 'ból'
+              : 'ből'
+          }!`,
+          percent: `${Math.round((point / maxP) * 100)}%`,
         };
       }
       if (cur === -1) clearInterval(clock);
@@ -233,15 +246,23 @@ export default {
       });
       aktQ.value = {
         name: 'Sikeres beküldés!',
-        sum: `Sikeresen elértél ${point} pontot a ${maxP} pontból, így
-          ${Math.floor((point / maxP) * 100)}
-          %-ot sikerült elérned`,
+        sum: `Elértél ${point} pontot a ${maxP}-${
+          maxP % 10 !== 0
+            ? [3, 6, 8].includes(maxP % 10)
+              ? 'ból'
+              : 'ből'
+            : [20, 30, 60, 80, 0].includes(maxP % 100)
+            ? 'ból'
+            : 'ből'
+        }!`,
+        percent: `${Math.round((point / maxP) * 100)}%`,
       };
     }
     function getPrevBg(item) {
-      if (item?.id === aktQ?.value?.id) return 'bg-success';
-      else if (selects.value[item?.id]) return 'bg-primary';
-      return '';
+      let ret = '';
+      if (item?.id === aktQ?.value?.id) ret += 'akt-prev ';
+      if (selects.value[item?.id]) ret += 'kit-prev';
+      return ret;
     }
 
     return {
@@ -283,17 +304,33 @@ export default {
     grid-area: 1 / 2 / 3 / 12;
     place-self: center;
   }
-  div:is(.ans1, .ans2, .ans3, .ans4):hover {
-    color: blue;
-    background-color: yellow !important;
+  div:is(.ans1, .ans2, .ans3, .ans4) {
+    background-color: lighten($color: #3cc, $amount: 15);
+    &:hover {
+      background-color: #3cc;
+    }
+    &:active {
+      color: $light;
+      background-color: darken($color: #3cc, $amount: 10);
+      border: 5px solid darken($color: #3cc, $amount: 30);
+    }
+  }
+  .active {
+    color: $light;
+    background-color: darken($color: #3cc, $amount: 10) !important;
+    border: 5px solid darken($color: #3cc, $amount: 30);
   }
   .timer {
     grid-area: 1 / 1 / span 1 / span 1;
     place-self: center;
+    padding: 0.5rem;
+    border: 2px solid $black;
   }
   .counter {
     grid-area: 1 / 12 / span 1 / span 1;
     place-self: center;
+    padding: 0.5rem;
+    border: 2px solid $black;
   }
   .ans1 {
     grid-area: 3 / 1 / span 1 / 7;
@@ -324,14 +361,17 @@ export default {
   .list {
     grid-area: 2 / 13 / span 3 / span 1;
   }
-  .q-prev:hover {
-    background-color: $info !important;
+  .akt-prev {
+    border: 2px solid $black !important;
+  }
+  .kit-prev {
+    background-color: $primary !important;
   }
   .jo {
-    background: #9f9;
+    background: lighten($color: #3f5, $amount: 10) !important;
   }
   .rossz {
-    background: #f99;
+    background: lighten($color: #f35, $amount: 10) !important;
   }
   @media print {
     background-color: white !important;
