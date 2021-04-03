@@ -150,7 +150,7 @@
           >
             {{ index }}
             <br />
-            <fa-icon icon="play" />
+            <fa-icon :icon="item.from ? 'play' : 'stop'" />
             <small>
               &nbsp;
               {{ getDate(item.from) }}
