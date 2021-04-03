@@ -1,6 +1,6 @@
 <template>
   <stat-start v-if="!data?.from" @start="start">Teszt indítása</stat-start>
-  <stat-invite v-else-if="showInv" :id="id"></stat-invite>
+  <stat-invite v-else-if="showInv" :id="id" @start="showStat"></stat-invite>
   <div v-else class="container-fluid row flex-grow-1 m-0 p-0">
     <p>STAT</p>
     <pre>{{ data }}</pre>
@@ -39,7 +39,11 @@ export default {
         });
     }
 
-    return { data, start, showInv };
+    function showStat() {
+      showInv.value = false;
+    }
+
+    return { data, start, showInv, showStat };
   },
 };
 </script>
