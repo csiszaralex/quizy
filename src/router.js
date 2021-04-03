@@ -6,6 +6,7 @@ import Landing from '@/views/Landing.vue';
 import Auth from '@/views/Auth.vue';
 import Teacher from '@/views/Teacher.vue';
 import Edit from '@/views/Edit.vue';
+import Stat from '@/views/Stat.vue';
 import Student from '@/views/Student.vue';
 import Fills from '@/views/Fills.vue';
 import Fill from '@/views/Fill.vue';
@@ -44,6 +45,13 @@ const routes = [
     props: true,
     meta: { requiresAuth: true, requiresTeacher: true },
     children: [{ path: ':quest', name: 'edit', component: Edit }],
+  },
+  {
+    path: '/stat/:id',
+    name: 'stat',
+    component: Stat,
+    props: true,
+    meta: { requiresAuth: true, requiresTeacher: true },
   },
   {
     path: '/student',

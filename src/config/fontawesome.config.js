@@ -81,7 +81,7 @@ library.add(
   faChevronDown,
   faUserCheck,
   faPlay,
-  faStop
+  faStop,
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab
