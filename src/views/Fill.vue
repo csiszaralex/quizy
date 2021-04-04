@@ -122,7 +122,12 @@ export default {
         }
       });
       await axios.patch(`/${props.id}/stat.json`, {
-        [store.getters['getId']]: { name: store.getters['getName'], start: new Date() },
+        [store.getters['getId']]: {
+          name: store.getters['getName'],
+          start: new Date(),
+          max: maxP,
+          point: 0,
+        },
       });
       questions.value.sort((x, y) => x.srsz - y.srsz);
       if (options.value['mix']) questions.value.sort(() => Math.random() - 0.5);
