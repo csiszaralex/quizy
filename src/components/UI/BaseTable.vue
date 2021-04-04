@@ -1,20 +1,22 @@
 <template>
-  <table v-if="data" class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th v-for="head in headers" :key="head" scope="col">{{ head }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(row, i) in data" :key="i">
-        <td scope="row">{{ i + 1 }}</td>
-        <td v-for="head in headers" :key="head + i">
-          {{ row[head] ? row[head] : row[head] === 0 ? 0 : '-' }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div v-if="data" class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th v-for="head in headers" :key="head" scope="col">{{ head }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(row, i) in data" :key="i">
+          <td scope="row">{{ i + 1 }}</td>
+          <td v-for="head in headers" :key="head + i">
+            {{ row[head] ? row[head] : row[head] === 0 ? 0 : '-' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>

@@ -1,16 +1,32 @@
 <template>
   <stat-start v-if="!data?.from" @start="start">Teszt indítása</stat-start>
   <stat-invite v-else-if="showInv" :id="id" @start="showStat"></stat-invite>
-  <div v-else class="container-fluid row flex-grow-1 m-0 p-0">
-    <p>STAT</p>
-    <base-table :data="stat"></base-table>
-    <pre class="col-6">{{ data.stat }}</pre>
-    <pre class="col-6">{{ stat }}</pre>
+  <div
+    v-else
+    class="container-fluid d-flex flex-column justify-content-between flex-grow-1 m-0 p-0"
+  >
+    <div class="d-flex justify-content-between m-2">
+      <div>
+        <base-button v-if="showStop" type="danger" outline @click="end">
+          Befelyezés most
+        </base-button>
+      </div>
+      <div>{{ id }}</div>
+    </div>
+    <div class="align-self-center d-flex flex-column align-items-center">
+      <h1>{{ data.testName }}</h1>
+      <h4>{{ maxP }} pont</h4>
+      <p>
+        {{ data.from.replace('T', ' ').replace(/[-]/g, '.') }} -
+        {{ data.to ? data.to.replace('T', ' ').replace(/[-]/g, '.') : '' }}
+      </p>
+    </div>
+    <base-table :data="stat" class="mt-3 flex-grow-1"></base-table>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import StatStart from '../components/stat/StatStart';
 import StatInvite from '../components/stat/StatInvite';
 import fills from '../config/axiosFills.config';
@@ -23,6 +39,7 @@ export default {
     const data = ref();
     const stat = ref([]);
     const showInv = ref(false);
+    const maxP = ref();
 
     function getAll() {
       fills.get(`/${props.id}.json`).then(res => {
@@ -32,7 +49,7 @@ export default {
         teacher.get(`/${res.data.owner}/${res.data.testId}.json`).then(teszt => {
           for (const row in res.data.stat) {
             const d = res.data.stat[row];
-
+            maxP.value = d.max;
             const newRow = {
               Név: d.name,
               Pontszám: d.point,
@@ -68,7 +85,16 @@ export default {
       showInv.value = false;
     }
 
-    return { data, start, showInv, showStat, stat };
+    function end() {
+      fills.patch;
+    }
+    const showStop = computed(() => {
+      return (
+        !data.value.to || new Date(data.value.to) > new Date(new Date().getTime())
+      );
+    });
+
+    return { data, start, showInv, showStat, stat, maxP, end, showStop };
   },
 };
 </script>
