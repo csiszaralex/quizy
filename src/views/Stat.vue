@@ -44,7 +44,6 @@ export default {
     const maxP = ref();
 
     function getAll() {
-      console.log('Run');
       fills.get(`/${props.id}.json`).then(res => {
         if (!res.data.to || new Date(new Date().getTime()) < new Date(res.data.to)) {
           if (!data.value && !res.data.stat) showInv.value = true;
@@ -56,6 +55,7 @@ export default {
           stat.value = [];
           for (const row in res.data.stat) {
             const d = res.data.stat[row];
+            let pont = 0;
             maxP.value = d.max;
             const newRow = {
               Név: d.name,
@@ -68,7 +68,9 @@ export default {
             if (d.points)
               for (const quest in teszt.data.questions) {
                 newRow[teszt.data.questions[quest].name] = d.points[quest];
+                pont += d.points[quest] ? d.points[quest] : 0;
               }
+            newRow['Pontszám'] = pont;
 
             stat.value.push(newRow);
           }
