@@ -135,15 +135,17 @@ export default {
     });
 
     function change(item) {
-      point += item.point;
       if (options.value['change']) selects.value[aktQ.value.id] = { n: item.name, p: item.point };
       else if (questions.value.length - 1 > qId.value) {
         if (!show.value)
           axios.patch(`/${props.id}/stat/${store.getters['getId']}/points.json`, {
             [aktQ.value.id]: item.point,
           });
-        if (!options.value['showPer'] || show.value) nextQ();
-        else {
+        if (!options.value['showPer'] || show.value) {
+          point += item.point;
+          nextQ();
+        } else {
+          point += item.point;
           show.value = true;
         }
       } else if (!options.value['change']) {

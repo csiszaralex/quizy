@@ -40,7 +40,7 @@
     v-else
     class="login d-flex flex-md-row flex-column justify-content-center justify-content-md-around align-items-center flex-grow-1"
   >
-    <div class="">
+    <div>
       <form @submit.prevent="submit">
         <base-input v-model="login.email" type="email" :pattern="patterns.email" icon="at">
           E-mail
@@ -103,8 +103,8 @@ export default {
       pass2: '',
     });
     const login = reactive({
-      email: 'a@s.com',
-      password: 'Szakd123',
+      email: '',
+      password: '',
     });
     async function submit() {
       try {

@@ -53,4 +53,7 @@ li {
     font-size: 0.85rem;
   }
 }
+p.card-text {
+  font-size: 1.2rem;
+}
 </style>

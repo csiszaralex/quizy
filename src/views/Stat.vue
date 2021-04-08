@@ -7,9 +7,11 @@
   >
     <div class="d-flex justify-content-between m-2">
       <div>
+        <base-button class="mx-2" type="success" outline @click="back">Vissza</base-button>
         <base-button v-if="showStop" type="danger" outline @click="end">
-          Befelyezés most
+          Befejezés most
         </base-button>
+        <base-button class="mx-2" @click="showInv = true">Várakozó képernyő</base-button>
       </div>
       <div>{{ id }}</div>
     </div>
@@ -42,11 +44,16 @@ export default {
     const maxP = ref();
 
     function getAll() {
+      console.log('Run');
       fills.get(`/${props.id}.json`).then(res => {
+        if (!res.data.to || new Date(new Date().getTime()) < new Date(res.data.to)) {
+          if (!data.value && !res.data.stat) showInv.value = true;
+          setTimeout(getAll, 1000);
+        }
         data.value = res.data;
-        if (!res.data.stat) showInv.value = true;
 
         teacher.get(`/${res.data.owner}/${res.data.testId}.json`).then(teszt => {
+          stat.value = [];
           for (const row in res.data.stat) {
             const d = res.data.stat[row];
             maxP.value = d.max;
@@ -86,15 +93,26 @@ export default {
     }
 
     function end() {
-      fills.patch;
+      const now = new Date(new Date().getTime() + 3600000 * 2).toISOString().substring(0, 16);
+      fills
+        .patch(`/${props.id}.json`, {
+          to: now,
+        })
+        .then(() => {
+          data.value['to'] = now;
+        });
     }
+
     const showStop = computed(() => {
-      return (
-        !data.value.to || new Date(data.value.to) > new Date(new Date().getTime())
-      );
+      return !data.value.to || new Date(data.value.to) > new Date(new Date().getTime());
     });
 
     return { data, start, showInv, showStat, stat, maxP, end, showStop };
+  },
+  methods: {
+    back() {
+      this.$router.push('/fills');
+    },
   },
 };
 </script>
