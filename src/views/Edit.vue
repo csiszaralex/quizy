@@ -8,19 +8,20 @@
         <base-button @click="sett">
           <fa-icon :icon="['fas', 'cog']" />
         </base-button>
-        <!-- TODO TESZT -->
-        <base-button type="warning">Teszt</base-button>
-        <base-button type="success" @click="save">
+        <base-button class="mx-1" type="success" @click="save">
           <fa-icon :icon="['fas', 'save']" class="fa-1x mr-1" />
           Mentés
         </base-button>
         <base-button to="/teacher" type="danger">
           <fa-icon :icon="['far', 'window-close']" class="fa-1x mr-1" />
-          Elvetés
+          {{ exitText }}
         </base-button>
       </div>
     </teleport>
     <base-dialog :show="!!uzenet" title="Folyamatban" @close="elfogad">
+      <p>{{ uzenet }}</p>
+    </base-dialog>
+    <base-dialog :show="mentve" title="Sikeres mentés" type="success" @close="elfMent">
       <p>{{ uzenet }}</p>
     </base-dialog>
     <base-dialog
@@ -112,10 +113,14 @@ export default {
     const router = useRouter();
     const store = useStore();
     const id = store.getters.getId;
+    const mentve = ref(false);
+    const backup = ref();
+    // const exitText = ref('Elvetés');
 
     const data = ref({});
     teacher.get(`/${id}/${props.id}.json`).then(res => {
       data.value = res.data;
+      backup.value = JSON.stringify(res.data);
       setQuest();
       if (!props.quest) {
         go(data.value.questions[Object.keys(data.value.questions)[0]]);
@@ -179,6 +184,9 @@ export default {
     }
     function save() {
       teacher.patch(`/${id}/${props.id}.json`, JSON.stringify(data.value));
+      mentve.value = true;
+      backup.value = JSON.stringify(data.value);
+      setTimeout(elfMent, 300);
     }
     function del(id) {
       for (const i in data.value.questions) {
@@ -187,6 +195,13 @@ export default {
       }
       go(data.value.questions[Object.keys(data.value.questions)[0]]);
     }
+
+    function elfMent() {
+      mentve.value = false;
+    }
+    const exitText = computed(() => {
+      return JSON.stringify(data.value) === backup.value ? 'Kilépés' : 'Elvetés';
+    });
 
     const typeDesc = computed(() => {
       return data.value.type === 'private'
@@ -199,7 +214,21 @@ export default {
       router.replace('/teacher');
     }
 
-    return { data, move, go, max, plusz, question, save, del, typeDesc, deleteQuiz };
+    return {
+      data,
+      move,
+      go,
+      max,
+      plusz,
+      question,
+      save,
+      del,
+      typeDesc,
+      deleteQuiz,
+      mentve,
+      exitText,
+      elfMent,
+    };
   },
   data() {
     return { uzenet: null, settings: false };
