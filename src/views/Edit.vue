@@ -64,7 +64,7 @@
           @go="go(item)"
         ></edit-preview>
         <div
-          class="row mx-3 my-2 qSet py-1 d-flex justify-content-center cursor-pointer"
+          class="row mx-3 my-2 qSet py-1 d-flex justify-content-center cursor-pointer border border-secondary"
           :style="{ order: max + 1 }"
           @click="plusz"
         >
@@ -186,7 +186,7 @@ export default {
       teacher.patch(`/${id}/${props.id}.json`, JSON.stringify(data.value));
       mentve.value = true;
       backup.value = JSON.stringify(data.value);
-      setTimeout(elfMent, 300);
+      setTimeout(elfMent, 1000);
     }
     function del(id) {
       for (const i in data.value.questions) {

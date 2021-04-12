@@ -1,9 +1,12 @@
 <template>
-  <div class="row mx-3 my-1 qSet py-2 d-flex justify-content-center" :style="{ order: srsz }">
+  <div
+    class="row mx-3 my-1 qSet py-2 d-flex justify-content-center border border-secondary border-2"
+    :style="{ order: srsz }"
+  >
     <fa-layers
       v-if="isLast"
       full-width
-      class="mb-2 col-2 btn btn-primary fa-3x m-1 p-1 py-3"
+      class="mb-2 col-2 btn btn-primary fa-3x m-1 p-1 py-3 border border-secondary"
       @click="$emit('up')"
     >
       <fa-icon :icon="['fas', 'arrow-down']" />
@@ -12,7 +15,7 @@
     <fa-layers
       v-if="isFirst"
       full-width
-      class="mb-2 col-2 btn btn-primary fa-3x m-1 p-1 py-3"
+      class="mb-2 col-2 btn btn-primary fa-3x m-1 p-1 py-3 border border-secondary"
       @click="$emit('down')"
     >
       <fa-icon :icon="['fas', 'arrow-up']" />

@@ -8,6 +8,7 @@
     <div
       v-for="ans in 4"
       :key="ans"
+      class="border border-secondary border-2"
       :class="[data['ans' + ans].point > 0 ? 'jo' : 'rossz', 'ans' + ans]"
       @click.self="change(ans)"
     >
