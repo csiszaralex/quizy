@@ -13,7 +13,7 @@
       @click.self="change(ans)"
     >
       <div class="my-3 mx-2 text-center w-50">
-        Válasz1
+        Válasz
         <input v-model="data['ans' + ans].name" type="text" />
       </div>
       <div v-if="data['ans' + ans].point !== 0" class="my-3 mx-2 text-center w-50">

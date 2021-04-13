@@ -22,6 +22,7 @@ import LandingItem from '../components/landing/LandingItem.vue';
 import axios from 'axios';
 export default {
   name: 'Landing',
+  title: 'asd',
   components: { LandingItem },
   setup() {
     const results = ref([]);

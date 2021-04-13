@@ -9,7 +9,7 @@
           </p>
         </div>
         <img
-          :src="photo"
+          :src="photos"
           alt="LandingPhoto"
           class="col-lg-6 mt-2"
           :class="{ 'order-first': floating(orientation) && jo }"
@@ -21,6 +21,8 @@
 
 <script>
 import { ref } from 'vue';
+import stat from '../../assets/pics/homepage/stat.jpg';
+import qr from '../../assets/pics/homepage/qr.jpg';
 export default {
   name: 'Landingitem',
   props: ['cim', 'alcim', 'photo', 'orientation'],
@@ -39,6 +41,18 @@ export default {
     change();
 
     return { floating, jo };
+  },
+  computed: {
+    photos() {
+      switch (this.photo) {
+        case 'stat':
+          return stat;
+        case 'qr':
+          return qr;
+        default:
+          return this.photo;
+      }
+    },
   },
 };
 </script>

@@ -37,7 +37,7 @@
         </base-button>
         <base-button type="danger" outline @click="logout">
           <fa-icon icon="sign-out-alt" class="fa-1x mr-1" />
-          Logout
+          Kijelentkezés
         </base-button>
         <!-- HACK Itt rossz a design -->
         <!-- 

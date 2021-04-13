@@ -15,14 +15,20 @@ import NotFound from '@/views/NotFound';
 
 const routes = [
   //? path, name,comp, props, meta, children
-  { path: '/', name: 'home', component: Landing, meta: { requiresUnauth: true } },
-  { path: '/auth', name: 'auth', component: Auth, props: true, meta: { requiresUnauth: true } },
+  { path: '/', name: 'home', component: Landing, meta: { requiresUnauth: true, title: 'Főoldal' } },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: Auth,
+    props: true,
+    meta: { requiresUnauth: true, title: 'Bejelentlkezés' },
+  },
   {
     path: '/teacher',
     name: 'teacher',
     component: Teacher,
     props: true,
-    meta: { requiresAuth: true, requiresTeacher: true },
+    meta: { requiresAuth: true, requiresTeacher: true, title: 'Kitöltések' },
   },
   {
     path: '/teacher/:id',
@@ -36,14 +42,14 @@ const routes = [
     name: 'fills',
     component: Fills,
     props: true,
-    meta: { requiresAuth: true, requiresTeacher: true },
+    meta: { requiresAuth: true, requiresTeacher: true, title: 'Kitöltések' },
   },
   {
     path: '/edit/:id',
     name: 'edit',
     component: Edit,
     props: true,
-    meta: { requiresAuth: true, requiresTeacher: true },
+    meta: { requiresAuth: true, requiresTeacher: true, title: 'Szerkesztés' },
     children: [{ path: ':quest', name: 'edit', component: Edit }],
   },
   {
@@ -51,26 +57,26 @@ const routes = [
     name: 'stat',
     component: Stat,
     props: true,
-    meta: { requiresAuth: true, requiresTeacher: true },
+    meta: { requiresAuth: true, requiresTeacher: true, title: 'Statisztika' },
   },
   {
     path: '/student',
     name: 'student',
     component: Student,
-    meta: { requiresAuth: true, requiresStudent: true },
+    meta: { requiresAuth: true, requiresStudent: true, title: 'Diák' },
   },
   {
     path: '/fill/:id',
     name: 'fill',
     component: Fill,
     props: true,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: 'Kitöltés' },
   },
   {
     path: '/choose',
     name: 'choose',
     component: Choose,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, title: 'Válassz' },
     excludeFromHistory: true,
   },
   { path: '/:notFound(.*)', name: 'notfound', component: NotFound },
@@ -82,6 +88,9 @@ const router = createRouter({
 });
 
 router.beforeEach(function(to, from, next) {
+  if (to.meta.title) {
+    document.title = to.meta.title + ' | Quizy';
+  }
   if (to.meta.requiresAuth) {
     //. Belépés kell
     if (!store.getters.isLoggedIn) next(`/auth?redirect=${to.fullPath.substring(1)}`);
