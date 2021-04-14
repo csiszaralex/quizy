@@ -54,7 +54,7 @@ export default {
 <style lang="scss" scoped>
 .d-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 2fr repeat(10, 1fr) 2fr;
   grid-template-rows: 2fr repeat(2, 1fr);
   grid-gap: 20px;
   .que {

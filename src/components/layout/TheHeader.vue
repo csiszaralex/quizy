@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand" href="#">
         <img
-          src="https://via.placeholder.com/30"
+          :src="require('@/assets/pics/logo/logo.png')"
           alt=""
           width="30"
           height="30"
@@ -33,7 +33,7 @@
         <span class="mx-2">{{ name }}</span>
         <base-button v-if="roles" to="/choose" type="warning" outline>
           <fa-icon icon="exchange-alt" class="fa-1x mr-1" />
-          Switch
+          Váltás
         </base-button>
         <base-button type="danger" outline @click="logout">
           <fa-icon icon="sign-out-alt" class="fa-1x mr-1" />
