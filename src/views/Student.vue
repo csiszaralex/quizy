@@ -2,7 +2,7 @@
   <div class="container mb-5 mt-2 flex-grow-1 d-flex justify-content-center align-items-center">
     <base-dialog
       :show="!!err"
-      title="Hibás kitöltés"
+      title="Hiba"
       close-text="Rendben"
       type="danger"
       btn="success"

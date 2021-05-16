@@ -25,7 +25,7 @@
       <base-button type="info" submit>Tovább</base-button>
     </form>
     <!-- <hr class="border-dark bg-dark text-dark p-1" /> -->
-    <div class="separator p-1"></div>
+    <div class="separator m-3"></div>
     <div class="Social">
       <button
         class="btn google w-75 text-light d-flex flex-row align-items-center p-0 pe-1"
@@ -36,7 +36,7 @@
       </button>
     </div>
   </div>
-  <span
+  <div
     v-else
     class="login d-flex flex-md-row flex-column justify-content-center justify-content-md-around align-items-center flex-grow-1"
   >
@@ -66,7 +66,7 @@
         <div class="">Belépés Google-lal</div>
       </button>
     </div>
-  </span>
+  </div>
 </template>
 
 <script>

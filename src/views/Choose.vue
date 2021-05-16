@@ -1,5 +1,7 @@
 <template>
-  <div class="d-md-flex flex-row row justify-content-around align-items-baseline">
+  <div
+    class="d-md-flex flex-row row justify-content-around align-items-baseline overflow-hidden w-100"
+  >
     <choose-item role="Tanár" pic="user-graduate" @click="click('teacher')" />
     <choose-item role="Diák" pic="user" @click="click('student')" />
     <choose-item v-if="set" pic="user-plus" role="Mindkettő" @click="click('both')" />

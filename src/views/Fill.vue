@@ -11,7 +11,7 @@
       <div v-if="!options['change'] && counter > 0" class="counter">
         {{ counter }}/{{ questions.length }}
       </div>
-      <div class="que">
+      <div class="que text-center">
         <h1>{{ aktQ?.name }}</h1>
       </div>
       <fill-item

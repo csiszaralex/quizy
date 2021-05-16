@@ -43,6 +43,8 @@ import {
   faStop,
   faAngleDoubleRight,
   faAngleDoubleLeft,
+  faCaretUp,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -88,6 +90,8 @@ library.add(
   faAngleDoubleRight,
   faAngleDoubleLeft,
   faCopy,
+  faCaretUp,
+  faCaretDown,
 );
 
 // $ npm i --save @fortawesome/free-brands-svg-icons //. fab
