@@ -1,48 +1,18 @@
-<p>
-  <h1 align="center">Quizy</h1>
-</p>
-
-<p align="center">
-  <a href="">
-    <img src="https://img.shields.io/github/workflow/status/csiszaralex/quizy/Node.js%20CI?label=%20&logo=github&style=flat-square&logoColor=white&color=42b883">
-  </a>
-  <a href="">
+<div align="center">
+  <h1>Quizy</h1>
+  <h2>A test maker and manager webapplication based in Vue</h2>
+  <a>
     <img src="https://img.shields.io/github/v/release/csiszaralex/quizy?include_prereleases&label=%20&style=flat-square&color=42b883">
   </a>
-  <a href="">
-    <img src="https://img.shields.io/github/last-commit/csiszaralex/quizy?label=Utolsó%20frissítés&style=flat-square&color=42b883"">
-  </a>
-  <br/>
-  <a href="">
-    <img src="https://img.shields.io/github/languages/count/csiszaralex/quizy?logo=github&style=flat-square&logoColor=white&color=42b883">
-  </a>
-  <a href="">
+  <a>
     <img src="https://img.shields.io/github/languages/top/csiszaralex/quizy?logo=github&style=flat-square&logoColor=white&color=42b883">
   </a>
-  <br/>
-  <a href="">
-    <img src="https://img.shields.io/github/repo-size/csiszaralex/quizy?logo=github&style=flat-square&logoColor=white&color=42b883">
-  </a>
-  <br/>
-  <a href="">
-    <img src="https://img.shields.io/github/downloads/csiszaralex/quizy/total">
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/github/issues-raw/csiszaralex/quizy">
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/github/issues-raw/csiszaralex/quizy/bug">
-  </a>
-  <br/>
-  <a href="">
-    <img src="https://img.shields.io/github/license/csiszaralex/quizy">
-  </a>
+</div>
 
-<br/>
+## Live demo
+[Netlify](https://quizy1.netlify.app/)
 
-</p>
-
-## Project setup
+<!-- ## Project setup
 
 ```
 npm install
@@ -68,4 +38,4 @@ npm run lint
 
 ### Customize configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Configuration Reference](https://cli.vuejs.org/config/). -->
